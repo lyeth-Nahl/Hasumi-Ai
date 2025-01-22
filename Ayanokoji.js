@@ -21,7 +21,7 @@ global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey
 
 async function notiferr(notif) { 
   try { 
- const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗋𝗈𝗋: ${notif}`;
+ const oreki = `♡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗋𝗈𝗋: ${notif}`;
  const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
   } catch (futaro) {
    console.log(logo.error + 'Terjadi kesalahan pada notif error: ' + futaro);
