@@ -6,11 +6,11 @@ const karakterData = {
   "Mikuru": { harga: 100, rarity: "N" }
 };
 
-const userInventory = {};
-const userKoin = {};
+const userKoin = global.userKoin = {};
+const userInventory = global.userInventory = {};
 
 module.exports = {
-  nama: "Gacha",
+  nama: "cre",
   peran: 0,
   kuldown: 5,
   author: "Nahl",
@@ -26,13 +26,12 @@ module.exports = {
       userKoin[event.senderID] -= 230;
 
       const karakter = Object.keys(karakterData);
-      const rarity = ["SSR", "SR", "R", "N"];
       const hasilGacha = [];
 
       // Gacha 10 kali
       for (let i = 0; i < 10; i++) {
         const karakterAcak = karakter[Math.floor(Math.random() * karakter.length)];
-        const rarityAcak = rarity[Math.floor(Math.random() * rarity.length)];
+        const rarityAcak = karakterData[karakterAcak].rarity;
         hasilGacha.push({ nama: karakterAcak, rarity: rarityAcak });
       }
 
@@ -50,11 +49,8 @@ module.exports = {
   topup: async function ({ api, event, args }) {
     try {
       const jumlahKoin = parseInt(args[0]);
-
-      // Tambahkan koin pengguna
       if (!userKoin[event.senderID]) userKoin[event.senderID] = 0;
       userKoin[event.senderID] += jumlahKoin;
-
       api.sendMessage(`Koin ditambahkan! Total koin: ${userKoin[event.senderID]}`, event.threadID, event.messageID);
     } catch (error) {
       api.sendMessage(`Error: ${error.message}`, event.threadID, event.messageID);
