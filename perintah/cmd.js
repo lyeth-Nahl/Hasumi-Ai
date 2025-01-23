@@ -20,7 +20,7 @@ module.exports = {
 
   Ayanokoji: async function ({ api, event, args, client, __ }) {
 
-    const dirCmd = __dirname + "/commands/";
+    const dirCmd = __dirname + "/";
 
     if (args[0] === "install") {
 

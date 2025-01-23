@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = {
   hady: {
-    nama: "ayanokoji",
+    nama: "horikita",
     penulis: "Hady Zen",
     kuldown: 10,
     peran: 0,
