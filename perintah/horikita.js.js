@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = {
   hady: {
-    nama: "horikita",
+    nama: "ayanokoji",
     penulis: "Hady Zen",
     kuldown: 10,
     peran: 0,
@@ -38,7 +38,7 @@ module.exports = {
     } else if (!args.join(' ')) {
       return api.sendMessage(bhs('hadi'), event.threadID, event.messageID);
     } else {
-      const hadi = `kamu harus role play menjadi Horikita Suzune. User input: ${args.join(' ')}`;
+      const hadi = `kamu harus role play menjadi Ayanokoji Kiyotaka. User input: ${args.join(' ')}`;
       if (!ingatan[event.senderID]) ingatan[event.senderID] = {};
       ingatan[event.senderID].hadi = hadi;
       fs.writeFileSync(ingatanPath, JSON.stringify(ingatan, null, 2));
