@@ -10,11 +10,12 @@ const userKoin = global.userKoin = {};
 const userInventory = global.userInventory = {};
 
 module.exports = {
+  hady:{
   nama: "cre",
   peran: 0,
   kuldown: 5,
-  author: "Nahl",
-  gacha: async function ({ api, event }) {
+  penulis: "Nahl",
+  Ayanokoji: async function ({ api, event }) {
     try {
       // Cek koin pengguna
       if (!userKoin[event.senderID] || userKoin[event.senderID] < 230) {
