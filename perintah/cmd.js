@@ -1,10 +1,10 @@
 module.exports = {
 hady: {
 nama: "cmd",
-penulis: "Ayanokoji-Kiyotaka",
+penulis: "Horikita",
 kuldown: 5,
 peran: 0,
-tutor: "cmd [install|uninstall|load] [nama perintah]"
+tutor: "cmd [install|uninstall|load|loadall] [nama perintah]"
 },
 Ayanokoji: async function ({ api, event, args, client, __ }) {
 const dirCmd = __dirname + "/commands/";
@@ -16,12 +16,9 @@ if (!namaCmd) return api.sendMessage("Masukkan nama perintah yang ingin diinstal
 const filePath = dirCmd + namaCmd + ".js";
 if (fs.existsSync(filePath)) return api.sendMessage("Perintah sudah terinstal!", event.threadID, event.messageID);
 
-try {
-const cmd = require(path.join(dirCmd, namaCmd + ".js"));
+const kodeCmd = args.slice(2).join(" ");
+fs.writeFileSync(filePath, kodeCmd);
 api.sendMessage(`Perintah ${namaCmd} berhasil diinstal!`, event.threadID, event.messageID);
-} catch (err) {
-api.sendMessage(`Gagal menginstal perintah ${namaCmd}!`, event.threadID, event.messageID);
-}
 } else if (args[0] === "uninstall") {
 const namaCmd = args[1];
 if (!namaCmd) return api.sendMessage("Masukkan nama perintah yang ingin dihapus!", event.threadID, event.messageID);
@@ -46,8 +43,22 @@ try {
 const cmd = require(path.join(dirCmd, namaCmd + ".js"));
 api.sendMessage(`Perintah ${namaCmd} berhasil dimuat!`, event.threadID, event.messageID);
 } catch (err) {
-api.sendMessage(`Gagal memuat perintah ${namaCmd}!`, event.threadID, event.messageID);
+api.sendMessage(`Gagal memuat perintah ${namaCmd}!\nError: ${err.message}`, event.threadID, event.messageID);
 }
+} else if (args[0] === "loadall") {
+const listCmd = fs.readdirSync(dirCmd).filter(file => file.endsWith(".js"));
+let msg = "Memuat semua perintah...\n";
+
+for (const file of listCmd) {
+try {
+const cmd = require(path.join(dirCmd, file));
+msg += `• ${file.replace(".js", "")} berhasil dimuat!\n`;
+} catch (err) {
+msg += `• ${file.replace(".js", "")} gagal dimuat!\nError: ${err.message}\n`;
+}
+}
+
+api.sendMessage(msg, event.threadID, event.messageID);
 } else {
 api.sendMessage("Masukkan perintah yang valid!", event.threadID, event.messageID);
 }
