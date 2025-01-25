@@ -20,11 +20,11 @@ module.exports = {
 
   Ayanokoji: async function ({ api, event, getStream }) {
 
-    const id_fb = event.senderID;
+    const data_id = event.senderID;
 
     const nama_fb = event.senderName || "Tidak Diketahui";
 
-    db.get(`SELECT * FROM pengguna WHERE id_fb = ?`, [id_fb], (err, row) => {
+    db.get(`SELECT * FROM pengguna WHERE id_fb = ?`, [data_id], (err, row) => {
 
       if (err) {
 
@@ -46,7 +46,7 @@ module.exports = {
 
         const level = row.level;
 
-        const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${nama_fb} - 𝖨𝖣: ${id_fb} - 𝖨𝖣 𝖢𝗈𝗌𝗍𝗎𝗆: ${id_costum} - 𝖤𝗑𝗉: ${exp} - 𝖫𝖾𝗏𝖾𝗅: ${level} - 𝖸𝖾𝗇: ${yen}`;
+        const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${nama_fb} - 𝖨𝖣: ${data.id} - 𝖨𝖣 𝖢𝗈𝗌𝗍𝗎𝗆: ${id_costum} - 𝖤𝗑𝗉: ${exp} - 𝖫𝖾𝗏𝖾𝗅: ${level} - 𝖸𝖾𝗇: ${yen}`;
 
         api.sendMessage(status, event.threadID, event.messageID);
 
