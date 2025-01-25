@@ -1,8 +1,14 @@
+const express = require('express');
+
+const bodyParser = require('body-parser');
+
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./horikita.db');
+const app = express();
 
-const readline = require('readline');
+app.use(bodyParser.json());
+
+const db = new sqlite3.Database('./horikita.db');
 
 db.serialize(function() {
 
@@ -26,45 +32,17 @@ db.serialize(function() {
 
   `);
 
-  db.run(`INSERT INTO pengguna (id_fb, nama_fb, id_costum) VALUES ('100062186575694', 'nahl', 1)`);
-
 });
 
-function getExpAndYen(kata) {
+app.post('/webhook', (req, res) => {
 
-  const exp = kata.split(' ').length;
+  const messaging = req.body.messaging;
 
-  const yen = exp * 0.1;
+  const sender = messaging.sender;
 
-  return { exp, yen };
+  const message = messaging.message;
 
-}
-
-const hasil = getExpAndYen('Hello World');
-
-console.log(hasil);
-
-const rl = readline.createInterface({
-
-  input: process.stdin,
-
-  output: process.stdout
-
-});
-
-rl.setPrompt('Cmd> ');
-
-rl.prompt();
-
-rl.on('line', (input) => {
-
-  const kata = input.trim();
-
-  const args = kata.split(' ');
-
-  const cmd = args[0].toLowerCase();
-
-  db.run(`INSERT INTO pengguna (id_fb, nama_fb, id_costum) VALUES (?, ?, ?)`, [args[0], args[1], args[2]], (err) => {
+  db.run(`INSERT INTO pengguna (id_fb, nama_fb, id_costum) VALUES (?, ?, ?)`, [sender, sender, sender], (err) => {
 
     if (err) {
 
@@ -78,16 +56,50 @@ rl.on('line', (input) => {
 
   });
 
-  rl.prompt();
+  res.status(200).send('OK');
 
 });
 
-rl.on('close', () => {
+app.listen(3000, () => {
 
-  console.log('Koneksi database ditutup');
+  console.log('Server listening on port 3000');
 
-  process.exit(0);
+  const rl = readline.createInterface({
+
+    input: process.stdin,
+
+    output: process.stdout
+
+  });
+
+  rl.on('line', (input) => {
+
+    const kata = input.trim();
+
+    db.run(`INSERT INTO pengguna (id_fb, nama_fb, id_costum) VALUES (?, ?, ?)`, [kata, kata, kata], (err) => {
+
+      if (err) {
+
+        console.log(err.message);
+
+      } else {
+
+        console.log('Data pengguna berhasil disimpan');
+
+      }
+
+    });
+
+  });
+
+  rl.on('close', () => {
+
+    console.log('Koneksi database ditutup');
+
+    db.close();
+
+    process.exit(0);
+
+  });
 
 });
-
-db.close();
