@@ -22,9 +22,9 @@ module.exports = {
 
     const data_id = event.senderID;
 
-    const nama_fb = event.senderName || "Tidak Diketahui";
+    const data.name = event.senderName || "Tidak Diketahui";
 
-    db.get(`SELECT * FROM pengguna WHERE id_fb = ?`, [data_id], (err, row) => {
+    db.get(`SELECT * FROM pengguna WHERE data.id = ?`, [data.id], (err, row) => {
 
       if (err) {
 
@@ -38,15 +38,15 @@ module.exports = {
 
       } else {
 
-        const yen = row.yen;
+        const yen = row.data.money;
 
-        const id_costum = row.id_costum;
+        const id_costum = row.data.costumid;
 
-        const exp = row.exp;
+        const exp = row.data.exp;
 
-        const level = row.level;
+        const level = row.data.level;
 
-        const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${nama_fb} - 𝖨𝖣: ${data.id} - 𝖨𝖣 𝖢𝗈𝗌𝗍𝗎𝗆: ${id_costum} - 𝖤𝗑𝗉: ${exp} - 𝖫𝖾𝗏𝖾𝗅: ${level} - 𝖸𝖾𝗇: ${yen}`;
+        const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${data.name} - 𝖨𝖣: ${data.id} - 𝖨𝖣 𝖢𝗈𝗌𝗍𝗎𝗆: ${data.costumid} - 𝖤𝗑𝗉: ${exp} - 𝖫𝖾𝗏𝖾𝗅: ${level} - 𝖸𝖾𝗇: ${yen}`;
 
         api.sendMessage(status, event.threadID, event.messageID);
 
