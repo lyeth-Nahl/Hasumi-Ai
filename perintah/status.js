@@ -1,31 +1,18 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.db');
+const axios = require('axios');
+const fs = require('fs');
 
 module.exports = {
   hady: {
     nama: "status",
     penulis: "Hady Zen",
     peran: 0,
-    kuldown: 26,
+    kuldown: 5,
     tutor: ""
   },
-  Ayanokoji: async function ({ api, event }) {
-    try {
-      // Perintah status
-      if (event.body === "status") {
-        db.get(`SELECT * FROM pengguna WHERE id_fb = ?`, [event.senderID], (err, row) => {
-          if (err) {
-            api.sendMessage(`Error: ${err.message}`, event.threadID, event.messageID);
-          } else if (row) {
-            const status = `Nama: ${row.nama_fb}\nLevel: ${row.level}\nEXP: ${row.exp}\nYen: ${row.yen}`;
-            api.sendMessage(status, event.threadID, event.messageID);
-          } else {
-            api.sendMessage("Anda belum terdaftar!", event.threadID, event.messageID);
-          }
-        });
-      }
-    } catch (error) {
-      api.sendMessage(`Error: ${error.message}`, event.threadID, event.messageID);
-    }
+  Ayanokoji: async function ({ api, event, getStream }) {
+    const id_fb = event.senderID;
+    const nama_fb = event.senderName;
+    const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${nama_fb} - 𝖨𝖣: ${id_fb}`;
+    api.sendMessage(status, event.threadID, event.messageID);
   }
 };
