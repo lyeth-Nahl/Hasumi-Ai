@@ -20,66 +20,62 @@ db.serialize(function() {
 
   );`);
 
-  // Fungsi untuk mendapatkan EXP dan YEN
-
-  function getExpAndYen(kata) {
-
-    const exp = kata.split(' ').length;
-
-    const yen = exp * 0.1;
-
-    return { exp, yen };
-
-  }
-
-  // Fungsi untuk meningkatkan level
-
-  function levelUp(id_fb) {
-
-    db.get("SELECT exp FROM pengguna WHERE id_fb = ?", [id_fb], (err, row) => {
-
-      if (err) {
-
-        console.error(err);
-
-      } else if (row.exp >= 1000) {
-
-        db.run(`UPDATE pengguna SET level = level + 1, exp = exp - 1000 WHERE id_fb = ?;`, [id_fb]);
-
-      }
-
-    });
-
-  }
-
-  // Fungsi untuk mengupdate EXP dan YEN
-
-  function updateExpAndYen(id_fb, kata) {
-
-    const { exp, yen } = getExpAndYen(kata);
-
-    db.run(`UPDATE pengguna SET exp = exp + ?, yen = yen + ? WHERE id_fb = ?;`, [exp, yen, id_fb]);
-
-    levelUp(id_fb);
-
-  }
-
-  // Fungsi untuk menghandle pesan
-
-  function handlePesan(event) {
-
-    const kata = event.body;
-
-    const id_fb = event.senderID;
-
-    updateExpAndYen(id_fb, kata);
-
-  }
-
-  // Handle pesan
-
-  handlePesan(event);
-
 });
 
-db.close();
+function getExpAndYen(kata) {
+
+  const exp = kata.split(' ').length;
+
+  const yen = exp * 0.1;
+
+  return { exp, yen };
+
+}
+
+function levelUp(id_fb) {
+
+  db.get("SELECT exp FROM pengguna WHERE id_fb = ?", [id_fb], (err, row) => {
+
+    if (err) {
+
+      console.error(err);
+
+    } else if (row.exp >= 1000) {
+
+      db.run(`UPDATE pengguna SET level = level + 1, exp = exp - 1000 WHERE id_fb = ?;`, [id_fb]);
+
+    }
+
+  });
+
+}
+
+function updateExpAndYen(id_fb, kata) {
+
+  const { exp, yen } = getExpAndYen(kata);
+
+  db.run(`UPDATE pengguna SET exp = exp + ?, yen = yen + ? WHERE id_fb = ?;`, [exp, yen, id_fb]);
+
+  levelUp(id_fb);
+
+}
+
+function handlePesan(event) {
+
+  const kata = event.body;
+
+  const id_fb = event.senderID;
+
+  updateExpAndYen(id_fb, kata);
+
+}
+
+// Panggil fungsi handlePesan(event) di sini
+
+// Contoh:
+
+// handlePesan({ senderID: '123', body: 'Halo!' });
+
+// Tutup koneksi database setelah selesai
+
+// db.close();
