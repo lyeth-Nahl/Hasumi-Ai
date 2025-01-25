@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const path = require('path');
 
-const DIR_DATA = __dirname + "/data/";
+const DIR_DATA = __dirname + "/";
 
 const HARGA_PULL = 12;
 
@@ -26,7 +26,7 @@ module.exports = {
 
     try {
 
-      const userData = JSON.parse(fs.readFileSync(DIR_DATA + "user.json", "utf8"));
+      const userData = JSON.parse(fs.readFileSync(DIR_DATA + "horikita.db", "utf8"));
 
       const gachaData = JSON.parse(fs.readFileSync(DIR_DATA + "gacha.json", "utf8"));
 
