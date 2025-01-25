@@ -1,5 +1,89 @@
 /* HADY ZEN'IN */
+const sqlite3 = require('sqlite3').verbose();
 
+const db = new sqlite3.Database('./horikita.db');
+
+// Fungsi untuk membuat tabel
+
+function createTable() {
+
+  db.run(`
+
+    CREATE TABLE IF NOT EXISTS pengguna (
+
+      id_fb TEXT PRIMARY KEY,
+
+      nama_fb TEXT,
+
+      id_costum INTEGER,
+
+      level INTEGER DEFAULT 1,
+
+      exp INTEGER DEFAULT 0,
+
+      yen REAL DEFAULT 0
+
+    );
+
+  `);
+
+}
+
+// Fungsi untuk menyimpan data
+
+function saveData(id_fb, nama_fb, id_costum) {
+
+  db.run(`INSERT INTO pengguna (id_fb, nama_fb, id_costum) VALUES (?, ?, ?)`, [id_fb, nama_fb, id_costum], (err) => {
+
+    if (err) {
+
+      console.log(err.message);
+
+    } else {
+
+      console.log('Data berhasil disimpan');
+
+    }
+
+  });
+
+}
+
+// Fungsi untuk mengambil data
+
+function getData(id_fb) {
+
+  db.get(`SELECT * FROM pengguna WHERE id_fb = ?`, [id_fb], (err, row) => {
+
+    if (err) {
+
+      console.log(err.message);
+
+    } else {
+
+      console.log(row);
+
+    }
+
+  });
+
+}
+
+// Jalankan fungsi untuk membuat tabel
+
+createTable();
+
+// Export fungsi-fungsi
+
+module.exports = {
+
+  saveData,
+
+  getData,
+
+  // Fungsi-fungsi lainnya di Ayanokoji.js
+
+};
  const express = require('express');
  const app = express();
  const login = require('./hady-zen/ayanokoji');
