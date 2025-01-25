@@ -1,33 +1,31 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./horikita.db');
+const db = new sqlite3.Database('./database.db');
 
 module.exports = {
   hady: {
     nama: "status",
-    penulis: "Horikita",
-    kuldown: 5,
+    penulis: "Hady Zen",
     peran: 0,
-    tutor: "status"
+    kuldown: 26,
+    tutor: ""
   },
-  Ayanokoji: async function ({ api, event, client, __ }) {
-    if (event.body === "status") {
-      db.get("SELECT * FROM pengguna WHERE id_fb = ?", [event.senderID], (err, row) => {
-        if (err) {
-          console.error(err);
-          api.sendMessage("Terjadi kesalahan!", event.threadID, event.messageID);
-        } else if (!row) {
-          api.sendMessage("Anda belum terdaftar!", event.threadID, event.messageID);
-        } else {
-          const pesan = `Informasi Pengguna:\n\n`;
-          pesan += `ID Facebook: ${row.id_fb}\n`;
-          pesan += `Nama Facebook: ${row.nama_fb}\n`;
-          pesan += `ID Kostum: ${row.id_costum}\n`;
-          pesan += `Level: ${row.level}\n`;
-          pesan += `Exp: ${row.exp}\n`;
-          pesan += `Yen: ${row.yen}\n`;
-          api.sendMessage(pesan, event.threadID, event.messageID);
-        }
-      });
+  Ayanokoji: async function ({ api, event }) {
+    try {
+      // Perintah status
+      if (event.body === "status") {
+        db.get(`SELECT * FROM pengguna WHERE id_fb = ?`, [event.senderID], (err, row) => {
+          if (err) {
+            api.sendMessage(`Error: ${err.message}`, event.threadID, event.messageID);
+          } else if (row) {
+            const status = `Nama: ${row.nama_fb}\nLevel: ${row.level}\nEXP: ${row.exp}\nYen: ${row.yen}`;
+            api.sendMessage(status, event.threadID, event.messageID);
+          } else {
+            api.sendMessage("Anda belum terdaftar!", event.threadID, event.messageID);
+          }
+        });
+      }
+    } catch (error) {
+      api.sendMessage(`Error: ${error.message}`, event.threadID, event.messageID);
     }
   }
 };
