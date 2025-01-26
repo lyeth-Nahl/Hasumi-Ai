@@ -10,7 +10,8 @@ module.exports = {
 
     penulis: "Horikita",
 
-    peran: 0
+    peran: 0,
+
     kuldown: 5,
 
     tutor: ""
@@ -21,9 +22,7 @@ module.exports = {
 
     const data_id = event.senderID;
 
-    const data_name = event.senderName || "Tidak Diketahui";
-
-    db.get(`SELECT * FROM pengguna WHERE id = ?`, [data_id], (err, row) => {
+    db.get(`SELECT * FROM UsersData WHERE id = ?`, [data_id], (err, row) => {
 
       if (err) {
 
@@ -39,13 +38,13 @@ module.exports = {
 
         const yen = row.money;
 
-        const id_costum = row.costumid;
+        const id_costum = row.costumId;
 
         const exp = row.exp;
 
         const level = row.level;
 
-        const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${data_name} - 𝖨𝖣: ${data_id} - 𝖨𝖣 𝖢𝗈𝗌𝗍𝗎𝗆: ${id_costum} - 𝖤𝗑𝗉: ${exp} - 𝖫𝖾𝗏𝖾𝗅: ${level} - 𝖸𝖾𝗇: ${yen}`;
+        const status = `♡ 𝗦𝘁𝗮𝘁𝘂𝘀 - 𝖭𝖺𝗆𝖺: ${row.name} - 𝖨𝖣: ${row.id} - 𝖨𝖣 𝖢𝗈𝗌𝗍𝗎𝗆: ${id_costum} - 𝖤𝗑𝗉: ${exp} - 𝖫𝖾𝗏𝖾𝗅: ${level} - 𝖸𝖾𝗇: ${yen}`;
 
         api.sendMessage(status, event.threadID, event.messageID);
 
