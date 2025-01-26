@@ -1,10 +1,10 @@
-const { User } = require('../models/sqlite');
+ const { User } = require('./');
 
 async function createUser(data) {
 
   try {
 
-    const user = await User.create({
+    const user = await  User.create({
 
       nama_fb: data.nama_fb,
 
@@ -76,7 +76,7 @@ async function deleteUser(id) {
 
 }
 
-module.exports = { createUser, getUser, updateUser, deleteUser }; 
+module.exports = { createUser, getUser, updateUser, deleteUser };
 // ThreadController
 
 async createThread(data) {
