@@ -14,7 +14,7 @@ module.exports = async function () {
 
   });
 
-  const userModel = require("./usersData.js")(sequelize);
+  const userModel = require("./globalData.js.js")(sequelize);
 
   await sequelize.sync({ force: false });
 
