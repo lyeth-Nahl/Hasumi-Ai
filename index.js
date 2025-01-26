@@ -26,7 +26,7 @@ function hady() {
 
 function sistem() {
 
-  const child = spawn("node sistem.js", {
+  const child = spawn("node connectSqlite.js", {
 
     cwd: __dirname,
 
