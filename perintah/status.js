@@ -10,8 +10,7 @@ module.exports = {
 
     penulis: "Horikita",
 
-    peran: 0,
-
+    peran: 0
     kuldown: 5,
 
     tutor: ""

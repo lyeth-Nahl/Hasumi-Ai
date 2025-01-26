@@ -136,11 +136,73 @@ class UsersData {
 
   }
 
-  async handleChat(id, pesan) {
+  async kurangYen(id, jumlahYen) {
 
-    await this.tambahYen(id, 0.5);
+    const user = await this.getUser(id);
 
-    console.log(`Pesan dari ${id}: ${pesan}`);
+    if (user) {
+
+      user.money -= jumlahYen;
+
+      await this.updateUser(user);
+
+    }
+
+  }
+
+  async tambahExp(id, jumlahExp) {
+
+    const user = await this.getUser(id);
+
+    if (user) {
+
+      user.exp += jumlahExp;
+
+      await this.updateUser(user);
+
+    }
+
+  }
+
+  async kurangExp(id, jumlahExp) {
+
+    const user = await this.getUser(id);
+
+    if (user) {
+
+      user.exp -= jumlahExp;
+
+      await this.updateUser(user);
+
+    }
+
+  }
+
+  async tambahLevel(id, jumlahLevel) {
+
+    const user = await this.getUser(id);
+
+    if (user) {
+
+      user.level += jumlahLevel;
+
+      await this.updateUser(user);
+
+    }
+
+  }
+
+  async kurangLevel(id, jumlahLevel) {
+
+    const user = await this.getUser(id);
+
+    if (user) {
+
+      user.level -= jumlahLevel;
+
+      await this.updateUser(user);
+
+    }
 
   }
 

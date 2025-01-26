@@ -14,7 +14,7 @@ module.exports = async function () {
 
   });
 
-  const userModel = require("../models/sqlite/user.js")(sequelize);
+  const userModel = require("./usersData.js")(sequelize);
 
   await sequelize.sync({ force: false });
 
