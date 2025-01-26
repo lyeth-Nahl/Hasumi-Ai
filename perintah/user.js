@@ -30,43 +30,11 @@ module.exports = {
 
         if (err) {
 
-          api.sendMessage(err.message, event.threadID, event.messageID);
+          api.sendMessage("Terjadi kesalahan!", event.threadID, event.messageID);
 
         } else {
 
-          let status = '';
-
-          rows.forEach((row) => {
-
-            status += `Nama: ${row.nama_fb}\nID: ${row.id_fb}\nID Costum: ${row.id_costum}\nLevel: ${row.level}\nExp: ${row.exp}\nYen: ${row.yen}\n------------------------\n`;
-
-          });
-
-          api.sendMessage(status, event.threadID, event.messageID);
-
-        }
-
-      });
-
-    } else if (args[0] === 'search') {
-
-      const user = args.slice(1).join(' ');
-
-      db.get(`SELECT * FROM pengguna WHERE nama_fb LIKE ? OR id_fb LIKE ?`, [`%${user}%`, `%${user}%`], (err, row) => {
-
-        if (err) {
-
-          api.sendMessage(err.message, event.threadID, event.messageID);
-
-        } else if (!row) {
-
-          api.sendMessage('User tidak ditemukan', event.threadID, event.messageID);
-
-        } else {
-
-          const status = `Nama: ${row.nama_fb}\nID: ${row.id_fb}\nID Costum: ${row.id_costum}\nLevel: ${row.level}\nExp: ${row.exp}\nYen: ${row.yen}`;
-
-          api.sendMessage(status, event.threadID, event.messageID);
+          api.sendMessage(JSON.stringify(rows, null, 2), event.threadID, event.messageID);
 
         }
 
