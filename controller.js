@@ -1,73 +1,82 @@
-const { User, Thread, UserDashboard, Global } = require('./controller.js');
+const { User } = require('../models/sqlite');
 
-class Controller {
+async function createUser(data) {
 
-// UserController
+  try {
 
-async createUser(data) {
+    const user = await User.create({
 
-try {
+      nama_fb: data.nama_fb,
 
-const user = await User.create(data);
+      id_costum: data.id_costum,
 
-return user;
+      yen: data.yen,
 
-} catch (error) {
+      exp: data.exp,
 
-console.error(error);
+      level: data.level
 
-}
+    });
 
-}
+    return user;
 
-async getUser(id) {
+  } catch (error) {
 
-try {
+    console.error(error);
 
-const user = await User.findOne({ where: { id } });
-
-return user;
-
-} catch (error) {
-
-console.error(error);
+  }
 
 }
 
-}
+async function getUser(id) {
 
-async updateUser(id, data) {
+  try {
 
-try {
+    const user = await User.findOne({ where: { id } });
 
-const user = await User.update(data, { where: { id } });
+    return user;
 
-return user;
+  } catch (error) {
 
-} catch (error) {
+    console.error(error);
 
-console.error(error);
-
-}
+  }
 
 }
 
-async deleteUser(id) {
+async function updateUser(id, data) {
 
-try {
+  try {
 
-const user = await User.destroy({ where: { id } });
+    const user = await User.update(data, { where: { id } });
 
-return user;
+    return user;
 
-} catch (error) {
+  } catch (error) {
 
-console.error(error);
+    console.error(error);
+
+  }
 
 }
 
+async function deleteUser(id) {
+
+  try {
+
+    const user = await User.destroy({ where: { id } });
+
+    return user;
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
 }
 
+module.exports = { createUser, getUser, updateUser, deleteUser }; 
 // ThreadController
 
 async createThread(data) {
