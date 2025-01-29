@@ -15,7 +15,7 @@ Tiktok: https://www.tiktok.com/@hady.zen
 ## SPONSOR 🜲
 
 Website: https://hady-zen-web.koyeb.app/ <br>
-Webview: https://harmless-chisel-toothbrush.glitch.me/ <br>
+Bot asli: https://green-unique-eustoma.glitch.me/ <br>
 App: https://raw.githubusercontent.com/HadyZen/hady-zen-api/refs/heads/main/Tsukihime.apk
 
 ## TUTOR 🜲
