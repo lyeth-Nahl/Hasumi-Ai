@@ -157,6 +157,9 @@ app.listen(port, () => { });
 app.get('/', (req, res) => { 
  res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#ayanokoji.html'));
 });
+app.get('/laporan', (req, res) => { 
+ res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyopon.html'));
+});
 app.get('/ayanokoji', async (req, res) => {
   const text = req.query.pesan || 'hai';
 
