@@ -24,6 +24,7 @@
     "mongo": "^0.1.0",
     "mqtt": "^4.3.7",
     "mqtt-packet": "^6.9.1",
+    "mysql": "^2.18.1",
     "node-cron": "^3.0.3",
     "npmlog": "^7.0.1",
     "request": "^2.88.2",
