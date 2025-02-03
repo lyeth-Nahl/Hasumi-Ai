@@ -18,8 +18,9 @@
 process.on('unhandledRejection', error => console.log(logo.error + error));
 process.on('uncaughtException', error => console.log(logo.error + error));
 const zen = { host: proxy, port: port };
-const kiyopon = gradient("#4A90E2", "#FF4F5A", "#F8C301")(logo.ayanokoji);
-global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey: aikey };
+const kiyopon = gradient("#ADD8E6", "#4682B4", "#00008B")(logo.ayanokoji);
+const web = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
+global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey: aikey, bahasa: nakano, web: web, maintain: maintain };
 
 async function notiferr(notif) { 
   try { 
@@ -43,7 +44,7 @@ async function getStream(hadi, isekai) {
 async function getNama(kiyo) {
  try {
 const user = await axios.post(`https://www.facebook.com/api/graphql/?q=${`node(${kiyo}){name}`}`);
- return user.data[userID].name;
+ return user.data[kiyo].name;
  } catch (error) {
  return null;
  }
@@ -55,12 +56,13 @@ async function loadC() {
 console.log(kiyopon);
 setInterval(function() { loadC(); }, 1000);
 cron.schedule('0 */4 * * *', () => {
+  console.clear();
+  process.exit();
   const child = spawn("refresh", {
         cwd: __dirname,
         stdio: "inherit",
         shell: true
 });
-
     child.on('error', (err) => {
     console.log(logo.error + 'Ada error pada autorest: ', err);
 });
@@ -76,6 +78,7 @@ console.log(ayanokoji('versi') + `${version}.`);
 console.log(ayanokoji('awalan') + `${awalan}`);
 console.log(ayanokoji('bahasa') + `${nakano}.`);
 console.log(ayanokoji('admin') + `${admin}.`);
+console.log(ayanokoji('webview') + `${web}.`);
 fs.readdir('./perintah', (err, files) => { 
  const shadow = files.map(file => path.parse(file).name);
 console.log(ayanokoji('perintah') + `${shadow}.`);
@@ -100,7 +103,7 @@ if (err) {
   process.exit();
 }
 const body = event.body;
-if (!body || maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return; 
+if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return; 
 if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
 if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
    const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();

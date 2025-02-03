@@ -2,8 +2,8 @@
   "name": "Ayanokoji-Kiyotaka",
   "author": "Hady Zen'in",
   "description": "Chatbot messenger by hady zen",
-  "version": "1.2.5",
-  "main": "Ayanokoji.js",
+  "version": "1.2.7",
+  "main": "index.js",
   "lockfileVersion": 3,
   "requires": true,
   "engines": {
@@ -21,14 +21,13 @@
     "gradient-string": "^2.0.2",
     "https-proxy-agent": "^7.0.5",
     "moment-timezone": "^0.5.34",
-    "mongo": "^0.1.0",
     "mqtt": "^4.3.7",
     "mqtt-packet": "^6.9.1",
-    "mysql": "^2.18.1",
     "node-cron": "^3.0.3",
     "npmlog": "^7.0.1",
     "request": "^2.88.2",
     "ryuu-fca-api": "^3.2.2",
+    "wikijs": "^6.4.1", 
     "websocket-stream": "^5.5.2"
   },
   "scripts": {
