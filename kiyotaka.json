@@ -6,7 +6,7 @@
   "bahasa": "id",
   "notifkey": "wvvrFvLUkKuF8DEG",
   "aikey": "AIzaSyAXBvwNkZBckC8b3vTZVVuwRwlsPttTgkA",
-  "chatdm": false,
+  "chatdm": true,
   "maintain": false,
   "admin": [
     "100062186575693",
