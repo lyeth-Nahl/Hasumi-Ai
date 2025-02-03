@@ -5,5 +5,12 @@
     "level": 1,
     "exp": 1.5,
     "peringkat": "Pemula"
+  },
+  "61572699202812": {
+    "id": 2,
+    "yen": 1,
+    "level": 1,
+    "exp": 0.5,
+    "peringkat": "Pemula"
   }
 }
