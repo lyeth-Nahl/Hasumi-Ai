@@ -50,6 +50,7 @@ module.exports = {
       statusData[event.senderID].peringkat = "Junior";
     }
     fs.writeFileSync(statusPath, JSON.stringify(statusData, null, 2));
+    const yen = statusData[event.senderID].yen.toFixed(2);
     const statusText = `${bhs('status')}\nID: ${statusData[event.senderID].id}\nNama: ${statusData[event.senderID].nama}\nYen: ${statusData[event.senderID].yen}\nLevel: ${statusData[event.senderID].level}\nExp: ${statusData[event.senderID].exp}\nPeringkat: ${statusData[event.senderID].peringkat}`;
     api.sendMessage(statusText, event.threadID, event.messageID);
   }

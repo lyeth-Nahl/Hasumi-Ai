@@ -1,16 +1,18 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 0.30000000000000004,
+    "yen": 0.25,
     "level": 1,
-    "exp": 1.5,
-    "peringkat": "Pemula"
+    "exp": 2,
+    "peringkat": "Pemula",
+    "nama": "Leth Nahl"
   },
   "61572699202812": {
     "id": 2,
-    "yen": 1,
+    "yen": 0.95,
     "level": 1,
-    "exp": 0.5,
-    "peringkat": "Pemula"
+    "exp": 1,
+    "peringkat": "Pemula",
+    "nama": "haha"
   }
 }
