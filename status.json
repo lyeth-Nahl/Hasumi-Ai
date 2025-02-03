@@ -14,5 +14,12 @@
     "exp": 1,
     "peringkat": "Pemula",
     "nama": "haha"
+  },
+  "100073751001989": {
+    "id": 3,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 0.5,
+    "peringkat": "Pemula"
   }
 }
