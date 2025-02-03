@@ -1,5 +1,5 @@
 const fs = require('fs');
-const statusFile = 'status.json';
+const axios = require('axios');
 
 module.exports = {
   hady: {
@@ -9,40 +9,48 @@ module.exports = {
     peran: 0,
     tutor: "cmd [install|del|load|loadall] [nama perintah]"
   },
-  handle: async function ({ api, __ }) {
-    const userId = __.user;
+  bahasa: {
+    id: {
+      status: "Status kamu:"
+    },
+    en: {
+      status: "Your status:"
+    }
+  },
+  Ayanokoji: async function ({ api, event, args, bhs }) {
+    const statusPath = './status.json';
     let statusData = {};
     try {
-      statusData = JSON.parse(fs.readFileSync(statusFile, 'utf8'));
+      statusData = JSON.parse(fs.readFileSync(statusPath, 'utf8'));
     } catch (err) {
-      statusData = {};
+      console.error(err);
     }
-    if (!statusData[userId]) {
+    if (!statusData[event.senderID]) {
       const id = Object.keys(statusData).length + 1;
-      statusData[userId] = {
+      statusData[event.senderID] = {
         id: id,
-        nama: __.name,
+        nama: event.senderName,
         yen: 0,
         level: 1,
         exp: 0,
         peringkat: "Pemula"
       };
     }
-    statusData[userId].yen += 0.10;
-    statusData[userId].exp += 0.5;
-    if (statusData[userId].exp >= 2500) {
-      statusData[userId].level += 1;
-      statusData[userId].exp -= 2500;
+    statusData[event.senderID].yen += 0.10;
+    statusData[event.senderID].exp += 0.5;
+    if (statusData[event.senderID].exp >= 2500) {
+      statusData[event.senderID].level += 1;
+      statusData[event.senderID].exp -= 2500;
     }
-    if (statusData[userId].level >= 10) {
-      statusData[userId].peringkat = "Master";
-    } else if (statusData[userId].level >= 5) {
-      statusData[userId].peringkat = "Senior";
-    } else if (statusData[userId].level >= 2) {
-      statusData[userId].peringkat = "Junior";
+    if (statusData[event.senderID].level >= 10) {
+      statusData[event.senderID].peringkat = "Master";
+    } else if (statusData[event.senderID].level >= 5) {
+      statusData[event.senderID].peringkat = "Senior";
+    } else if (statusData[event.senderID].level >= 2) {
+      statusData[event.senderID].peringkat = "Junior";
     }
-    fs.writeFileSync(statusFile, JSON.stringify(statusData));
-    const statusText = `ID: ${statusData[userId].id}\nNama: ${statusData[userId].nama}\nYen: ${statusData[userId].yen}\nLevel: ${statusData[userId].level}\nExp: ${statusData[userId].exp}\nPeringkat: ${statusData[userId].peringkat}`;
-    return api.sendMessage(statusText, __.threadID);
+    fs.writeFileSync(statusPath, JSON.stringify(statusData, null, 2));
+    const statusText = `${bhs('status')}\nID: ${statusData[event.senderID].id}\nNama: ${statusData[event.senderID].nama}\nYen: ${statusData[event.senderID].yen}\nLevel: ${statusData[event.senderID].level}\nExp: ${statusData[event.senderID].exp}\nPeringkat: ${statusData[event.senderID].peringkat}`;
+    api.sendMessage(statusText, event.threadID, event.messageID);
   }
 };
