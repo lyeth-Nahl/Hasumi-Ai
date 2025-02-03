@@ -1,11 +1,12 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 0.35,
+    "yen": 2.35,
     "level": 1,
-    "exp": 2.5,
+    "exp": 1202.5,
     "peringkat": "Pemula",
-    "nama": "Leth Nahl"
+    "nama": "Leth Nahl",
+    "waktuTerakhirDaily": 1738624624775
   },
   "61572699202812": {
     "id": 2,
@@ -21,5 +22,31 @@
     "level": 1,
     "exp": 0.5,
     "peringkat": "Pemula"
+  },
+  "100072207731954": {
+    "id": 4,
+    "yen": 1.9000000000000004,
+    "level": 1,
+    "exp": 1201,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738624638502,
+    "nama": "mesri ana"
+  },
+  "61552750718284": {
+    "id": 5,
+    "yen": 2.0500000000000003,
+    "level": 1,
+    "exp": 1201,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738624958366,
+    "nama": "minz"
+  },
+  "61566341480862": {
+    "id": 6,
+    "yen": 2.2,
+    "level": 1,
+    "exp": 1201,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738624919143
   }
 }
