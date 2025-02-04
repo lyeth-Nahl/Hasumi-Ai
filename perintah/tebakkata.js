@@ -35,20 +35,16 @@ module.exports = {
 
       await new Promise(resolve => setTimeout(resolve, 5000));
 
-      const messages = await api.getMessages(event.threadID, 1);
+      const jawaban = await api.getMessage(event.threadID, 1);
 
-      if (messages.length > 0) {
-        const jawaban = messages[0].text;
-
-        if (jawaban.toLowerCase() === randomKata) {
-          statusData[event.senderID].yen += 2;
-          statusData[event.senderID].exp += 200;
-          fs.writeFileSync(statusPath, JSON.stringify(statusData, null, 2));
-          return api.sendMessage(`Selamat! Kamu berhasil menebak kata!\nHadiah: 2 Yen dan 200 Exp`, event.threadID);
-        } else {
-          cobaan++;
-          api.sendMessage(`Sayang sekali! Jawabanmu salah.\nCobaan lagi!`, event.threadID);
-        }
+      if (jawaban && jawaban.text.toLowerCase() === randomKata) {
+        statusData[event.senderID].yen += 2;
+        statusData[event.senderID].exp += 200;
+        fs.writeFileSync(statusPath, JSON.stringify(statusData, null, 2));
+        return api.sendMessage(`Selamat! Kamu berhasil menebak kata!\nHadiah: 2 Yen dan 200 Exp`, event.threadID);
+      } else if (jawaban) {
+        cobaan++;
+        api.sendMessage(`Sayang sekali! Jawabanmu salah.\nCobaan lagi!`, event.threadID);
       } else {
         api.sendMessage(`Tidak ada jawaban! Silakan jawab lagi.`, event.threadID);
       }
