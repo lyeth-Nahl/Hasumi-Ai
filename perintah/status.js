@@ -5,10 +5,9 @@ module.exports = {
   hady: {
     nama: "status",
     penulis: "Horikita",
-    harga: "Free"
     kuldown: 5,
     peran: 0,
-    tutor: ";status"
+    tutor: "cmd [install|del|load|loadall] [nama perintah]"
   },
   bahasa: {
     id: { status: "Status kamu:" },
@@ -55,7 +54,7 @@ module.exports = {
     fs.writeFileSync(statusPath, JSON.stringify(statusData, null, 2));
 
     const yen = parseInt(statusData[event.senderID].yen * 100) / 100;
-    const statusText = `${bhs('status')}\nNama: ${statusData[event.senderID].nama}\nID: ${statusData[event.senderID].id}\n\nYen: ${yen}\nLevel: ${statusData[event.senderID].level}\nExp: ${statusData[event.senderID].exp}\nPeringkat: ${statusData[event.senderID].peringkat}`;
+    const statusText = `${bhs('status')}\nNama: ${statusData[event.senderID].nama}\nID: ${statusData[event.senderID].id}\nYen: ${yen}\nLevel: ${statusData[event.senderID].level}\nExp: ${statusData[event.senderID].exp}\nPeringkat: ${statusData[event.senderID].peringkat}`;
 
     api.sendMessage(statusText, event.threadID, event.messageID);
   }
