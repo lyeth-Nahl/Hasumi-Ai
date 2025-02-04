@@ -25,9 +25,9 @@
   },
   "100072207731954": {
     "id": 4,
-    "yen": 0.05000000000000002,
+    "yen": 50000000.1,
     "level": 100,
-    "exp": 1282,
+    "exp": 1312,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738624638502,
     "nama": "mesri knx"
@@ -78,9 +78,9 @@
   },
   "100090528878680": {
     "id": 2,
-    "yen": 19045.899999999994,
+    "yen": 20445.899999999987,
     "level": 100,
-    "exp": 2277,
+    "exp": 2307,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738655443289,
     "nama": "| オビト"
@@ -96,12 +96,12 @@
   },
   "100081905402759": {
     "id": 3,
-    "yen": 13061.955000000002,
+    "yen": 13461.855000000003,
     "level": 100,
-    "exp": 1273.5,
+    "exp": 1293.5,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738656365843,
-    "nama": "²⁰³¹"
+    "nama": "><"
   },
   "100086573927235": {
     "id": 13,
@@ -142,5 +142,21 @@
     "level": 1,
     "exp": 0.5,
     "peringkat": "Pemula"
+  },
+  "61561647941336": {
+    "id": 18,
+    "yen": 171.04999999999998,
+    "level": 1,
+    "exp": 1220,
+    "peringkat": "Newbie",
+    "waktuTerakhirDaily": 1738677068589,
+    "nama": "cidah"
+  },
+  "61563325461448": {
+    "id": 19,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
   }
 }

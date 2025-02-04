@@ -43,7 +43,7 @@ module.exports = {
     const jumlah = args[2];
 
     if (parameter !== "yen" && parameter !== "exp" && parameter !== "level" && parameter !== "peringkat") {
-      api.sendMessage("Parameter tidak valid!", event.threadID, event.messageID);
+      api.sendMessage("Parameter tidak valid! Silakan gunakan parameter yang benar: yen, exp, level, atau peringkat.", event.threadID, event.messageID);
       return;
     }
 
