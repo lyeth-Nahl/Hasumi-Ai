@@ -1,7 +1,7 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 1,
+    "yen": 201,
     "level": 1,
     "exp": 1,
     "peringkat": "Pemula",
@@ -25,9 +25,9 @@
   },
   "100072207731954": {
     "id": 4,
-    "yen": 0.5000000000000003,
+    "yen": 0.6000000000000003,
     "level": 1,
-    "exp": 1201.5,
+    "exp": 1202,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738624638502,
     "nama": "mesri ana"
@@ -51,9 +51,9 @@
   },
   "100089845636512": {
     "id": 7,
-    "yen": 989.8500000000001,
+    "yen": 9931,
     "level": 1,
-    "exp": 1202.5,
+    "exp": 1203,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655313690,
     "nama": "mamak"
@@ -78,9 +78,9 @@
   },
   "100090528878680": {
     "id": 10,
-    "yen": 10.5,
+    "yen": 1100.7,
     "level": 1,
-    "exp": 1203.5,
+    "exp": 1204.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655443289,
     "nama": "| オビト"
@@ -96,9 +96,9 @@
   },
   "100081905402759": {
     "id": 12,
-    "yen": 2.1500000000000004,
+    "yen": 35.205,
     "level": 1,
-    "exp": 1201.5,
+    "exp": 1202,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738656365843,
     "nama": "2031"
@@ -135,5 +135,12 @@
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738658606270,
     "nama": "han"
+  },
+  "100080712933474": {
+    "id": 17,
+    "yen": 25.450000000000003,
+    "level": 1,
+    "exp": 0.5,
+    "peringkat": "Pemula"
   }
 }

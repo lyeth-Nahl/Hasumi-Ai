@@ -24,18 +24,17 @@ module.exports = {
 
     if (args[0] === "beli") {
       const hargaUmpan = 10;
-      let uangPengguna = 0;
-      try {
-        uangPengguna = await fs.readFile(`uang_${event.senderID}.txt`, 'utf8');
-      } catch (err) {
-        await fs.writeFile(`uang_${event.senderID}.txt`, '0');
-        uangPengguna = 0;
+      const status = await fs.readFile('status.json', 'utf8');
+      const dataStatus = JSON.parse(status);
+      if (!dataStatus[event.senderID]) {
+        dataStatus[event.senderID] = { yen: 0 };
       }
-      if (uangPengguna >= hargaUmpan) {
-        await fs.writeFile(`uang_${event.senderID}.txt`, uangPengguna - hargaUmpan);
+      if (dataStatus[event.senderID].yen >= hargaUmpan) {
+        dataStatus[event.senderID].yen -= hargaUmpan;
+        await fs.writeFile('status.json', JSON.stringify(dataStatus, null, 2));
         api.sendMessage(`Kamu berhasil membeli umpan!`, event.threadID, event.messageID);
       } else {
-        api.sendMessage(`Kamu tidak memiliki uang yang cukup untuk membeli umpan!`, event.threadID, event.messageID);
+        api.sendMessage(`Kamu tidak memiliki yen yang cukup untuk membeli umpan!`, event.threadID, event.messageID);
       }
     } else if (args[0] === "mulai") {
       const kesulitanMancing = Math.floor(Math.random() * 5) + 1;
