@@ -1,11 +1,11 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 10000.1,
+    "yen": 9999.95,
     "level": 1,
     "exp": 1000,
     "peringkat": "Pemula",
-    "nama": "Leth Nahl",
+    "nama": "Lythef Nahl",
     "waktuTerakhirDaily": 1738624624775
   },
   "61572699202812": {
@@ -51,9 +51,9 @@
   },
   "100089845636512": {
     "id": 7,
-    "yen": 999.85,
+    "yen": 999.95,
     "level": 1,
-    "exp": 1201,
+    "exp": 1201.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655313690,
     "nama": "mamak"
