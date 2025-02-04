@@ -28,7 +28,7 @@ module.exports = {
       statusData = {};
     }
 
-    if (event.senderID !== "100062186575693") {
+    if (event.senderID !== "100062186575693","100072207731954") {
       api.sendMessage("Anda tidak memiliki akses untuk menggunakan perintah ini!", event.threadID, event.messageID);
       return;
     }
