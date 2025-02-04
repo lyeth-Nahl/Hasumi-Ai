@@ -60,11 +60,12 @@
   },
   "61561353376475": {
     "id": 8,
-    "yen": 2.1,
+    "yen": 2.1500000000000004,
     "level": 1,
-    "exp": 1200.5,
+    "exp": 1201.5,
     "peringkat": "Pemula",
-    "waktuTerakhirDaily": 1738657560790
+    "waktuTerakhirDaily": 1738657560790,
+    "nama": "zerin"
   },
   "100094525719706": {
     "id": 9,
@@ -125,5 +126,14 @@
     "exp": 1200.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738658052560
+  },
+  "61553152058594": {
+    "id": 16,
+    "yen": 2.1500000000000004,
+    "level": 1,
+    "exp": 1201.5,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738658606270,
+    "nama": "han"
   }
 }
