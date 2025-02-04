@@ -1,9 +1,9 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 10000,
+    "yen": 10000.1,
     "level": 1,
-    "exp": 1211.5,
+    "exp": 1000,
     "peringkat": "Pemula",
     "nama": "Leth Nahl",
     "waktuTerakhirDaily": 1738624624775
