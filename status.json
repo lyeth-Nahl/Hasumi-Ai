@@ -48,5 +48,12 @@
     "exp": 1201.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738624919143
+  },
+  "100089845636512": {
+    "id": 7,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 0.5,
+    "peringkat": "Pemula"
   }
 }
