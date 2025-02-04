@@ -1,7 +1,7 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 0.39500000000000135,
+    "yen": 1.2400000000000013,
     "level": 1,
     "exp": 1211,
     "peringkat": "Pemula",
@@ -51,12 +51,12 @@
   },
   "100089845636512": {
     "id": 7,
-    "yen": 2.0500000000000003,
+    "yen": 999.85,
     "level": 1,
     "exp": 1201,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655313690,
-    "nama": "mes"
+    "nama": "mamak"
   },
   "61561353376475": {
     "id": 8,
@@ -67,9 +67,9 @@
   },
   "100094525719706": {
     "id": 9,
-    "yen": 1.9500000000000002,
+    "yen": 2.0500000000000003,
     "level": 1,
-    "exp": 1200.5,
+    "exp": 1201,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655432057,
     "nama": "KYRA RXELLYN"
@@ -85,14 +85,24 @@
   },
   "61554227415776": {
     "id": 11,
-    "yen": 2.2,
+    "yen": 2.1500000000000004,
     "level": 1,
-    "exp": 1201,
+    "exp": 1201.5,
     "peringkat": "Pemula",
-    "waktuTerakhirDaily": 1738656140467
+    "waktuTerakhirDaily": 1738656140467,
+    "nama": "Nara gblk"
   },
   "100081905402759": {
     "id": 12,
+    "yen": 1.9500000000000002,
+    "level": 1,
+    "exp": 1200.5,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738656365843,
+    "nama": "2031"
+  },
+  "100086573927235": {
+    "id": 13,
     "yen": 0.1,
     "level": 1,
     "exp": 0.5,
