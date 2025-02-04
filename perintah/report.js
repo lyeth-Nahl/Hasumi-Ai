@@ -17,7 +17,7 @@ const pesanBalas = args.slice(2).join(" ");
 if (!idReport || !pesanBalas) {
 return api.sendMessage("Tolong masukkan id report dan pesan balas!", event.threadID);
 }
-const namaPengguna = status[event.senderID] ? status[event.senderID].nama : event.senderName;
+const namaPengguna = status[event.senderID] && status[event.senderID].nama ? status[event.senderID].nama : event.senderID;
 const balasMessage = `Balas From ${event.senderID} (${namaPengguna}) : ${pesanBalas}`;
 api.sendMessage(balasMessage, idReport);
 api.sendMessage("Balas telah dikirim ke pengguna!", event.threadID);
@@ -26,7 +26,7 @@ const pesanReport = args.join(" ");
 if (!pesanReport) {
 return api.sendMessage("Tolong masukkan pesan report!", event.threadID);
 }
-const namaPengguna = status[event.senderID] ? status[event.senderID].nama : event.senderName;
+const namaPengguna = status[event.senderID] && status[event.senderID].nama ? status[event.senderID].nama : event.senderID;
 const reportMessage = `Report From ${event.senderID} (${namaPengguna}) : ${pesanReport}`;
 for (const admin of noah.admin) {
 api.sendMessage(reportMessage, admin);
