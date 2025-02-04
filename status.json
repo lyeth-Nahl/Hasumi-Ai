@@ -51,10 +51,12 @@
   },
   "100089845636512": {
     "id": 7,
-    "yen": 0.1,
+    "yen": 1.9500000000000002,
     "level": 1,
-    "exp": 0.5,
-    "peringkat": "Pemula"
+    "exp": 1200.5,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738655313690,
+    "nama": "mes"
   },
   "61561353376475": {
     "id": 8,
@@ -62,5 +64,22 @@
     "level": 1,
     "exp": 0.5,
     "peringkat": "Pemula"
+  },
+  "100094525719706": {
+    "id": 9,
+    "yen": 1.9500000000000002,
+    "level": 1,
+    "exp": 1200.5,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738655432057,
+    "nama": "KYRA RXELLYN"
+  },
+  "100090528878680": {
+    "id": 10,
+    "yen": 2.2,
+    "level": 1,
+    "exp": 1201,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738655443289
   }
 }
