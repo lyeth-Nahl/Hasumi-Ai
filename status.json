@@ -25,7 +25,7 @@
   },
   "100072207731954": {
     "id": 4,
-    "yen": 5000000000006.098,
+    "yen": 5000000000019.598,
     "level": 104,
     "exp": 10,
     "peringkat": "Master of the Universe",
@@ -167,9 +167,10 @@
   },
   "100091869392031": {
     "id": 21,
-    "yen": 0.1,
+    "yen": 2.1,
     "level": 1,
-    "exp": 10,
-    "peringkat": "Newbie"
+    "exp": 1210,
+    "peringkat": "Newbie",
+    "waktuTerakhirDaily": 1738710888212
   }
 }
