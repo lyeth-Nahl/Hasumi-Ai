@@ -51,9 +51,9 @@
   },
   "100089845636512": {
     "id": 7,
-    "yen": 1.9500000000000002,
+    "yen": 2.0500000000000003,
     "level": 1,
-    "exp": 1200.5,
+    "exp": 1201,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655313690,
     "nama": "mes"
@@ -76,10 +76,26 @@
   },
   "100090528878680": {
     "id": 10,
+    "yen": 1.7500000000000004,
+    "level": 1,
+    "exp": 1202,
+    "peringkat": "Pemula",
+    "waktuTerakhirDaily": 1738655443289,
+    "nama": "| オビト"
+  },
+  "61554227415776": {
+    "id": 11,
     "yen": 2.2,
     "level": 1,
     "exp": 1201,
     "peringkat": "Pemula",
-    "waktuTerakhirDaily": 1738655443289
+    "waktuTerakhirDaily": 1738656140467
+  },
+  "100081905402759": {
+    "id": 12,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 0.5,
+    "peringkat": "Pemula"
   }
 }
