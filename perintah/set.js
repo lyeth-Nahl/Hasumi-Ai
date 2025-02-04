@@ -7,14 +7,14 @@ module.exports = {
     harga: "0",
     kuldown: 5,
     peran: 2,
-    tutor: ";set <yen/exp> <id1,id2,id3,...> <jumlah>"
+    tutor: ";set <yen/exp/level/peringkat> <id1,id2,id3,...> <jumlah>"
   },
   bahasa: {
     id: {
-      set: "Mengatur Yen dan Exp Pengguna"
+      set: "Mengatur Yen, Exp, Level, dan Peringkat Pengguna"
     },
     en: {
-      set: "Set User's Yen and Exp"
+      set: "Set User's Yen, Exp, Level, and Rank"
     }
   },
   Ayanokoji: async function({ api, event, args, bhs }) {
@@ -40,9 +40,9 @@ module.exports = {
 
     const parameter = args[0].toLowerCase();
     const idList = args[1].split(",");
-    const jumlah = parseInt(args[2]);
+    const jumlah = args[2];
 
-    if (parameter !== "yen" && parameter !== "exp") {
+    if (parameter !== "yen" && parameter !== "exp" && parameter !== "level" && parameter !== "peringkat") {
       api.sendMessage("Parameter tidak valid!", event.threadID, event.messageID);
       return;
     }
@@ -62,9 +62,13 @@ module.exports = {
       }
 
       if (parameter === "yen") {
-        targetUser.yen = jumlah;
+        targetUser.yen = parseInt(jumlah);
       } else if (parameter === "exp") {
-        targetUser.exp = jumlah;
+        targetUser.exp = parseInt(jumlah);
+      } else if (parameter === "level") {
+        targetUser.level = parseInt(jumlah);
+      } else if (parameter === "peringkat") {
+        targetUser.peringkat = jumlah;
       }
     }
 

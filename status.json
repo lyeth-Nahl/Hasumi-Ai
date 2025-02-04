@@ -3,7 +3,7 @@
     "id": 1,
     "yen": 200.44999999999996,
     "level": 1000,
-    "exp": 10,
+    "exp": 1,
     "peringkat": "Glory",
     "nama": "Nahl Dev 😋",
     "waktuTerakhirDaily": 1738624624775
@@ -25,12 +25,12 @@
   },
   "100072207731954": {
     "id": 4,
-    "yen": 2564.6499999999996,
+    "yen": 0.05000000000000002,
     "level": 100,
-    "exp": 1222,
-    "peringkat": "Pemula",
+    "exp": 1282,
+    "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738624638502,
-    "nama": "Banned😋"
+    "nama": "mesri knx"
   },
   "61552750718284": {
     "id": 5,
@@ -78,10 +78,10 @@
   },
   "100090528878680": {
     "id": 2,
-    "yen": 18246.6,
-    "level": 1p0,
-    "exp": 2247,
-    "peringkat": "Mythic",
+    "yen": 19045.899999999994,
+    "level": 100,
+    "exp": 2277,
+    "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738655443289,
     "nama": "| オビト"
   },
@@ -96,10 +96,10 @@
   },
   "100081905402759": {
     "id": 3,
-    "yen": 12062.255000000001,
-    "level": 20,
-    "exp": 1253.5,
-    "peringkat": "Immortal",
+    "yen": 13061.955000000002,
+    "level": 100,
+    "exp": 1273.5,
+    "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738656365843,
     "nama": "²⁰³¹"
   },
