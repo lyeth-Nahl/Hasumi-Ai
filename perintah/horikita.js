@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const axios = require('axios');
 
 module.exports = {
@@ -22,15 +22,17 @@ module.exports = {
   Ayanokoji: async function ({ api, event, args, bhs }) {
     const ingatanPath = './ingatan.json';
     let ingatan = {};
+
     try {
-      ingatan = JSON.parse(fs.readFileSync(ingatanPath, 'utf8'));
+      ingatan = JSON.parse(await fs.readFile(ingatanPath, 'utf8'));
     } catch (err) {
       console.error(err);
     }
+
     if (args[0] === 'hapus') {
       if (ingatan[event.senderID]) {
         delete ingatan[event.senderID];
-        fs.writeFileSync(ingatanPath, JSON.stringify(ingatan, null, 2));
+        await fs.writeFile(ingatanPath, JSON.stringify(ingatan, null, 2));
         api.sendMessage(bhs('hapus'), event.threadID, event.messageID);
       } else {
         api.sendMessage('Kamu tidak memiliki ingatan yang dapat dihapus!', event.threadID, event.messageID);
@@ -41,7 +43,7 @@ module.exports = {
       const hadi = `kamu harus role play menjadi Horikita Suzune. User input: ${args.join(' ')}`;
       if (!ingatan[event.senderID]) ingatan[event.senderID] = {};
       ingatan[event.senderID].hadi = hadi;
-      fs.writeFileSync(ingatanPath, JSON.stringify(ingatan, null, 2));
+      await fs.writeFile(ingatanPath, JSON.stringify(ingatan, null, 2));
       const aya = await axios.get(`https://green-unique-eustoma.glitch.me/ayanokoji?pesan=${encodeURIComponent(hadi)}`);
       api.sendMessage(aya.data.ayanokoji, event.threadID, event.messageID);
     }
