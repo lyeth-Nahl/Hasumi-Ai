@@ -1,9 +1,9 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 10000.150000000001,
+    "yen": 1,
     "level": 1,
-    "exp": 1001,
+    "exp": 1,
     "peringkat": "Pemula",
     "nama": "Lythef Nahl",
     "waktuTerakhirDaily": 1738624624775
@@ -51,9 +51,9 @@
   },
   "100089845636512": {
     "id": 7,
-    "yen": 999.7500000000001,
+    "yen": 989.8500000000001,
     "level": 1,
-    "exp": 1202,
+    "exp": 1202.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655313690,
     "nama": "mamak"
@@ -69,18 +69,18 @@
   },
   "100094525719706": {
     "id": 9,
-    "yen": 2.0500000000000003,
+    "yen": 2.1500000000000004,
     "level": 1,
-    "exp": 1201,
+    "exp": 1201.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655432057,
     "nama": "KYRA RXELLYN"
   },
   "100090528878680": {
     "id": 10,
-    "yen": 1.8500000000000005,
+    "yen": 10.5,
     "level": 1,
-    "exp": 1202.5,
+    "exp": 1203.5,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738655443289,
     "nama": "| オビト"
