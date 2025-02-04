@@ -1,7 +1,7 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 199.94999999999996,
+    "yen": 200.44999999999996,
     "level": 1000,
     "exp": 10,
     "peringkat": "Glory",
@@ -26,7 +26,7 @@
   "100072207731954": {
     "id": 4,
     "yen": 2564.6499999999996,
-    "level": 1,
+    "level": 100,
     "exp": 1222,
     "peringkat": "Pemula",
     "waktuTerakhirDaily": 1738624638502,
@@ -79,7 +79,7 @@
   "100090528878680": {
     "id": 2,
     "yen": 18246.6,
-    "level": 20,
+    "level": 1p0,
     "exp": 2247,
     "peringkat": "Mythic",
     "waktuTerakhirDaily": 1738655443289,

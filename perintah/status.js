@@ -49,19 +49,59 @@ module.exports = {
       statusData[event.senderID].exp = 0;
     }
 
-    if (statusData[event.senderID].level >= 15) {
-      statusData[event.senderID].peringkat = "Legend";
-    } else if (statusData[event.senderID].level >= 100) {
-      statusData[event.senderID].peringkat = "Master";
-    } else if (statusData[event.senderID].level >= 90) {
-      statusData[event.senderID].peringkat = "Senior";
-    } else if (statusData[event.senderID].level >= 20) {
-      statusData[event.senderID].peringkat = "Junior";
-    } else if (statusData[event.senderID].level >= 10) {
-      statusData[event.senderID].peringkat = "Pemula Lanjutan";
-    } else {
-      statusData[event.senderID].peringkat = "Pemula";
-    }
+    if (statusData[event.senderID].level >= 200) {
+
+statusData[event.senderID].peringkat = "Legendary Emperor";
+
+} else if (statusData[event.senderID].level >= 150) {
+
+statusData[event.senderID].peringkat = "Supreme Master";
+
+} else if (statusData[event.senderID].level >= 120) {
+
+statusData[event.senderID].peringkat = "Grandmaster of the Realm";
+
+} else if (statusData[event.senderID].level >= 100) {
+
+statusData[event.senderID].peringkat = "Master of the Universe";
+
+} else if (statusData[event.senderID].level >= 90) {
+
+statusData[event.senderID].peringkat = "Sultan of Skill";
+
+} else if (statusData[event.senderID].level >= 80) {
+
+statusData[event.senderID].peringkat = "Veteran Warrior";
+
+} else if (statusData[event.senderID].level >= 70) {
+
+statusData[event.senderID].peringkat = "Expert of Excellence";
+
+} else if (statusData[event.senderID].level >= 60) {
+
+statusData[event.senderID].peringkat = "Pro of Perfection";
+
+} else if (statusData[event.senderID].level >= 50) {
+
+statusData[event.senderID].peringkat = "Semi-Pro of Skill";
+
+} else if (statusData[event.senderID].level >= 40) {
+
+statusData[event.senderID].peringkat = "Junior Pro of Progress";
+
+} else if (statusData[event.senderID].level >= 30) {
+
+statusData[event.senderID].peringkat = "Advanced Player";
+
+} else if (statusData[event.senderID].level >= 20) {
+
+statusData[event.senderID].peringkat = "Intermediate Player";
+
+} else {
+
+statusData[event.senderID].peringkat = "Newbie";
+
+}
 
     fs.writeFileSync(statusPath, JSON.stringify(statusData, null, 2));
 
