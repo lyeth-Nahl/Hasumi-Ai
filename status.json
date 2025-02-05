@@ -25,9 +25,9 @@
   },
   "100072207731954": {
     "id": 4,
-    "yen": 50000000000,
+    "yen": 50000000000.1,
     "level": 107,
-    "exp": 0,
+    "exp": 10,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738751679449,
     "nama": "minz Dev😋"
@@ -182,11 +182,12 @@
   },
   "100082817781530": {
     "id": 1,
-    "yen": 2.3000000000000003,
+    "yen": 1.7500000000000004,
     "level": 1,
-    "exp": 1230,
+    "exp": 1240,
     "peringkat": "Newbie",
-    "waktuTerakhirDaily": 1738722756927
+    "waktuTerakhirDaily": 1738722756927,
+    "nama": "mei"
   },
   "100042541780798": {
     "id": 24,
@@ -206,10 +207,11 @@
   },
   "61561406404102": {
     "id": 26,
-    "yen": 566.2,
+    "yen": 566.5500000000002,
     "level": 1,
-    "exp": 1320,
+    "exp": 1370,
     "peringkat": "Newbie",
-    "waktuTerakhirDaily": 1738723144546
+    "waktuTerakhirDaily": 1738723144546,
+    "nama": "𝗤𝗶𝗮𝗻"
   }
 }
