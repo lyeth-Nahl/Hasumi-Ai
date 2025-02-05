@@ -69,11 +69,11 @@
   },
   "100094525719706": {
     "id": 9,
-    "yen": 9551.45,
+    "yen": 9553.550000000001,
     "level": 1,
-    "exp": 1212.5,
-    "peringkat": "Pemula",
-    "waktuTerakhirDaily": 1738655432057,
+    "exp": 2422.5,
+    "peringkat": "Newbie",
+    "waktuTerakhirDaily": 1738760556631,
     "nama": "KYRA RXELLYN"
   },
   "100090528878680": {
@@ -213,5 +213,26 @@
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738723144546,
     "nama": "𝗤𝗶𝗮𝗻"
+  },
+  "100049288911537": {
+    "id": 27,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
+  },
+  "100087647269283": {
+    "id": 28,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
+  },
+  "61569888141840": {
+    "id": 29,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
   }
 }
