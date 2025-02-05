@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dsData = require('./ds.json');
+const dsData = require(__dirname + '/ds.json');
 const userData = require('./status.json');
 
 const gacha = () => {
