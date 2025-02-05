@@ -1,6 +1,6 @@
 {
   "100062186575693": {
-    "id": 1,
+    "id": 100,
     "yen": 200.64999999999995,
     "level": 1000,
     "exp": 21,
@@ -24,8 +24,8 @@
     "peringkat": "Pemula"
   },
   "100072207731954": {
-    "id": 4,
-    "yen": 5000000001.900002,
+    "id": 200,
+    "yen": 51.900002,
     "level": 106,
     "exp": 2500,
     "peringkat": "Master of the Universe",
@@ -60,9 +60,9 @@
   },
   "61561353376475": {
     "id": 8,
-    "yen": 205.14999999999995,
-    "level": 1,
-    "exp": 2492,
+    "yen": 205.34999999999994,
+    "level": 2,
+    "exp": 10,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738751694535,
     "nama": "zerin"
@@ -181,7 +181,7 @@
     "peringkat": "Newbie"
   },
   "100082817781530": {
-    "id": 23,
+    "id": 1,
     "yen": 2.2,
     "level": 1,
     "exp": 1220,
@@ -211,5 +211,5 @@
     "exp": 1320,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738723144546
-  }
+ }
 }
