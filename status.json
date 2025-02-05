@@ -96,9 +96,9 @@
   },
   "100081905402759": {
     "id": 3,
-    "yen": 13990.755000000005,
+    "yen": 13990.855000000005,
     "level": 100,
-    "exp": 1333.5,
+    "exp": 1343.5,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738656365843,
     "nama": "><"
@@ -172,5 +172,27 @@
     "exp": 1210,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738710888212
+  },
+  "100060732784116": {
+    "id": 22,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
+  },
+  "100082817781530": {
+    "id": 23,
+    "yen": 2.1,
+    "level": 1,
+    "exp": 1210,
+    "peringkat": "Newbie",
+    "waktuTerakhirDaily": 1738722756927
+  },
+  "100042541780798": {
+    "id": 24,
+    "yen": 0.1,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
   }
 }
