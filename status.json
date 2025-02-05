@@ -1,12 +1,12 @@
 {
   "100062186575693": {
     "id": 100,
-    "yen": 200.64999999999995,
+    "yen": 202.59999999999994,
     "level": 1000,
-    "exp": 21,
+    "exp": 1231,
     "peringkat": "Legendary Emperor",
-    "nama": "Nahl Dev 😋",
-    "waktuTerakhirDaily": 1738624624775
+    "nama": "Null",
+    "waktuTerakhirDaily": 1738753138039
   },
   "61572699202812": {
     "id": 10,
@@ -24,10 +24,10 @@
     "peringkat": "Pemula"
   },
   "100072207731954": {
-    "id": 200,
-    "yen": 51.900002,
-    "level": 106,
-    "exp": 2500,
+    "id": 4,
+    "yen": 50000000000,
+    "level": 107,
+    "exp": 0,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738751679449,
     "nama": "minz Dev😋"
@@ -96,9 +96,9 @@
   },
   "100081905402759": {
     "id": 3,
-    "yen": 14539.355000000007,
+    "yen": 14539.455000000007,
     "level": 100,
-    "exp": 1393.5,
+    "exp": 1403.5,
     "peringkat": "Master of the Universe",
     "waktuTerakhirDaily": 1738656365843,
     "nama": "><"
@@ -182,9 +182,9 @@
   },
   "100082817781530": {
     "id": 1,
-    "yen": 2.2,
+    "yen": 2.3000000000000003,
     "level": 1,
-    "exp": 1220,
+    "exp": 1230,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738722756927
   },
@@ -211,5 +211,5 @@
     "exp": 1320,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738723144546
- }
+  }
 }
