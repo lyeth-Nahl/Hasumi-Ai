@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   hady: {
     nama: "menu",
-    penulis: "Hady Zen",
+    penulis: "Edinst",
     peran: 0,
     kuldown: 10,
     tutor: "<cmd/kosong>"
