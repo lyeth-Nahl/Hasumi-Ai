@@ -74,7 +74,7 @@ Kartu Demon Slayer
 
         api.sendMessage({
           body: `Selamat, Anda mendapatkan kartu ${kartu.nama}! Saldo Anda sekarang: ${userData[userIndex].yen} yen.`,
-          attachment: fs.createReadStream(__dirname + `/cards/${kartu.nama}.jpg`)
+          attachment: fs.createReadStream(__dirname + `./cards.json/${kartu.nama}.jpg`)
         }, event.threadID);
       } else if (args[1] === 'inv') {
         const userIndex = userData.findIndex(user => user.id === event.senderID);

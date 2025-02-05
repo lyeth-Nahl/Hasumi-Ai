@@ -1,0 +1,128 @@
+[
+{
+"nama": "Kartu Langka",
+"id": "KL001",
+"bintang": 5,
+"harga": 1000,
+"gambar": "kartu-langka.jpg"
+},
+{
+"nama": "Kartu Umum",
+"id": "KU001",
+"bintang": 3,
+"harga": 500,
+"gambar": "kartu-umum.jpg"
+},
+{
+"nama": "Kartu Spesial",
+"id": "KS001",
+"bintang": 4,
+"harga": 800,
+"gambar": "kartu-spesial.jpg"
+},
+{
+"nama": "Kartu Langka 2",
+"id": "KL002",
+"bintang": 5,
+"harga": 1000,
+"gambar": "kartu-langka-2.jpg"
+},
+{
+"nama": "Kartu Umum 2",
+"id": "KU002",
+"bintang": 3,
+"harga": 500,
+"gambar": "kartu-umum-2.jpg"
+},
+{
+"nama": "Kartu Spesial 2",
+"id": "KS002",
+"bintang": 4,
+"harga": 800,
+"gambar": "kartu-spesial-2.jpg"
+},
+{
+"nama": "Kartu Langka 3",
+"id": "KL003",
+"bintang": 5,
+"harga": 1000,
+"gambar": "kartu-langka-3.jpg"
+},
+{
+"nama": "Kartu Umum 3",
+"id": "KU003",
+"bintang": 3,
+"harga": 500,
+"gambar": "kartu-umum-3.jpg"
+},
+{
+"nama": "Kartu Spesial 3",
+"id": "KS003",
+"bintang": 4,
+"harga": 800,
+"gambar": "kartu-spesial-3.jpg"
+},
+{
+"nama": "Kartu Langka 4",
+"id": "KL004",
+"bintang": 5,
+"harga": 1000,
+"gambar": "kartu-langka-4.jpg"
+},
+{
+"nama": "Kartu Umum 4",
+"id": "KU004",
+"bintang": 3,
+"harga": 500,
+"gambar": "kartu-umum-4.jpg"
+},
+{
+"nama": "Kartu Spesial 4",
+"id": "KS004",
+"bintang": 4,
+"harga": 800,
+"gambar": "kartu-spesial-4.jpg"
+},
+{
+"nama": "Kartu Langka 5",
+"id": "KL005",
+"bintang": 5,
+"harga": 1000,
+"gambar": "kartu-langka-5.jpg"
+},
+{
+"nama": "Kartu Umum 5",
+"id": "KU005",
+"bintang": 3,
+"harga": 500,
+"gambar": "kartu-umum-5.jpg"
+},
+{
+"nama": "Kartu Spesial 5",
+"id": "KS005",
+"bintang": 4,
+"harga": 800,
+"gambar": "kartu-spesial-5.jpg"
+},
+{
+"nama": "Kartu Langka 6",
+"id": "KL006",
+"bintang": 5,
+"harga": 1000,
+"gambar": "kartu-langka-6.jpg"
+},
+{
+"nama": "Kartu Umum 6",
+"id": "KU006",
+"bintang": 3,
+"harga": 500,
+"gambar": "kartu-umum-6.jpg"
+},
+{
+"nama": "Kartu Spesial 6",
+"id": "KS006",
+"bintang": 4,
+"harga": 800,
+"gambar": "kartu-spesial-6.jpg"
+}
+]
