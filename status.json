@@ -1,9 +1,9 @@
 {
   "100062186575693": {
     "id": 100,
-    "yen": 202.59999999999994,
+    "yen": 102.69999999999993,
     "level": 1000,
-    "exp": 1231,
+    "exp": 1241,
     "peringkat": "Legendary Emperor",
     "nama": "Null",
     "waktuTerakhirDaily": 1738753138039
@@ -60,9 +60,9 @@
   },
   "61561353376475": {
     "id": 8,
-    "yen": 232.05499999999302,
+    "yen": 241.354999999993,
     "level": 2,
-    "exp": 80,
+    "exp": 110,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738751694535,
     "nama": "𝙝𝙢"
@@ -216,10 +216,11 @@
   },
   "100049288911537": {
     "id": 27,
-    "yen": 0.1,
+    "yen": 2.1,
     "level": 1,
-    "exp": 10,
-    "peringkat": "Newbie"
+    "exp": 1210,
+    "peringkat": "Newbie",
+    "waktuTerakhirDaily": 1738761426316
   },
   "100087647269283": {
     "id": 28,
@@ -235,5 +236,12 @@
     "exp": 1210,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738760728718
+  },
+  "61563754088133": {
+    "id": 30,
+    "yen": 84.6,
+    "level": 1,
+    "exp": 10,
+    "peringkat": "Newbie"
   }
 }
