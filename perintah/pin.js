@@ -3,8 +3,8 @@ const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
-  config: {
-    name: "pin",
+  hady: {
+    nama: "pin",
     aliases: ["pinterest"],
     version: "1.0.0",
     author: "kshitiz",
@@ -19,7 +19,7 @@ module.exports = {
     }
   },
 
-  onStart: async function ({ api, event, args, usersData }) {
+  Ayanokoji: async function ({ api, event, args, usersData }) {
     try {
       const searchQuery = args.join(" ");
 
