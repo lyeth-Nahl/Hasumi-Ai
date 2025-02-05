@@ -50,20 +50,32 @@ module.exports = {
     if (args[0] && commandInfo[args[0]]) {
       const info = commandInfo[args[0]];
       api.sendMessage(`
-        📚 Informasi Perintah 📚
-        Nama: ${info.nama}
-        Penulis: ${info.penulis}
-        Peran: ${info.peran}
-        Kuldown: ${info.kuldown} detik
-        Tutorial: ${global.Ayanokoji.awalan}${args[0]} ${info.tutor}
-      `, event.threadID, event.messageID);
+╭──「 🛠️ 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗜𝗡𝗙𝗢  🛠️ 」───
+│ 📝 𝗡𝗮𝗺𝗮: ${info.nama}
+│ ✍️ 𝗣𝗲𝗻𝘂𝗹𝗶𝘀: ${info.penulis}
+│ 🔐 𝗣𝗲𝗿𝗮𝗻: ${info.peran === '0' ? 'Pengguna' : info.peran === '2' ? 'Admin' : 'Super Admin'}
+│ ⏳ 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻: ${info.kuldown} detik
+│ 
+│ 📖 𝗧𝘂𝘁𝗼𝗿𝗶𝗮𝗹:
+│ ${global.Ayanokoji.awalan}${args[0]} ${info.tutor}
+╰───────────────────────
+      `.trim(), event.threadID, event.messageID);
     } else if (args[0] && !commandInfo[args[0]]) {
-      api.sendMessage(`Perintah ${args[0]} tidak ada.`, event.threadID, event.messageID);
+      api.sendMessage(`❌ 𝗘𝗥𝗥𝗢𝗥 ❌
+━━━━━━━━━━━━━━━━━━━
+Command "${args[0]}" tidak ditemukan!
+Ketik ${global.Ayanokoji.awalan}menu untuk melihat daftar command`, event.threadID, event.messageID);
     } else if (!args[0]) {
       api.sendMessage(`
-        📚 Daftar Perintah 📚
-        ${commandList.map(command => `• ${command}`).join('\n')}
-      `, event.threadID, event.messageID);
+╭──「 📦 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗟𝗜𝗦𝗧 」───
+│ Total ${commandList.length} commands available
+│ 
+│ ${commandList.map((command, index) => `├ ${index + 1}. ${command}`).join('\n│ ')}
+│ 
+│ 🧩 𝗧𝗶𝗽: Ketik ${global.Ayanokoji.awalan}menu <command> 
+│       untuk melihat info lengkap
+╰───────────────────────
+      `.trim().replace(/│ /g, '│'), event.threadID, event.messageID);
     }
   }
 };

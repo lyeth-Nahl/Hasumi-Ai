@@ -1,9 +1,9 @@
 {
   "100062186575693": {
     "id": 1,
-    "yen": 200.54999999999995,
+    "yen": 200.64999999999995,
     "level": 1000,
-    "exp": 11,
+    "exp": 21,
     "peringkat": "Legendary Emperor",
     "nama": "Nahl Dev 😋",
     "waktuTerakhirDaily": 1738624624775
@@ -206,9 +206,9 @@
   },
   "61561406404102": {
     "id": 26,
-    "yen": 566.1,
+    "yen": 566.2,
     "level": 1,
-    "exp": 1310,
+    "exp": 1320,
     "peringkat": "Newbie",
     "waktuTerakhirDaily": 1738723144546
   }
