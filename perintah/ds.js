@@ -1,6 +1,7 @@
 const fs = require('fs');
-const dsData = require(__dirname + '/ds.json');
-const userData = require('./status.json');
+const path = require('path');
+const statusPath = './status.json';
+const dsData = require(path.join(__dirname, 'ds.json'));
 
 const gacha = () => {
   const rarityRates = {
@@ -21,7 +22,10 @@ const gacha = () => {
   };
 
   const rarity = getRarity();
-  const kartu = dsData.find(kartu => kartu.rarity === rarity);
+  const kartu = {
+    nama: 'Kartu Demon Slayer',
+    rarity: rarity
+  };
   return kartu;
 };
 
@@ -74,7 +78,6 @@ Kartu Demon Slayer
 
         api.sendMessage({
           body: `Selamat, Anda mendapatkan kartu ${kartu.nama}! Saldo Anda sekarang: ${userData[userIndex].yen} yen.`,
-          attachment: fs.createReadStream(__dirname + `./cards.json/${kartu.nama}.jpg`)
         }, event.threadID);
       } else if (args[1] === 'inv') {
         const userIndex = userData.findIndex(user => user.id === event.senderID);
@@ -84,7 +87,7 @@ Kartu Demon Slayer
           const cards = userData[userIndex].cards;
           let message = 'Inventory Kartu Anda:\n';
           cards.forEach((card, index) => {
-            message += `${index + 1}. ${card.nama}\n`;
+            message += `${index + 1}. ${card.nama} (${card.rarity})\n`;
           });
           api.sendMessage(message, event.threadID);
         }
