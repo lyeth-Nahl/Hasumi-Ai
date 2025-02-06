@@ -41,14 +41,72 @@ async function getStream(hadi, isekai) {
     throw error;
  }
 };
-async function getNama(kiyo) {
- try {
-const user = await axios.post(`https://www.facebook.com/api/graphql/?q=${`node(${kiyo}){name}`}`);
- return user.data[kiyo].name;
- } catch (error) {
- return null;
- }
+
+let data = {};
+if (fs.existsSync(path.join('hady-zen', 'kiyopon.db'))) {
+    data = JSON.parse(fs.readFileSync(path.join('hady-zen', 'kiyopon.db'), 'utf-8'));
+}
+
+function addData(id) {
+    if (data[id]) {
+    } else {
+        data[id] = { "nama": "Kiyopon User", "yen": 0, "exp": 0, "level": 1 };
+        console.log(ayanokoji('database') + `${id} pengguna baru.`);
+    }
+    simpan();
 };
+
+const setUser = {
+    nama: (id, newNama) => {
+        if (data[id]) {
+            data[id].nama = newNama;
+            console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+        } else {
+        }
+        simpan();
+        return setUser; 
+    },
+    exp: (id, newExp) => {
+        if (data[id]) {
+            data[id].exp = newExp;
+            console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+        } else {
+        }
+        simpan();
+        return setUser; 
+    },
+    level: (id, newLv) => {
+        if (data[id]) {
+            data[id].level = newLv;
+            console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+        } else {
+        }
+        simpan();
+        return setUser; 
+    },
+    yen: (id, newUang) => {
+        if (data[id]) {
+            data[id].yen = newUang;
+            console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+        } else {
+        }
+        simpan();
+        return setUser; 
+    },
+};
+
+function getData(id) {
+  return data[id] || data;
+};
+
+function simpan() {
+    fs.writeFile(path.join('hady-zen', 'kiyopon.db'), JSON.stringify(data, null, 2), (err) => {
+        if (err) {
+            console.log(logo.error + "Terjadi kesalahan pada db: ", err);
+        } else { }
+ });
+};
+
 async function loadC() {
   fs.readFileSync('kiyotaka.json')
 };
@@ -104,6 +162,7 @@ if (err) {
 }
 const body = event.body;
 if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return; 
+  addData(event.senderID);
 if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
 if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
    const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
@@ -128,14 +187,14 @@ if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID}
    if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') { 
 	   
 if (hady.peran == 0 || !hady.peran) {
-    await Ayanokoji({ api, event, args, bhs, getStream, loadC });
+    await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
     return;
 }
 if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
-    await Ayanokoji({ api, event, args, bhs, getStream, loadC });
+    await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
     return;
 } else if (hady.peran == 1 && fitri.join(', ').includes(event.senderID) || hady.peran == 0) {
-    await Ayanokoji({ api, event, args, bhs, getStream, loadC });
+    await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
     return;
 } else { 
     api.setMessageReaction("❗", event.messageID);
