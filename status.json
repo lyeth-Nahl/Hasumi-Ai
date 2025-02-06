@@ -182,11 +182,11 @@
   },
   "100082817781530": {
     "id": 1,
-    "yen": 357016.87999999995,
+    "yen": 357025.0799999999,
     "level": 2,
-    "exp": 20,
+    "exp": 1240,
     "peringkat": "Newbie",
-    "waktuTerakhirDaily": 1738722756927,
+    "waktuTerakhirDaily": 1738811932744,
     "nama": "mei"
   },
   "100042541780798": {
@@ -246,9 +246,17 @@
   },
   "61563997391806": {
     "id": 31,
-    "yen": 0.1,
+    "yen": 0.2,
     "level": 1,
-    "exp": 10,
+    "exp": 20,
     "peringkat": "Newbie"
+  },
+  "100082063560792": {
+    "id": 32,
+    "yen": 14.1,
+    "level": 1,
+    "exp": 1210,
+    "peringkat": "Newbie",
+    "waktuTerakhirDaily": 1738811923741
   }
 }
