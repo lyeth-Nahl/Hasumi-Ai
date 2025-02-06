@@ -1,7 +1,12 @@
 const fs = require('fs');
+
 const path = require('path');
+
 const statusPath = './status.json';
-const dsData = './perintah/ds.json';
+
+const dsDataPath = './perintah/ds.json';
+
+const dsData = require(dsDataPath);
 
 const gacha = () => {
   const rarityRates = { R: 0.987, SR: 0.302, SSR: 0.032 };
