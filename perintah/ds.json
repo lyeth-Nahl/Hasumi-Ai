@@ -1,24 +1,24 @@
 [
 {
-"nama": "Kartu Langka",
-"id": "KL001",
-"bintang": 5,
-"harga": 1000,
-"gambar": "kartu-langka.jpg"
+"nama": "Tanjiro (iblis; sementara)",
+"id": "01",
+"bintang": SSR,
+"harga": 28,
+"gambar": "https://i.ibb.co.com/8LndP579/Tak-berjudul26-20250205213520.jpg"
 },
 {
-"nama": "Kartu Umum",
-"id": "KU001",
-"bintang": 3,
-"harga": 500,
-"gambar": "kartu-umum.jpg"
+"nama": "Gyutaro",
+"id": "02",
+"bintang": SSR,
+"harga": 28,
+"gambar": "https://i.ibb.co.com/KzfvCXMg/Tak-berjudul26-20250205212637.jpg"
 },
 {
-"nama": "Kartu Spesial",
-"id": "KS001",
-"bintang": 4,
-"harga": 800,
-"gambar": "kartu-spesial.jpg"
+"nama": "Daki",
+"id": "03",
+"bintang": SSR,
+"harga": 28,
+"gambar": "https://i.ibb.co.com/NdVQxg7X/Tak-berjudul26-20250205211110.jpg"
 },
 {
 "nama": "Kartu Langka 2",
