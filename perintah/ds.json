@@ -77,32 +77,32 @@
 "gambar": "https://i.ibb.co.com/qbTv35M/Tak-berjudul26-20250205153412.jpg"
 },
 {
-"nama": "",
-"id": "KS004",
-"bintang": 4,
-"harga": 800,
-"gambar": "kartu-spesial-4.jpg"
+"nama": "Obanai Iguro",
+"id": "12",
+"bintang": "SR",
+"harga": 20.5,
+"gambar": "https://i.ibb.co.com/ZR1RbYPD/Tak-berjudul26-20250205154348.jpg"
 },
 {
-"nama": "Kartu Langka 5",
-"id": "KL005",
-"bintang": 5,
-"harga": 1000,
-"gambar": "kartu-langka-5.jpg"
+"nama": "Kyojuro Rengoku",
+"id": "13",
+"bintang": "SR",
+"harga": 20.5,
+"gambar": "https://i.ibb.co.com/SwwG9FFT/Tak-berjudul26-20250205193504.jpg"
 },
 {
-"nama": "Kartu Umum 5",
-"id": "KU005",
-"bintang": 3,
-"harga": 500,
-"gambar": "kartu-umum-5.jpg"
+"nama": "Tengen Uzui",
+"id": "14",
+"bintang": "SR",
+"harga": 20.5,
+"gambar": "https://i.ibb.co.com/xS5Cf14W/Tak-berjudul26-20250205194559.jpg"
 },
 {
-"nama": "Kartu Spesial 5",
-"id": "KS005",
-"bintang": 4,
-"harga": 800,
-"gambar": "kartu-spesial-5.jpg"
+"nama": "Muichiro Tokito",
+"id": "15",
+"bintang": "SR",
+"harga": 20.5,
+"gambar": ""
 },
 {
 "nama": "Kartu Langka 6",
