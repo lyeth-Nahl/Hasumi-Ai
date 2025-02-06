@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const statusPath = './status.json';
+const statusPath = path.join(__dirname, '..', 'status.json');
+
+const statusData = JSON.parse(fs.readFileSync(statusPath, 'utf8'));
 const dsDataPath = path.join(__dirname, 'ds.json');
 const dsData = require(dsDataPath);
 const gacha = () => {
