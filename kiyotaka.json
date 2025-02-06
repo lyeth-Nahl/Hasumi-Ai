@@ -7,7 +7,7 @@
   "notifkey": "wvvrFvLUkKuF8DEG",
   "aikey": "AIzaSyAXBvwNkZBckC8b3vTZVVuwRwlsPttTgkA",
   "chatdm": true,
-  "maintain": false,
+  "maintain": true,
   "admin": [
     "100062186575693",
     "61572699202812",
