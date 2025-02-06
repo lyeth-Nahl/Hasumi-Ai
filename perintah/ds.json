@@ -2,82 +2,82 @@
 {
 "nama": "Tanjiro (iblis; sementara)",
 "id": "01",
-"bintang": SSR,
+"bintang": "SSR",
 "harga": 28,
 "gambar": "https://i.ibb.co.com/8LndP579/Tak-berjudul26-20250205213520.jpg"
 },
 {
 "nama": "Gyutaro",
 "id": "02",
-"bintang": SSR,
+"bintang": "SSR",
 "harga": 28,
 "gambar": "https://i.ibb.co.com/KzfvCXMg/Tak-berjudul26-20250205212637.jpg"
 },
 {
 "nama": "Daki",
 "id": "03",
-"bintang": SSR,
+"bintang": "SSR",
 "harga": 28,
 "gambar": "https://i.ibb.co.com/NdVQxg7X/Tak-berjudul26-20250205211110.jpg"
 },
 {
 "nama": "Akaza",
 "id": "04",
-"bintang": SSR,
+"bintang": "SSR",
 "harga": 28,
 "gambar": "https://i.ibb.co.com/svp5j1Kp/Tak-berjudul26-20250205210518.jpg"
 },
 {
 "nama": "Muzan Kibutsuji",
 "id": "05",
-"bintang": SSR,
+"bintang": "SSR",
 "harga": 28,
 "gambar": "https://i.ibb.co.com/k69q3frX/Tak-berjudul26-20250205205806.jpg"
 },
 {
 "nama": "Tanjiro Kamado",
 "id": "06",
-"bintang": SR,
-"harga": 14,
+"bintang": "SR",
+"harga": 20.5,
 "gambar": "https://i.ibb.co.com/N2X3b283/Tak-berjudul26-20250205125108.jpg"
 },
 {
 "nama": "Nezuko Kamado",
 "id": "07",
-"bintang": SR,
-"harga": 14,
+"bintang": "SR",
+"harga": 20.5,
 "gambar": "https://i.ibb.co.com/1CBsF3j/Tak-berjudul26-20250205125702.jpg"
 },
 {
 "nama": "Zenitsu Agatsuma",
 "id": "08",
-"bintang": SR,
-"harga": 14,
+"bintang": "SR",
+"harga": 20.5,
 "gambar": "https://i.ibb.co.com/PvTpXnVf/Tak-berjudul26-20250205130534.jpg"
 },
 {
 "nama": "Inosuke Hashibara",
 "id": "09",
-"bintang": SR,
-"harga": 14,
+"bintang": "SR",
+"harga": 20.5,
 "gambar": "https://i.ibb.co.com/6JDb405L/Tak-berjudul26-20250205151129.jpg"
 },
 {
 "nama": "Giyu Tomioka",
 "id": "10",
-"bintang": SR,
-"harga": 14,
+"bintang": "SR",
+"harga": 20.5,
 "gambar": "https://i.ibb.co.com/KxV4wSGs/Tak-berjudul26-20250205152329.jpg"
 },
 {
 "nama": "Mitsuri Kanroji",
 "id": "11",
-"bintang": 3,
-"harga": 500,
-"gambar": "kartu-umum-4.jpg"
+"bintang": "SR",
+"harga": 20.5,
+"gambar": "https://i.ibb.co.com/qbTv35M/Tak-berjudul26-20250205153412.jpg"
 },
 {
-"nama": "Kartu Spesial 4",
+"nama": "",
 "id": "KS004",
 "bintang": 4,
 "harga": 800,
