@@ -1,12 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-
-const statusPath = 'status.json';
-
+const statusPath = './status.json';
 const dsDataPath = path.join(__dirname, 'ds.json');
-
-const userData = require(statusPath);
-
 const dsData = require(dsDataPath);
 const gacha = () => {
   const rarityRates = { R: 0.987, SR: 0.302, SSR: 0.032 };
