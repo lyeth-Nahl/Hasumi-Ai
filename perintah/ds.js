@@ -1,9 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+
 const statusPath = path.join(__dirname, '..', 'status.json');
 const dsDataPath = path.join(__dirname, 'ds.json');
 const dsData = require(dsDataPath);
+
+async function getBuffer(url) {
+  const response = await axios.get(url, { responseType: 'arraybuffer' });
+  return Buffer.from(response.data, 'binary');
+}
 
 module.exports = {
   hady: {
@@ -46,6 +52,9 @@ module.exports = {
       if (!dataStatus[event.senderID]) {
         api.sendMessage(`Kamu belum memiliki kartu!`, event.threadID);
       } else {
+        if (!dataStatus[event.senderID].cards) {
+          dataStatus[event.senderID].cards = [];
+        }
         const cards = dataStatus[event.senderID].cards;
         let message = 'Inventory Kartu Kamu:\n';
         cards.forEach((card, index) => {
@@ -59,6 +68,9 @@ module.exports = {
       if (!dataStatus[event.senderID]) {
         api.sendMessage(`Kamu belum memiliki kartu!`, event.threadID);
       } else {
+        if (!dataStatus[event.senderID].cards) {
+          dataStatus[event.senderID].cards = [];
+        }
         const cards = dataStatus[event.senderID].cards;
         const cardName = args[1];
         const cardIndex = cards.findIndex(card => card.nama === cardName);
