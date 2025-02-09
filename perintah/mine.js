@@ -74,7 +74,7 @@ function getRandomMaterial() {
 
 module.exports = {
   hady: {
-    nama: "nya-dm",
+    nama: "mine",
     penulis: "Hady Zen",
     kuldown: 0,
     peran: 0,
