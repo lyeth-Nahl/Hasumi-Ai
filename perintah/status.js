@@ -1,20 +1,28 @@
 module.exports = {
-  hady: { 
-    nama: "status",
-    penulis: "Keel", 
-    peran: 0,
-    kuldown: 10,
-    tutor: "status" // Perintah tanpa argumen ID custom
-  }, 
-  
-  Ayanokoji: async function ({ api, event, args, bhs, getData }) {
+  config: {
+    nama: "status", // Nama modul
+    penulis: "Keel", // Penulis modul
+    peran: 0, // Level akses (0 = semua pengguna)
+    kuldown: 10, // Cooldown (dalam detik)
+    tutor: "status" // Petunjuk penggunaan
+  },
+
+  run: async function ({ api, event, args, getData }) {
     try {
-      const userId = event.senderID; // Ambil ID asli pengguna yang mengirim pesan
+      const userId = event.senderID; // Ambil ID pengguna yang mengirim pesan
       const userData = await getData(userId); // Ambil data pengguna dari database
 
-      // Jika pengguna tidak ditemukan
-      if (!userData) {
-        return api.sendMessage("❌ Data pengguna tidak ditemukan.", event.threadID, event.messageID);
+      // Debug: Cetak data pengguna ke konsol
+      console.log("Data Pengguna:", userData);
+
+      // Cek apakah data pengguna valid
+      if (!userData || typeof userData !== "object") {
+        return api.sendMessage("❌ Data pengguna tidak ditemukan atau tidak valid.", event.threadID, event.messageID);
+      }
+
+      // Pastikan properti yang diperlukan ada
+      if (!userData.nama || !userData.yen || !userData.exp || !userData.level) {
+        return api.sendMessage("❌ Data pengguna tidak lengkap.", event.threadID, event.messageID);
       }
 
       // Format pesan status
