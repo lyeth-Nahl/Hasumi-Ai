@@ -1,4 +1,114 @@
-01;
+/* HADY ZEN'IN */
+const express = require('express');
+const app = express();
+const login = require('./hady-zen/ayanokoji');
+const { logo, warna, font, ayanokoji } = require('./hady-zen/log');
+const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
+const cron = require('node-cron');
+const { spawn } = require('child_process');
+const akun = fs.readFileSync('akun.txt', 'utf8');
+const { version } = require('./package');
+const gradient = require('gradient-string');
+const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, notifkey, aikey, setting } = require('./kiyotaka');
+const { kuldown } = require('./hady-zen/kuldown');
+const firebase = require('firebase-admin');
+const serviceAccount = require('./path-ke-service-account.json');
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: '(link unavailable)'
+});
+
+const db = firebase.database();
+const ref = db.ref('kiyopon');
+
+process.on('unhandledRejection', error => console.log(logo.error + error));
+process.on('uncaughtException', error => console.log(logo.error + error));
+
+const zen = { host: proxy, port: port };
+const kiyopon = gradient("#ADD8E6", "#4682B4", "#00008B")(logo.ayanokoji);
+const web = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
+global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey: aikey, bahasa: nakano, web: web, maintain: maintain };
+
+async function notiferr(notif) {
+  try {
+    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗋𝗈𝗋: ${notif}`;
+    const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
+  } catch (futaro) {
+    console.log(logo.error + 'Terjadi kesalahan pada notif' + futaro);
+  }
+};
+
+async function getStream(hadi, isekai) {
+  try {
+    const kiyotaka = await axios.get(hadi, { responseType: 'arraybuffer' });
+    const otaku = Buffer.from(kiyotaka.data, 'binary');
+    const wibu = path.join(__dirname, 'hady-zen', isekai);
+    fs.writeFileSync(wibu, otaku);
+    return wibu;
+  } catch (error) {
+    throw error;
+  }
+};
+
+let data = {};
+ref.on('value', snapshot => {
+  data = snapshot.val();
+});
+
+function addData(id) {
+  if (data[id]) {
+  } else {
+    ref.child(id).set({
+      "nama": "Kiyopon User",
+      "yen": 0,
+      "exp": 0,
+      "level": 1,
+      "id": id
+    });
+    console.log(ayanokoji('database') + `${id} pengguna baru.`);
+  }
+}
+
+const setUser = {
+  nama: (id, newNama) => {
+    ref.child(id).update({
+      nama: newNama
+    });
+    console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+    return setUser;
+  },
+  exp: (id, newExp) => {
+    ref.child(id).update({
+      exp: newExp
+    });
+    console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+    return setUser;
+  },
+  level: (id, newLv) => {
+    ref.child(id).update({
+      level: newLv
+    });
+    console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+    return setUser;
+  },
+  yen: (id, newUang) => {
+    ref.child(id).update({
+      yen: newUang
+    });
+    console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+    return setUser;
+  },
+};
+
+function getData(id) {
+  return data[id] || data;
+}
+
+function hitungExp(id, kata) {
+  const expPerKata = 0.01;
 const expNaikLevel = 2500;
 
 getData(id).then(data => {
@@ -8,9 +118,9 @@ const levelSekarang = data.level || 1;
 const expBaru = expSekarang + (kata * expPerKata);
 const levelBaru = levelSekarang + Math.floor(expBaru / expNaikLevel);
 
-updateData(id, {
-exp: expBaru,
-level: levelBaru
+ref.child(id).update({
+  exp: expBaru,
+  level: levelBaru
 });
 });
 }
@@ -23,8 +133,8 @@ const yenSekarang = data.yen || 0;
 
 const yenBaru = yenSekarang + (kata * yenPerKata);
 
-updateData(id, {
-yen: yenBaru
+ref.child(id).update({
+  yen: yenBaru
 });
 });
 }
@@ -33,9 +143,7 @@ yen: yenBaru
 addData(1);
 hitungExp(1, 100);
 hitungYen(1, 100);
-      } else {} 
- }); 
-};
+
 async function loadC() {
   fs.readFileSync('kiyotaka.json')
 };
