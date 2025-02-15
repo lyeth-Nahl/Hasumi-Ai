@@ -163,7 +163,7 @@ if (err) {
 const body = event.body;
 if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return; 
   addData(event.senderID);
-if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
+if (body.toLowerCase() == "prefix") return api.sendMessage(` Awalan ${nama}: [ ${awalan} ]`, event.threadID, event.messageID);
 if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
    const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
 	   
