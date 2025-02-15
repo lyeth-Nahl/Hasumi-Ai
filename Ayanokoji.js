@@ -143,6 +143,7 @@ ref.child(id).update({
 addData(1);
 hitungExp(1, 100);
 hitungYen(1, 100);
+})();
 
 async function loadC() {
   fs.readFileSync('kiyotaka.json')
