@@ -13,15 +13,14 @@ module.exports = {
         return api.sendMessage("❌ Gagal mengambil data pengguna. Silakan coba lagi nanti.", event.threadID);
       }
       // Hitung progress exp
-      const expProgress = (userData.exp / 2500 * 100).toFixed(2);
       const progressBar = "⬜".repeat(Math.floor(expProgress/10)) + "⬛".repeat(10 - Math.floor(expProgress/10));
       // Format pesan
-      const message = `⚡️ STATUS ${userData.nama.toUpperCase()} ⚡️ 
-      💰 Yen: ${userData.yen.toFixed(2)} ¥ 
-      📈 Exp: ${userData.exp}/${2500} 
-      🏆 Level: ${userData.level} 
-      🔋 Progress: ${progressBar} (${expProgress}%) 
-      📅 Terakhir Update: ${global.Ayanokoji.tanggal} ${global.Ayanokoji.waktu}`;
+      const message = `STATUS
+       Name : ${userData.nama.toUpperCase()} 
+       Yen: ${userData.yen.toFixed(2)} ¥ 
+       Exp: ${userData.exp}
+       Level: ${userData.level} 
+       Progress: ${progressBar} (${expProgress}%) 
       api.sendMessage(message, event.threadID);
     } catch (error) {
       console.error("Error di command status:", error);
