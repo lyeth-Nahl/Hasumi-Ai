@@ -312,47 +312,98 @@ if (!akun || akun.length < 0 || !JSON.parse(akun)) {
 }
 
 login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
-if (err) { 
-  notiferr(`Terjadi kesalahan saat login: ${err.message || err.error}`);
-  console.log(logo.error + `Terjadi kesalahan saat login: ${err.message || err.error}`);
-  process.exit();
- }
-      
-   api.listenMqtt(async (err, event) => {
-if (err) {
-  notiferr(`${err.message || err.error}`);
-  console.log(logo.error + `${err.message || err.error}`);
-  process.exit();
-}
-const body = event.body;
-
-// Jika pesan tidak valid atau bot dalam mode maintain, abaikan
-if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
-
-// Cek apakah thread sudah terdaftar
-if (event.isGroup) {
-  const isRegistered = await isThreadRegistered(event.threadID);
-  if (!isRegistered) {
-    return api.sendMessage("❌ Thread ini belum diregistrasi. Gunakan perintah `!regist` untuk mendaftarkan thread.", event.threadID);
+  if (err) { 
+    notiferr(`Terjadi kesalahan saat login: ${err.message || err.error}`);
+    console.log(logo.error + `Terjadi kesalahan saat login: ${err.message || err.error}`);
+    process.exit();
   }
-}
+      
+  api.listenMqtt(async (err, event) => {
+    if (err) {
+      notiferr(`${err.message || err.error}`);
+      console.log(logo.error + `${err.message || err.error}`);
+      process.exit();
+    }
 
-// Cek apakah user diban
-const userData = await getData(event.senderID);
-if (userData?.banned) {
-  return api.sendMessage("❌ Anda telah diban dari menggunakan bot ini.", event.threadID);
-}
+    const body = event.body;
 
-// Lanjutkan ke penanganan perintah lainnya
-addData(event.senderID);
-await addYenExp(event.senderID, body);
+    // Jika pesan tidak valid atau bot dalam mode maintain, abaikan
+    if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
 
-if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
-if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
+    // Cek apakah thread sudah terdaftar
+    if (event.isGroup) {
+      const isRegistered = await isThreadRegistered(event.threadID);
+      if (!isRegistered) {
+        return api.sendMessage("❌ Thread ini belum diregistrasi. Gunakan perintah `!regist` untuk mendaftarkan thread.", event.threadID);
+      }
+    }
 
-const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
-hady_cmd(cmd, api, event);
- });
+    // Cek apakah user diban
+    const userData = await getData(event.senderID);
+    if (userData?.banned) {
+      return api.sendMessage("❌ Anda telah diban dari menggunakan bot ini.", event.threadID);
+    }
+
+    // Lanjutkan ke penanganan perintah lainnya
+    addData(event.senderID);
+    await addYenExp(event.senderID, body);
+
+    if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
+    if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
+
+    const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
+
+    // Fungsi hady_cmd dipindahkan ke sini
+    const hady_cmd = async (cmd, api, event) => {
+      const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
+      const args = pipi?.split(' ');
+
+      try {
+        const skibidi = await new Promise((resolve, reject) => {
+          api.getThreadInfo(event.threadID, (err, info) => {
+            if (err) reject(err);
+            else resolve(info);
+          });
+        });
+
+        const fitri = skibidi.adminIDs.map(admin => admin.id);
+        const files = fs.readdirSync(path.join(__dirname, '/perintah'));
+
+        for (const file of files) {
+          if (file.endsWith('.js')) {
+            const anime = path.join(path.join(__dirname, '/perintah'), file);
+            const { hady, Ayanokoji, bahasa } = require(anime);
+
+            if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
+              console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
+              const bhs = function(veng) { return bahasa[nakano][veng]; };
+
+              if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
+                if (hady.peran == 0 || !hady.peran) {
+                  await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+                  return;
+                }
+                if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
+                  await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+                  return;
+                } else {
+                  api.setMessageReaction("❗", event.messageID);
+                }
+              } else {
+                api.setMessageReaction('⌛', event.messageID);
+              }
+            }
+          }
+        }
+      } catch (error) {
+        notiferr(`Perintah error: ${error.message}`);
+        api.send(logo.error + 'Perintah error: ' + error.message, event.ThreadID);
+      }
+    }
+
+    // Panggil hady_cmd
+    hady_cmd(cmd, api, event);
+  });
 });
 
 app.listen(port, () => { });
@@ -360,26 +411,4 @@ app.get('/', (req, res) => {
  res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#ayanokoji.html'));
 });
 app.get('/laporan', (req, res) => { 
- res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyopon.html'));
-});
-app.get('/ayanokoji', async (req, res) => {
-  const text = req.query.pesan || 'hai';
-
-  try {
-    const data = {
-      contents: [{ parts: [{ text: text }] }]
-    };
-    const response = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${aikey}`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const ayanokoji = response.data.candidates[0].content.parts[0].text;
-    res.json({ pembuat: "Hady Zen", ayanokoji });
-  } catch (error) {
-    res.json({ error: 'Maaf ada kesalahan: ' + error.message });
-  }
-});
-app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyotaka.html'));
-ERROR: ReferenceError: hady_cmd is n
+ res
