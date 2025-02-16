@@ -15,20 +15,9 @@ const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
 
-
-async function notiferr(notif) {
-  try {
-    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗿: ${notif}`;
-    const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
-    console.log(logo.info + 'Notifikasi error berhasil dikirim.');
-  } catch (futaro) {
-    console.log(logo.error + 'Terjadi kesalahan pada notif: ' + futaro);
-  }
-}
-
-// Konfigurasi Database Real-Time (Ganti dengan link database kamu)
-const DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/"; // Contoh: https://api.jsonbin.io/v3/b/<bin-id>
-const DB_API_KEY = "API_KEY_KAMU"; // Jika diperlukan
+// Konfigurasi Firebase Realtime Database
+const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
+const FIREBASE_AUTH_KEY = "API_KEY_KAMU"; // Ganti dengan API key Firebase kamu
 
 process.on('unhandledRejection', error => console.log(logo.error + error));
 process.on('uncaughtException', error => console.log(logo.error + error));
@@ -39,14 +28,10 @@ const waktu = now.format('HH:mm:ss');
 const web = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey: aikey, bahasa: nakano, web: web, maintain: maintain, waktu: waktu, tanggal: tanggal };
 
-// Fungsi untuk mengakses database
-async function fetchDatabase() {
+// Fungsi untuk mengakses database Firebase
+async function fetchDatabase(path = '') {
   try {
-    const response = await axios.get(DB_URL, {
-      headers: {
-        'X-Master-Key': DB_API_KEY // Jika menggunakan JSONBin.io
-      }
-    });
+    const response = await axios.get(`${FIREBASE_DB_URL}${path}.json?auth=${FIREBASE_AUTH_KEY}`);
     return response.data || {};
   } catch (error) {
     console.log(logo.error + 'Gagal mengambil data dari database: ' + error.message);
@@ -54,97 +39,121 @@ async function fetchDatabase() {
   }
 }
 
-async function updateDatabase(data) {
+async function updateDatabase(path, data) {
   try {
-    await axios.put(DB_URL, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': DB_API_KEY // Jika menggunakan JSONBin.io
-      }
-    });
+    await axios.put(`${FIREBASE_DB_URL}${path}.json?auth=${FIREBASE_AUTH_KEY}`, data);
   } catch (error) {
     console.log(logo.error + 'Gagal memperbarui database: ' + error.message);
   }
 }
 
+// Fungsi notiferr
+async function notiferr(notif) {
+  try {
+    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗋: ${notif}`;
+    const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
+    console.log(logo.info + 'Notifikasi error berhasil dikirim.');
+  } catch (futaro) {
+    console.log(logo.error + 'Terjadi kesalahan pada notif: ' + futaro);
+  }
+}
+
 // Fungsi untuk menambahkan data pengguna
 async function addData(id) {
-  const db = await fetchDatabase();
-  if (!db.users) db.users = {};
-  if (!db.users[id]) {
-    db.users[id] = {
+  const db = await fetchDatabase('users');
+  if (!db[id]) {
+    db[id] = {
       nama: "Kiyopon User",
       yen: 0,
       exp: 0,
       level: 1,
       daily: null,
-      id: Object.keys(db.users).length + 1 // ID Custom
+      id: Object.keys(db).length + 1 // ID Custom
     };
-    await updateDatabase(db);
+    await updateDatabase('users', db);
     console.log(ayanokoji('database') + `${id} pengguna baru.`);
   }
 }
 
 // Fungsi untuk mengupdate data pengguna
 async function setUser(id, item, baru) {
-  const db = await fetchDatabase();
-  if (db.users && db.users[id]) {
-    if (item === "nama" || item === "daily") {
-      db.users[id][item] = baru;
-    } else if (item === "yen" || item === "exp" || item === "level") {
-      if (typeof baru === 'number') {
-        db.users[id][item] = baru;
-      } else {
-        console.log(ayanokoji('database') + 'Nilai untuk ' + item + ' harus berupa angka.');
-        return;
-      }
-    }
-    await updateDatabase(db);
-    console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+  const db = await fetchDatabase('users');
+  if (!db[id]) {
+    console.log(ayanokoji('database') + `User ${id} tidak ditemukan.`);
+    return;
   }
+
+  if (item === "nama" || item === "daily") {
+    db[id][item] = baru;
+  } else if (item === "yen" || item === "exp" || item === "level") {
+    if (typeof baru === 'number') {
+      db[id][item] = baru;
+    } else {
+      console.log(ayanokoji('database') + 'Nilai untuk ' + item + ' harus berupa angka.');
+      return;
+    }
+  }
+
+  await updateDatabase('users', db);
+  console.log(ayanokoji('database') + 'Pembaruan berhasil.');
 }
 
 // Fungsi untuk mendapatkan data pengguna
 async function getData(id) {
-  const db = await fetchDatabase();
-  return db.users ? db.users[id] || {} : {};
+  const db = await fetchDatabase('users');
+  return db[id] || {};
 }
 
 // Fungsi untuk menambahkan data thread/grup
 async function addThread(threadID, adminID) {
-  const db = await fetchDatabase();
-  if (!db.threads) db.threads = {};
-  if (!db.threads[threadID]) {
-    db.threads[threadID] = {
-      id: Object.keys(db.threads).length + 1, // ID Custom
+  const db = await fetchDatabase('threads');
+  if (!db[threadID]) {
+    db[threadID] = {
+      id: Object.keys(db).length + 1, // ID Custom
       admin: adminID,
       registered: true
     };
-    await updateDatabase(db);
+    await updateDatabase('threads', db);
     console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
   }
 }
 
 // Fungsi untuk mengecek apakah thread/grup sudah terdaftar
 async function isThreadRegistered(threadID) {
-  const db = await fetchDatabase();
-  return db.threads && db.threads[threadID] && db.threads[threadID].registered;
+  const db = await fetchDatabase('threads');
+  return db[threadID] && db[threadID].registered;
 }
 
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID) {
-  const db = await fetchDatabase();
-  if (db.users && db.users[senderID]) {
-    db.users[senderID].yen += 0.05;
-    db.users[senderID].exp += 0.5;
+  const db = await fetchDatabase('users');
 
-    if (db.users[senderID].exp >= 2500) {
-      db.users[senderID].level += 1;
-      db.users[senderID].exp = 0;
-    }
-
-    await updateDatabase(db);
+  // Jika pengguna belum terdaftar, buat data baru
+  if (!db[senderID]) {
+    db[senderID] = {
+      nama: "Kiyopon User",
+      yen: 0,
+      exp: 0,
+      level: 1,
+      daily: null,
+      id: Object.keys(db).length + 1 // ID Custom
+    };
   }
+
+  // Tambahkan yen dan exp
+  db[senderID].yen += 0.05;
+  db[senderID].exp += 0.5;
+
+  // Cek jika exp mencapai 2.500, naikkan level dan reset exp
+  if (db[senderID].exp >= 2500) {
+    db[senderID].level += 1;
+    db[senderID].exp = 0;
+    console.log(ayanokoji('database') + `User ${senderID} naik ke level ${db[senderID].level}.`);
+  }
+
+  // Simpan perubahan ke database
+  await updateDatabase('users', db);
+  console.log(ayanokoji('database') + `Yen dan Exp berhasil ditambahkan untuk user ${senderID}.`);
 }
 
 // Fungsi untuk mengecek spam
@@ -166,23 +175,25 @@ function checkSpam(senderID) {
 
 // Fungsi untuk ban user atau thread
 async function banUser(userID) {
-  const db = await fetchDatabase();
-  if (db.users && db.users[userID]) {
-    db.users[userID].banned = true;
-    await updateDatabase(db);
+  const db = await fetchDatabase('users');
+  if (db[userID]) {
+    db[userID].banned = true;
+    await updateDatabase('users', db);
     console.log(ayanokoji('database') + `User ${userID} telah diban.`);
   }
 }
 
 async function banThread(threadID) {
-  const db = await fetchDatabase();
-  if (db.threads && db.threads[threadID]) {
-    db.threads[threadID].banned = true;
-    await updateDatabase(db);
+  const db = await fetchDatabase('threads');
+  if (db[threadID]) {
+    db[threadID].banned = true;
+    await updateDatabase('threads', db);
     console.log(ayanokoji('database') + `Thread ${threadID} telah diban.`);
   }
 }
 
+// Lanjutkan dengan kode yang sudah ada di bawah ini...
+// (Login, command handling, dan Express server tetap sama seperti sebelumnya)
 async function loadC() {
   fs.readFileSync('kiyotaka.json')
 };
