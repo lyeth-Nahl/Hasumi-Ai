@@ -7,7 +7,7 @@ module.exports = {
     tutor: "Gunakan {awalan}status untuk melihat statistikmu"
   },
   
-  Ayanokoji: async function ({ api, event, getData, updateDatabase, fetchDatabase }) {
+  Ayanokoji: async function ({ api, event, getData, updateDatabase }) {
     try {
       let userData = await getData(event.senderID);
 
@@ -15,24 +15,25 @@ module.exports = {
       if (!userData) {
         return api.sendMessage("❌ Gagal mengambil data pengguna. Silakan coba lagi nanti.", event.threadID);
       }
+      if (!userData.yen) {
 
+        const db = await fetchDatabase('users');
       // Jika user belum terdaftar
       if (!userData.yen) {
-        const db = await fetchDatabase('users'); // Ambil data pengguna dari Firebase
         userData = {
           nama: "Kiyopon User",
           yen: 0,
           exp: 0,
           level: 1,
           daily: null,
-          id: Object.keys(db).length + 1 // Gunakan panjang objek db sebagai ID
+          id: Object.keys(db).length + 1
         };
         await updateDatabase(`users/${event.senderID}`, userData); // Simpan data baru ke database
       }
 
       // Hitung progress exp
       const expProgress = (userData.exp / 2500 * 100).toFixed(2);
-      const progressBar = "⬜".repeat(Math.floor(expProgress / 10)) + "⬛".repeat(10 - Math.floor(expProgress / 10));
+      const progressBar = "⬜".repeat(Math.floor(expProgress/10)) + "⬛".repeat(10 - Math.floor(expProgress/10));
 
       // Format pesan
       const message = `⚡️ STATUS ${userData.nama.toUpperCase()} ⚡️
@@ -45,6 +46,7 @@ module.exports = {
 📅 Terakhir Update: ${global.Ayanokoji.tanggal} ${global.Ayanokoji.waktu}`;
 
       api.sendMessage(message, event.threadID);
+      
     } catch (error) {
       console.error("Error di command status:", error);
       api.sendMessage("❌ Gagal mengambil data status", event.threadID);
