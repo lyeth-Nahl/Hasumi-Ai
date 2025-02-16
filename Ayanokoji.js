@@ -14,6 +14,8 @@ const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, noti
 const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
+const hady_cmd = require('./hady-zen/ayanokoji');
+
 
 // Konfigurasi Firebase Realtime Database
 const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
