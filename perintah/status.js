@@ -7,9 +7,9 @@ module.exports = {
     tutor: "Gunakan {awalan}status untuk melihat statistikmu"
   },
   
-  Ayanokoji: async function ({ api, event, getData }) {
+  Ayanokoji: async function ({ api, event, getData, updateDatabase }) {
     try {
-      const userData = await getData(event.senderID);
+      let userData = await getData(event.senderID);
 
       // Jika terjadi error atau data tidak ditemukan
       if (!userData) {
@@ -18,7 +18,15 @@ module.exports = {
 
       // Jika user belum terdaftar
       if (!userData.yen) {
-        return api.sendMessage("📛 Kamu belum terdaftar di database!", event.threadID);
+        userData = {
+          nama: "Kiyopon User",
+          yen: 0,
+          exp: 0,
+          level: 1,
+          daily: null,
+          id: Object.keys(db).length + 1
+        };
+        await updateDatabase(`users/${event.senderID}`, userData); // Simpan data baru ke database
       }
 
       // Hitung progress exp
