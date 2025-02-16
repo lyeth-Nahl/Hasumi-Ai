@@ -58,7 +58,7 @@ async function addData(id) {
   const db = await fetchDatabase('users');
   if (!db[id]) {
     const newUser = {
-      nama: "Kiyopon User",
+      nama: "Unknown",
       yen: 0,
       exp: 0,
       level: 1,
@@ -76,7 +76,7 @@ async function addData(id) {
 async function getData(id) {
   const db = await fetchDatabase('users');
   const userData = db[id] || {
-    nama: "Kiyopon User",
+    nama: "Unknown",
     yen: 0,
     exp: 0,
     level: 1,
@@ -149,7 +149,7 @@ async function addYenExp(senderID, message) {
   // Jika pengguna belum terdaftar, buat data baru
   if (!db[senderID]) {
     db[senderID] = {
-      nama: "Kiyopon User",
+      nama: "Unknown",
       yen: 0,
       exp: 0,
       level: 1,
