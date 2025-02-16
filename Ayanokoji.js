@@ -14,8 +14,6 @@ const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, noti
 const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
-const hady_cmd = require('./hady-zen/ayanokoji');
-
 
 // Konfigurasi Firebase Realtime Database
 const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
@@ -353,8 +351,7 @@ if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: 
 if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
 
 const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
-console.log("Memproses perintah:", cmd);
-console.log("Apakah hady_cmd tersedia?", typeof hady_cmd);
+
 hady_cmd(cmd, api, event);
  });
 });
