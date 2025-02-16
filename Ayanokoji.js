@@ -14,7 +14,6 @@ const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, noti
 const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
-const getStream =  ('getStream')
 
 // Konfigurasi Firebase Realtime Database
 const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
@@ -126,7 +125,7 @@ async function isThreadRegistered(threadID) {
 }
 
 // Fungsi untuk menambahkan yen dan exp
- async function addYenExp(senderID, message) {
+async function addYenExp(senderID, message) {
   const db = await fetchDatabase('users');
 
   // Jika pengguna belum terdaftar, buat data baru
@@ -162,6 +161,7 @@ async function isThreadRegistered(threadID) {
   await updateDatabase('users', db);
   console.log(ayanokoji('database') + `Yen dan Exp berhasil ditambahkan untuk user ${senderID}.`);
 }
+
 // Fungsi untuk mengecek spam
 const spamCount = {};
 function checkSpam(senderID) {
@@ -198,7 +198,21 @@ async function banThread(threadID) {
   }
 }
 
-// Lanjutkan dengan kode yang sudah ada di bawah ini...
+// Fungsi getStream
+async function getStream(url, filename) {
+  try {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    const buffer = Buffer.from(response.data, 'binary');
+    const filePath = path.join(__dirname, 'hady-zen', filename);
+
+    // Simpan file ke direktori
+    fs.writeFileSync(filePath, buffer);
+    return filePath;
+  } catch (error) {
+    console.log(logo.error + 'Gagal mengunduh file: ' + error.message);
+    throw error;
+  }
+}
 // (Login, command handling, dan Express server tetap sama seperti sebelumnya)
 async function loadC() {
   fs.readFileSync('kiyotaka.json')
