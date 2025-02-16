@@ -27,7 +27,7 @@ async function notiferr(notif) {
 }
 
 // Konfigurasi Database Real-Time (Ganti dengan link database kamu)
-const DB_URL = "https://<link-database-kamu>.json"; // Contoh: https://api.jsonbin.io/v3/b/<bin-id>
+const DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/"; // Contoh: https://api.jsonbin.io/v3/b/<bin-id>
 const DB_API_KEY = "API_KEY_KAMU"; // Jika diperlukan
 
 process.on('unhandledRejection', error => console.log(logo.error + error));
