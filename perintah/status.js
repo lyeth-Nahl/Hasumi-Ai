@@ -7,10 +7,15 @@ module.exports = {
     tutor: "Gunakan {awalan}status untuk melihat statistikmu"
   },
   
-  Ayanokoji: async function ({ api, event, getData, ayanokoji }) {
+  Ayanokoji: async function ({ api, event, getData }) {
     try {
       const userData = await getData(event.senderID);
-      
+
+      // Jika terjadi error atau data tidak ditemukan
+      if (!userData) {
+        return api.sendMessage("❌ Gagal mengambil data pengguna. Silakan coba lagi nanti.", event.threadID);
+      }
+
       // Jika user belum terdaftar
       if (!userData.yen) {
         return api.sendMessage("📛 Kamu belum terdaftar di database!", event.threadID);
