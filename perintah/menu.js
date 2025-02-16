@@ -1,79 +1,81 @@
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 
 module.exports = {
   hady: {
-    nama: "help",
-    penulis: "Edinst",
+    nama: "menu",
+    penulis: "kiel",
     peran: 0,
     kuldown: 10,
-    tutor: ".help <perintah>"
+    tutor: "<cmd/kosong>"
   },
   Ayanokoji: async function ({ api, event, args }) {
-    try {
-      if (args[0]) {
-        // Cari file perintah
-        const perintah = args[0].toLowerCase();
-        const filePath = path.join(__dirname, '../perintah', `${perintah}.js`);
-        
-        // Baca file dan dapatkan konfigurasi
-        if (fs.existsSync(filePath)) {
-          const fileContent = await fs.promises.readFile(filePath, 'utf-8');
-          const configMatch = fileContent.match(/const\s+hady\s*=\s*{([^}]+)}/);
-          
-          if (configMatch) {
-            // Parse konfigurasi
-            const configData = configMatch[1].split(',').reduce((acc, line) => {
-              const [key, value] = line.split(':').map(str => str.trim().replace(/"/g, ''));
-              acc[key] = value;
-              return acc;
-            }, {});
-            
-            // Kirim pesan help
-            if (configData.nama && configData.tutor) {
-              const helpMessage = `
-𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝘀𝗶 𝗣𝗲𝗿𝗶𝗻𝘁𝗮𝗵
-Perintah ${perintah}.
-• 𝗡𝗮𝗺𝗮: ${configData.nama}
-• 𝗛𝗮𝗿𝗴𝗮: ${configData.harga || 'Tidak ada'}
-• 𝗔𝗿𝗴𝘂𝗺𝗲𝗻 
- - 𝗣𝗲𝗻𝗴𝗴𝘂𝗻𝗮𝗮𝗻: ${configData.argumen || 'Tidak ada'}
- - 𝗣𝗮𝗿𝗮𝗺𝘀: ${configData.params || 'Tidak ada'}
-• 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻: ${configData.kuldown || 'Tidak ada'} detik.
-• 𝗦𝗶𝗻𝘁𝗮𝗸𝘀: ${configData.tutor}
-`;
-              api.sendMessage(helpMessage, event.threadID, event.messageID);
-            } else {
-              api.sendMessage(`Perintah ${perintah} tidak memiliki konfigurasi yang valid!`, event.threadID, event.messageID);
-            }
-          } else {
-            api.sendMessage(`Perintah ${perintah} tidak memiliki konfigurasi yang valid!`, event.threadID, event.messageID);
-          }
-        } else {
-          api.sendMessage(`Perintah ${perintah} tidak ditemukan!`, event.threadID, event.messageID);
+    const files = await fs.readdir(path.join('./perintah'));
+    const jsFiles = files.filter(file => path.extname(file) === '.js');
+    jsFiles.sort();
+    const commandList = { user: [], adminGroups: [], adminBot: [] };
+    const commandInfo = {};
+
+    for (const file of jsFiles) {
+      const filePath = path.join(path.join('./perintah'), file);
+      const fileContent = await fs.readFile(filePath, 'utf-8');
+      let configMatch = fileContent.match(/const\s+hady\s*=\s*{[^}]*nama\s*:\s*"([^"]+)"/);
+      if (!configMatch) {
+        configMatch = fileContent.match(/hady\s*:\s*{[^}]*nama\s*:\s*"([^"]+)"/);
+      }
+      if (configMatch) {
+        const commandName = configMatch[1];
+        let configObj = fileContent.match(/const\s+hady\s*=\s*{([^}]+)}/);
+        if (!configObj) {
+          configObj = fileContent.match(/hady\s*:\s*{([^}]+)}/);
         }
-      } else {
-        // Dapatkan daftar perintah
-        const files = await fs.promises.readdir(path.join(__dirname, '../perintah'));
-        const jsFiles = files.filter(file => path.extname(file) === '.js');
-        const perintahList = jsFiles.map(file => file.replace('.js', ''));
-        
-        // Kirim pesan help
-        if (perintahList.length > 0) {
-          const helpMessage = `
-𝗗𝗮𝗳𝘁𝗮𝗿 𝗣𝗲𝗿𝗶𝗻𝘁𝗮𝗵
-Berikut adalah daftar perintah yang tersedia:
-${perintahList.join('\n')}
-Gunakan .help <perintah> untuk melihat informasi lebih lanjut tentang perintah tersebut.
-`;
-          api.sendMessage(helpMessage, event.threadID, event.messageID);
-        } else {
-          api.sendMessage(`Tidak ada perintah yang tersedia!`, event.threadID, event.messageID);
+        if (configObj) {
+          const configData = configObj[1].split(',').reduce((acc, line) => {
+            const [key, value] = line.split(':').map(str => str.trim().replace(/"/g, ''));
+            acc[key] = value;
+            return acc;
+          }, {});
+          if (args[0] && args[0] === commandName) {
+            commandInfo[commandName] = configData;
+            break;
+          }
+          const peran = parseInt(configData.peran, 10);
+          if (peran === 0) {
+            commandList.user.push(commandName);
+          } else if (peran === 1) {
+            commandList.adminGroups.push(commandName);
+          } else if (peran === 2) {
+            commandList.adminBot.push(commandName);
+          }
         }
       }
-    } catch (error) {
-      console.error(error);
-      api.sendMessage('Terjadi kesalahan saat memuat help', event.threadID, event.messageID);
+    }
+
+    if (args[0] && commandInfo[args[0]]) {
+      const info = commandInfo[args[0]];
+      api.sendMessage(`🔍 𝗜𝗻𝗳𝗼 𝗽𝗲𝗿𝗶𝗻𝘁𝗮𝗵
+Nama: ${info.nama}
+Penulis: ${info.penulis}
+Peran: ${info.peran}
+Kuldown: ${info.kuldown} detik
+Tutorial: ${info.tutor}`, event.threadID, event.messageID);
+    } else if (args[0] && !commandInfo[args[0]]) {
+      api.sendMessage(`Perintah ${args[0]} tidak ada.`, event.threadID, event.messageID);
+    } else if (!args[0]) {
+      const description = `Gunakan ${global.Ayanokoji.awalan}menu <perintah> untuk informasi lebih lanjut.`;
+      const message = `𝗠𝗲𝗻𝘂 𝗣𝗲𝗿𝗶𝗻𝘁𝗮𝗵
+
+𝗨𝘀𝗲𝗿
+(${commandList.user.length}) - ${commandList.user.join(', ') || 'Tidak ada perintah.'}
+
+𝗔𝗱𝗺𝗶𝗻 𝗚𝗿𝗼𝘂𝗽
+(${commandList.adminGroups.length}) - ${commandList.adminGroups.join(', ') || 'Tidak ada perintah.'}
+
+𝗔𝗱𝗺𝗶𝗻 𝗕𝗼𝘁
+(${commandList.adminBot.length}) - ${commandList.adminBot.join(', ') || 'Tidak ada perintah.'}
+
+${description}`;
+      api.sendMessage(message, event.threadID, event.messageID);
     }
   }
 };
