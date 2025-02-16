@@ -14,7 +14,7 @@ const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, noti
 const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
-module.exports = { getStream')
+const getStream =  ('getStream')
 
 // Konfigurasi Firebase Realtime Database
 const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
@@ -126,7 +126,16 @@ async function isThreadRegistered(threadID) {
 }
 
 // Fungsi untuk menambahkan yen dan exp
-async function addYenExp(senderID) {
+api.listenMqtt(async (err, event) => {
+  if (err) {
+    notiferr(`${err.message || err.error}`);
+    console.log(logo.error + `${err.message || err.error}`);
+    process.exit();
+  }
+
+  const body = event.body;
+  if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
+async function addYenExp(senderID, body) {
   const db = await fetchDatabase('users');
 
   // Jika pengguna belum terdaftar, buat data baru
@@ -141,9 +150,15 @@ async function addYenExp(senderID) {
     };
   }
 
-  // Tambahkan yen dan exp
-  db[senderID].yen += 0.05;
-  db[senderID].exp += 0.5;
+  // Hitung jumlah huruf dalam pesan
+  const jumlahHuruf = message.length;
+
+  // Tambahkan yen dan exp berdasarkan jumlah huruf
+  const yenPerHuruf = 0.05; // Yen per huruf
+  const expPerHuruf = 0.5;  // Exp per huruf
+
+  db[senderID].yen += yenPerHuruf * jumlahHuruf;
+  db[senderID].exp += expPerHuruf * jumlahHuruf;
 
   // Cek jika exp mencapai 2.500, naikkan level dan reset exp
   if (db[senderID].exp >= 2500) {
@@ -156,7 +171,6 @@ async function addYenExp(senderID) {
   await updateDatabase('users', db);
   console.log(ayanokoji('database') + `Yen dan Exp berhasil ditambahkan untuk user ${senderID}.`);
 }
-
 // Fungsi untuk mengecek spam
 const spamCount = {};
 function checkSpam(senderID) {
