@@ -351,6 +351,8 @@ if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: 
 if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
 
 const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
+console.log("Memproses perintah:", cmd);
+console.log("Apakah hady_cmd tersedia?", typeof hady_cmd);
 hady_cmd(cmd, api, event);
  });
 });
