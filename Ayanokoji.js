@@ -143,43 +143,41 @@ async function isThreadRegistered(threadID) {
 }
 
 // Fungsi untuk menambahkan yen dan exp
+// Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
-  const db = await fetchDatabase('users');
+  try {
+    const db = await fetchDatabase('users');
 
-  // Jika pengguna belum terdaftar, buat data baru
-  if (!db[senderID]) {
-    db[senderID] = {
-      nama: "Unknown",
-      yen: 0,
-      exp: 0,
-      level: 1,
-      daily: null,
-      id: Object.keys(db).length + 1 // ID Custom
-    };
+    // Pastikan data pengguna ada
+    if (!db[senderID]) {
+      console.log(ayanokoji('database') + `User ${senderID} tidak ditemukan.`);
+      return;
+    }
+
+    // Hitung jumlah huruf dalam pesan
+    const jumlahHuruf = message.length;
+
+    // Tambahkan yen dan exp berdasarkan jumlah huruf
+    const yenPerHuruf = 0.05; // Yen per huruf
+    const expPerHuruf = 0.5;  // Exp per huruf
+
+    db[senderID].yen += yenPerHuruf * jumlahHuruf;
+    db[senderID].exp += expPerHuruf * jumlahHuruf;
+
+    // Cek jika exp mencapai 2.500, naikkan level dan reset exp
+    if (db[senderID].exp >= 2500) {
+      db[senderID].level += 1;
+      db[senderID].exp = 0;
+      console.log(ayanokoji('database') + `User ${senderID} naik ke level ${db[senderID].level}.`);
+    }
+
+    // Simpan perubahan ke database
+    await updateDatabase(`users/${senderID}`, db[senderID]);
+    console.log(ayanokoji('database') + `Yen dan Exp berhasil ditambahkan untuk user ${senderID}.`);
+  } catch (error) {
+    console.error("Gagal menambahkan yen dan exp:", error);
   }
-
-  // Hitung jumlah huruf dalam pesan
-  const jumlahHuruf = message.length;
-
-  // Tambahkan yen dan exp berdasarkan jumlah huruf
-  const yenPerHuruf = 0.05; // Yen per huruf
-  const expPerHuruf = 0.5;  // Exp per huruf
-
-  db[senderID].yen += yenPerHuruf * jumlahHuruf;
-  db[senderID].exp += expPerHuruf * jumlahHuruf;
-
-  // Cek jika exp mencapai 2.500, naikkan level dan reset exp
-  if (db[senderID].exp >= 2500) {
-    db[senderID].level += 1;
-    db[senderID].exp = 0;
-    console.log(ayanokoji('database') + `User ${senderID} naik ke level ${db[senderID].level}.`);
-  }
-
-  // Simpan perubahan ke database
-  await updateDatabase(`users/${senderID}`, db[senderID]);
-  console.log(ayanokoji('database') + `Yen dan Exp berhasil ditambahkan untuk user ${senderID}.`);
 }
-
 // Fungsi untuk mengecek spam
 const spamCount = {};
 function checkSpam(senderID) {

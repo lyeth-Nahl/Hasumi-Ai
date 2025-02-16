@@ -16,15 +16,16 @@ module.exports = {
       const expProgress = (userData.exp / 2500 * 100).toFixed(2);
       const progressBar = "⬜".repeat(Math.floor(expProgress/10)) + "⬛".repeat(10 - Math.floor(expProgress/10));
       // Format pesan
-      const message = `STATUS
-       Name : ${userData.nama.toUpperCase()} 
+      const message = ` STATUS 
+       Nama: ${userData.nama.toUpperCase()} 
        Yen: ${userData.yen.toFixed(2)} ¥ 
-       Exp: ${userData.exp}/${2500}
+       Exp: ${userData.exp}/${2500} 
        Level: ${userData.level} 
        Progress: ${progressBar} (${expProgress}%) 
-     api.sendMessage(message, event.threadID);
+       Terakhir Update: ${global.Ayanokoji.tanggal} ${global.Ayanokoji.waktu}`;
+      api.sendMessage(message, event.threadID);
     } catch (error) {
-      console.error("Error di command status:", err.message);
+      console.error("Error di command status:", error);
       api.sendMessage("❌ Gagal mengambil data status", event.threadID);
     }
   }
