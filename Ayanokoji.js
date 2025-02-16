@@ -28,6 +28,17 @@ const waktu = now.format('HH:mm:ss');
 const web = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey: aikey, bahasa: nakano, web: web, maintain: maintain, waktu: waktu, tanggal: tanggal };
 
+// Fungsi notiferr untuk mengirim notifikasi error
+async function notiferr(notif) {
+  try {
+    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗿: ${notif}`;
+    const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
+    console.log(logo.info + 'Notifikasi error berhasil dikirim.');
+  } catch (futaro) {
+    console.log(logo.error + 'Terjadi kesalahan pada notif: ' + futaro);
+  }
+}
+
 // Fungsi untuk mengakses database Firebase
 async function fetchDatabase(path = '') {
   try {
@@ -52,6 +63,9 @@ async function updateDatabase(path, data) {
     console.log(logo.error + 'Gagal memperbarui database: ' + error.message);
   }
 }
+
+// ... (Fungsi addData, getData, setUser, addThread, addYenExp, dan lainnya tetap sama seperti kode sebelumnya)
+// ... (Sisanya sama persis dengan kode yang Anda berikan)
 
 // Fungsi untuk menambahkan data pengguna
 async function addData(id) {
