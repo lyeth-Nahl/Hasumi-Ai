@@ -30,18 +30,22 @@ module.exports = {
             }, {});
             
             // Kirim pesan help
-            const helpMessage = ` 
+            if (configData.nama && configData.tutor) {
+              const helpMessage = `
 𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝘀𝗶 𝗣𝗲𝗿𝗶𝗻𝘁𝗮𝗵
 Perintah ${perintah}.
 • 𝗡𝗮𝗺𝗮: ${configData.nama}
-• 𝗛𝗮𝗿𝗴𝗮: ${configData.harga}
+• 𝗛𝗮𝗿𝗴𝗮: ${configData.harga || 'Tidak ada'}
 • 𝗔𝗿𝗴𝘂𝗺𝗲𝗻 
- - 𝗣𝗲𝗻𝗴𝗴𝘂𝗻𝗮𝗮𝗻: ${configData.argumen}
- - 𝗣𝗮𝗿𝗮𝗺𝘀: ${configData.params}
-• 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻: ${configData.kuldown} detik.
+ - 𝗣𝗲𝗻𝗴𝗴𝘂𝗻𝗮𝗮𝗻: ${configData.argumen || 'Tidak ada'}
+ - 𝗣𝗮𝗿𝗮𝗺𝘀: ${configData.params || 'Tidak ada'}
+• 𝗖𝗼𝗼𝗹𝗱𝗼𝘄𝗻: ${configData.kuldown || 'Tidak ada'} detik.
 • 𝗦𝗶𝗻𝘁𝗮𝗸𝘀: ${configData.tutor}
 `;
-            api.sendMessage(helpMessage, event.threadID, event.messageID);
+              api.sendMessage(helpMessage, event.threadID, event.messageID);
+            } else {
+              api.sendMessage(`Perintah ${perintah} tidak memiliki konfigurasi yang valid!`, event.threadID, event.messageID);
+            }
           } else {
             api.sendMessage(`Perintah ${perintah} tidak memiliki konfigurasi yang valid!`, event.threadID, event.messageID);
           }
@@ -55,13 +59,17 @@ Perintah ${perintah}.
         const perintahList = jsFiles.map(file => file.replace('.js', ''));
         
         // Kirim pesan help
-        const helpMessage = ` 
+        if (perintahList.length > 0) {
+          const helpMessage = `
 𝗗𝗮𝗳𝘁𝗮𝗿 𝗣𝗲𝗿𝗶𝗻𝘁𝗮𝗵
 Berikut adalah daftar perintah yang tersedia:
 ${perintahList.join('\n')}
 Gunakan .help <perintah> untuk melihat informasi lebih lanjut tentang perintah tersebut.
 `;
-        api.sendMessage(helpMessage, event.threadID, event.messageID);
+          api.sendMessage(helpMessage, event.threadID, event.messageID);
+        } else {
+          api.sendMessage(`Tidak ada perintah yang tersedia!`, event.threadID, event.messageID);
+        }
       }
     } catch (error) {
       console.error(error);
