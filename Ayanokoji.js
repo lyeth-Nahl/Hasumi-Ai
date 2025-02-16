@@ -17,11 +17,7 @@ const now = moment.tz(kiyotaka.zonawaktu);
 
 // Inisialisasi global.Ayanokoji
 global.Ayanokoji = {
-  logo: {
-    error: "[ERROR] ",
-    success: "[SUCCESS] ",
-    info: "[INFO] "
-  },
+  logo: logo, // Menggunakan logo dari modul hady-zen/log
   awalan: kiyotaka.awalan,
   nama: kiyotaka.nama,
   admin: kiyotaka.admin,
@@ -60,6 +56,156 @@ function simpanThread() {
             console.log(global.Ayanokoji.logo.error + "Terjadi kesalahan pada database thread: ", err);
         }
     });
+}
+
+// Fungsi untuk menambahkan user baru
+function addData(id) {
+    if (!data[id]) {
+        data[id] = { "nama": "Kiyopon User", "yen": 0, "exp": 0, "level": 1, "daily": null, "banned": false };
+        console.log(global.Ayanokoji.logo.info + `${id} pengguna baru.`);
+        simpan();
+    }
+}
+
+// Fungsi untuk menambahkan thread baru
+function addThread(threadID, namaThread = "Thread Tanpa Nama") {
+    if (!threadData[threadID]) {
+        threadData[threadID] = {
+            nama: namaThread,
+            yen: 0,
+            exp: 0,
+            level: 1,
+            pengaturan: {
+                welcome: true,
+                antiSpam: false
+            },
+            banned: false,
+            registered: false,
+            registeredBy: null
+        };
+        simpanThread();
+        console.log(global.Ayanokoji.logo.info + `Thread ${threadID} (${namaThread}) ditambahkan.`);
+    }
+}
+
+// Fungsi untuk memblokir user
+function banUser(userID) {
+    if (data[userID]) {
+        data[userID].banned = true;
+        simpan();
+        console.log(global.Ayanokoji.logo.info + `User ${userID} dibanned.`);
+        return true;
+    } else {
+        console.log(global.Ayanokoji.logo.error + `User ${userID} tidak ditemukan.`);
+        return false;
+    }
+}
+
+// Fungsi untuk membuka blokir user
+function unbanUser(userID) {
+    if (data[userID]) {
+        data[userID].banned = false;
+        simpan();
+        console.log(global.Ayanokoji.logo.info + `User ${userID} diunban.`);
+    } else {
+        console.log(global.Ayanokoji.logo.error + `User ${userID} tidak ditemukan.`);
+    }
+}
+
+// Fungsi untuk memblokir thread
+function banThread(threadID) {
+    if (threadData[threadID]) {
+        threadData[threadID].banned = true;
+        simpanThread();
+        console.log(global.Ayanokoji.logo.info + `Thread ${threadID} dibanned.`);
+        return true;
+    } else {
+        console.log(global.Ayanokoji.logo.error + `Thread ${threadID} tidak ditemukan.`);
+        return false;
+    }
+}
+
+// Fungsi untuk membuka blokir thread
+function unbanThread(threadID) {
+    if (threadData[threadID]) {
+        threadData[threadID].banned = false;
+        simpanThread();
+        console.log(global.Ayanokoji.logo.info + `Thread ${threadID} diunban.`);
+    } else {
+        console.log(global.Ayanokoji.logo.error + `Thread ${threadID} tidak ditemukan.`);
+    }
+}
+
+// Fungsi untuk mengecek apakah user atau thread dibanned
+function isBanned(id, type = "user") {
+    if (type === "user") {
+        return data[id]?.banned === true;
+    } else if (type === "thread") {
+        return threadData[id]?.banned === true;
+    }
+    return false;
+}
+
+// Fungsi untuk mendaftarkan thread
+function registerThread(threadID, adminID) {
+    if (kiyotaka.admin.includes(adminID)) { // Cek apakah pengguna adalah admin
+        if (threadData[threadID]) {
+            if (!threadData[threadID].registered) {
+                threadData[threadID].registered = true;
+                threadData[threadID].registeredBy = adminID;
+                simpanThread();
+                console.log(global.Ayanokoji.logo.info + `Thread ${threadID} berhasil didaftarkan oleh admin ${adminID}.`);
+                return true;
+            } else {
+                console.log(global.Ayanokoji.logo.error + `Thread ${threadID} sudah terdaftar.`);
+                return false;
+            }
+        } else {
+            console.log(global.Ayanokoji.logo.error + `Thread ${threadID} tidak ditemukan.`);
+            return false;
+        }
+    } else {
+        console.log(global.Ayanokoji.logo.error + `User ${adminID} tidak memiliki izin untuk mendaftarkan thread.`);
+        return false;
+    }
+}
+
+// Fungsi untuk mencari user berdasarkan nama
+function searchUser(query) {
+    const results = [];
+    for (const [id, user] of Object.entries(data)) {
+        if (user.nama.toLowerCase().includes(query.toLowerCase())) {
+            results.push({ id, nama: user.nama });
+        }
+    }
+    return results;
+}
+
+// Fungsi untuk mencari thread berdasarkan nama
+function searchThread(query) {
+    const results = [];
+    for (const [id, thread] of Object.entries(threadData)) {
+        if (thread.nama.toLowerCase().includes(query.toLowerCase())) {
+            results.push({ id, nama: thread.nama });
+        }
+    }
+    return results;
+}
+
+// Fungsi untuk mendapatkan informasi user berdasarkan ID
+function getUserInfo(userID) {
+    if (data[userID]) {
+        return {
+            id: userID,
+            nama: data[userID].nama,
+            yen: data[userID].yen,
+            exp: data[userID].exp,
+            level: data[userID].level,
+            banned: data[userID].banned
+        };
+    } else {
+        return null;
+    }
 }
 
 // Proses login
