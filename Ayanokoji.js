@@ -31,7 +31,7 @@ global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey
 // Fungsi notiferr untuk mengirim notifikasi error
 async function notiferr(notif) {
   try {
-    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗿: ${notif}`;
+    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗋: ${notif}`;
     const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
     console.log(logo.info + 'Notifikasi error berhasil dikirim.');
   } catch (futaro) {
@@ -64,9 +64,6 @@ async function updateDatabase(path, data) {
   }
 }
 
-// ... (Fungsi addData, getData, setUser, addThread, addYenExp, dan lainnya tetap sama seperti kode sebelumnya)
-// ... (Sisanya sama persis dengan kode yang Anda berikan)
-
 // Fungsi untuk menambahkan data pengguna
 async function addData(id) {
   const db = await fetchDatabase('users');
@@ -77,9 +74,10 @@ async function addData(id) {
       exp: 0,
       level: 1,
       daily: null,
-      id: Object.keys(db).length + 1 // ID Custom
+      id: Object.keys(db).length + 1, // ID Custom
+      banned: false // Default: user tidak diban
     };
-    await updateDatabase(`users/${id}`, newUser); // Simpan data baru ke path spesifik
+    await updateDatabase(`users/${id}`, newUser); // Simpan data baru ke Firebase
     console.log(ayanokoji('database') + `Pengguna baru ditambahkan: ${id}`);
   } else {
     console.log(ayanokoji('database') + `Pengguna ${id} sudah terdaftar.`);
@@ -95,7 +93,8 @@ async function getData(id) {
     exp: 0,
     level: 1,
     daily: null,
-    id: Object.keys(db).length + 1 // ID Custom
+    id: Object.keys(db).length + 1, // ID Custom
+    banned: false // Default: user tidak diban
   };
 
   // Validasi data
@@ -107,56 +106,101 @@ async function getData(id) {
   return userData;
 }
 
-// Fungsi untuk mengupdate data pengguna
-async function setUser(id, item, baru) {
-  const db = await fetchDatabase('users');
-  if (!db[id]) {
-    console.log(ayanokoji('database') + `User ${id} tidak ditemukan.`);
-    return;
-  }
-
-  // Validasi item yang diupdate
-  if (item === "nama" || item === "daily") {
-    db[id][item] = baru;
-  } else if (item === "yen" || item === "exp" || item === "level") {
-    if (typeof baru === 'number') {
-      db[id][item] = baru;
-    } else {
-      console.log(ayanokoji('database') + 'Nilai untuk ' + item + ' harus berupa angka.');
-      return;
-    }
-  } else {
-    console.log(ayanokoji('database') + 'Item tidak valid: ' + item);
-    return;
-  }
-
-  await updateDatabase(`users/${id}`, db[id]); // Simpan perubahan ke path spesifik
-  console.log(ayanokoji('database') + `Data pengguna ${id} berhasil diperbarui.`);
-}
-
 // Fungsi untuk menambahkan data thread/grup
 async function addThread(threadID, adminID) {
-  const db = await fetchDatabase('threads');
-  if (!db[threadID]) {
-    const newThread = {
-      id: Object.keys(db).length + 1, // ID Custom
-      admin: adminID,
-      registered: true
-    };
-    await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke path spesifik
-    console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
-  } else {
-    console.log(ayanokoji('database') + `Thread ${threadID} sudah terdaftar.`);
+  try {
+    const db = await fetchDatabase('threads');
+
+    // Jika thread belum terdaftar, buat data baru
+    if (!db[threadID]) {
+      const newThread = {
+        id: Object.keys(db).length + 1, // ID Custom
+        admin: adminID,
+        registered: true
+      };
+      await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke Firebase
+      console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
+    } else {
+      console.log(ayanokoji('database') + `Thread ${threadID} sudah terdaftar.`);
+    }
+  } catch (error) {
+    console.error("Gagal menambahkan thread:", error);
+  }
+}
+
+// Fungsi untuk unregist thread
+async function unregistThread(threadID) {
+  try {
+    const db = await fetchDatabase('threads');
+    
+    // Jika thread terdaftar, hapus dari database
+    if (db[threadID]) {
+      await updateDatabase(`threads/${threadID}`, null); // Hapus data thread
+      console.log(ayanokoji('database') + `Thread ${threadID} berhasil di-unregist.`);
+      return true;
+    } else {
+      console.log(ayanokoji('database') + `Thread ${threadID} tidak terdaftar.`);
+      return false;
+    }
+  } catch (error) {
+    console.error("Gagal unregist thread:", error);
+    return false;
+  }
+}
+
+// Fungsi untuk mem-ban user
+async function banUser(userID) {
+  try {
+    const db = await fetchDatabase('users');
+
+    // Jika user ditemukan, tandai sebagai banned
+    if (db[userID]) {
+      db[userID].banned = true;
+      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
+      console.log(ayanokoji('database') + `User ${userID} telah diban.`);
+      return true;
+    } else {
+      console.log(ayanokoji('database') + `User ${userID} tidak ditemukan.`);
+      return false;
+    }
+  } catch (error) {
+    console.error("Gagal mem-ban user:", error);
+    return false;
+  }
+}
+
+// Fungsi untuk unban user
+async function unbanUser(userID) {
+  try {
+    const db = await fetchDatabase('users');
+
+    // Jika user ditemukan, hapus status banned
+    if (db[userID]) {
+      db[userID].banned = false;
+      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
+      console.log(ayanokoji('database') + `User ${userID} berhasil di-unban.`);
+      return true;
+    } else {
+      console.log(ayanokoji('database') + `User ${userID} tidak ditemukan.`);
+      return false;
+    }
+  } catch (error) {
+    console.error("Gagal unban user:", error);
+    return false;
   }
 }
 
 // Fungsi untuk mengecek apakah thread/grup sudah terdaftar
 async function isThreadRegistered(threadID) {
-  const db = await fetchDatabase('threads');
-  return db[threadID] && db[threadID].registered;
+  try {
+    const db = await fetchDatabase('threads');
+    return db[threadID] && db[threadID].registered;
+  } catch (error) {
+    console.error("Gagal mengecek status thread:", error);
+    return false;
+  }
 }
 
-// Fungsi untuk menambahkan yen dan exp
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
   try {
@@ -192,6 +236,7 @@ async function addYenExp(senderID, message) {
     console.error("Gagal menambahkan yen dan exp:", error);
   }
 }
+
 // Fungsi untuk mengecek spam
 const spamCount = {};
 function checkSpam(senderID) {
@@ -207,25 +252,6 @@ function checkSpam(senderID) {
   }, 60000); // Reset spam count setiap 1 menit
 
   return false;
-}
-
-// Fungsi untuk ban user atau thread
-async function banUser(userID) {
-  const db = await fetchDatabase('users');
-  if (db[userID]) {
-    db[userID].banned = true;
-    await updateDatabase(`users/${userID}`, db[userID]);
-    console.log(ayanokoji('database') + `User ${userID} telah diban.`);
-  }
-}
-
-async function banThread(threadID) {
-  const db = await fetchDatabase('threads');
-  if (db[threadID]) {
-    db[threadID].banned = true;
-    await updateDatabase(`threads/${threadID}`, db[threadID]);
-    console.log(ayanokoji('database') + `Thread ${threadID} telah diban.`);
-  }
 }
 
 // Fungsi getStream
@@ -299,60 +325,33 @@ if (err) {
   process.exit();
 }
 const body = event.body;
-if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return; 
-  addData(event.senderID);
-  await addYenExp(event.senderID, body);
-if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
-if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
-   const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
-	   
-async function hady_cmd(cmd, api, event) {
-  const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
-  const args = pipi?.split(' ');
 
-  try {
-    const skibidi = await new Promise((resolve, reject) => {
-      api.getThreadInfo(event.threadID, (err, info) => {
-        if (err) reject(err);
-        else resolve(info);
-      });
-    });
+// Jika pesan tidak valid atau bot dalam mode maintain, abaikan
+if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
 
-    const fitri = skibidi.adminIDs.map(admin => admin.id);
-    const files = fs.readdirSync(path.join(__dirname, '/perintah'));
-
-    for (const file of files) {
-      if (file.endsWith('.js')) {
-        const anime = path.join(path.join(__dirname, '/perintah'), file);
-        const { hady, Ayanokoji, bahasa } = require(anime);
-
-        if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
-          console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
-          const bhs = function(veng) { return bahasa[nakano][veng]; };
-
-          if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
-            if (hady.peran == 0 || !hady.peran) {
-              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
-              return;
-            }
-            if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
-              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
-              return;
-            } else {
-              api.setMessageReaction("❗", event.messageID);
-            }
-          } else {
-            api.setMessageReaction('⌛', event.messageID);
-          }
-        }
-      }
-    }
-  } catch (error) {
-    notiferr(`Perintah error: ${error.message}`);
-    console.log(logo.error + 'Perintah error: ' + error.message);
+// Cek apakah thread sudah terdaftar
+if (event.isGroup) {
+  const isRegistered = await isThreadRegistered(event.threadID);
+  if (!isRegistered) {
+    return api.sendMessage("", event.threadID);
   }
 }
- hady_cmd(cmd, api, event);
+
+// Cek apakah user diban
+const userData = await getData(event.senderID);
+if (userData?.banned) {
+  return api.sendMessage("❌ Anda telah diban dari menggunakan bot ini.", event.threadID);
+}
+
+// Lanjutkan ke penanganan perintah lainnya
+addData(event.senderID);
+await addYenExp(event.senderID, body);
+
+if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
+if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
+
+const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
+hady_cmd(cmd, api, event);
  });
 });
 
