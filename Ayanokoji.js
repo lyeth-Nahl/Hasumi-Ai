@@ -32,29 +32,24 @@ global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey
 async function fetchDatabase(path = '') {
   try {
     const response = await axios.get(`${FIREBASE_DB_URL}${path}.json?auth=${FIREBASE_AUTH_KEY}`);
-    return response.data || {};
+    if (!response.data) {
+      console.log(logo.error + 'Data tidak ditemukan di path: ' + path);
+      return {};
+    }
+    return response.data;
   } catch (error) {
     console.log(logo.error + 'Gagal mengambil data dari database: ' + error.message);
     return {};
   }
 }
 
+// Fungsi untuk menyimpan data ke Firebase
 async function updateDatabase(path, data) {
   try {
     await axios.put(`${FIREBASE_DB_URL}${path}.json?auth=${FIREBASE_AUTH_KEY}`, data);
+    console.log(ayanokoji('database') + `Data berhasil diperbarui di path: ${path}`);
   } catch (error) {
     console.log(logo.error + 'Gagal memperbarui database: ' + error.message);
-  }
-}
-
-// Fungsi notiferr
-async function notiferr(notif) {
-  try {
-    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗋: ${notif}`;
-    const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
-    console.log(logo.info + 'Notifikasi error berhasil dikirim.');
-  } catch (futaro) {
-    console.log(logo.error + 'Terjadi kesalahan pada notif: ' + futaro);
   }
 }
 
@@ -62,7 +57,7 @@ async function notiferr(notif) {
 async function addData(id) {
   const db = await fetchDatabase('users');
   if (!db[id]) {
-    db[id] = {
+    const newUser = {
       nama: "Kiyopon User",
       yen: 0,
       exp: 0,
@@ -70,15 +65,17 @@ async function addData(id) {
       daily: null,
       id: Object.keys(db).length + 1 // ID Custom
     };
-    await updateDatabase('users', db);
-    console.log(ayanokoji('database') + `${id} pengguna baru.`);
+    await updateDatabase(`users/${id}`, newUser); // Simpan data baru ke path spesifik
+    console.log(ayanokoji('database') + `Pengguna baru ditambahkan: ${id}`);
+  } else {
+    console.log(ayanokoji('database') + `Pengguna ${id} sudah terdaftar.`);
   }
 }
 
 // Fungsi untuk mendapatkan data pengguna
 async function getData(id) {
   const db = await fetchDatabase('users');
-  return db[id] || {
+  const userData = db[id] || {
     nama: "Kiyopon User",
     yen: 0,
     exp: 0,
@@ -86,6 +83,14 @@ async function getData(id) {
     daily: null,
     id: Object.keys(db).length + 1 // ID Custom
   };
+
+  // Validasi data
+  if (typeof userData.yen !== 'number' || typeof userData.exp !== 'number' || typeof userData.level !== 'number') {
+    console.error("Data pengguna tidak valid:", userData);
+    return null;
+  }
+
+  return userData;
 }
 
 // Fungsi untuk mengupdate data pengguna
@@ -96,6 +101,7 @@ async function setUser(id, item, baru) {
     return;
   }
 
+  // Validasi item yang diupdate
   if (item === "nama" || item === "daily") {
     db[id][item] = baru;
   } else if (item === "yen" || item === "exp" || item === "level") {
@@ -105,23 +111,28 @@ async function setUser(id, item, baru) {
       console.log(ayanokoji('database') + 'Nilai untuk ' + item + ' harus berupa angka.');
       return;
     }
+  } else {
+    console.log(ayanokoji('database') + 'Item tidak valid: ' + item);
+    return;
   }
 
-  await updateDatabase('users', db);
-  console.log(ayanokoji('database') + 'Pembaruan berhasil.');
+  await updateDatabase(`users/${id}`, db[id]); // Simpan perubahan ke path spesifik
+  console.log(ayanokoji('database') + `Data pengguna ${id} berhasil diperbarui.`);
 }
 
 // Fungsi untuk menambahkan data thread/grup
 async function addThread(threadID, adminID) {
   const db = await fetchDatabase('threads');
   if (!db[threadID]) {
-    db[threadID] = {
+    const newThread = {
       id: Object.keys(db).length + 1, // ID Custom
       admin: adminID,
       registered: true
     };
-    await updateDatabase('threads', db);
+    await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke path spesifik
     console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
+  } else {
+    console.log(ayanokoji('database') + `Thread ${threadID} sudah terdaftar.`);
   }
 }
 
@@ -165,7 +176,7 @@ async function addYenExp(senderID, message) {
   }
 
   // Simpan perubahan ke database
-  await updateDatabase('users', db);
+  await updateDatabase(`users/${senderID}`, db[senderID]);
   console.log(ayanokoji('database') + `Yen dan Exp berhasil ditambahkan untuk user ${senderID}.`);
 }
 
@@ -191,7 +202,7 @@ async function banUser(userID) {
   const db = await fetchDatabase('users');
   if (db[userID]) {
     db[userID].banned = true;
-    await updateDatabase('users', db);
+    await updateDatabase(`users/${userID}`, db[userID]);
     console.log(ayanokoji('database') + `User ${userID} telah diban.`);
   }
 }
@@ -200,7 +211,7 @@ async function banThread(threadID) {
   const db = await fetchDatabase('threads');
   if (db[threadID]) {
     db[threadID].banned = true;
-    await updateDatabase('threads', db);
+    await updateDatabase(`threads/${threadID}`, db[threadID]);
     console.log(ayanokoji('database') + `Thread ${threadID} telah diban.`);
   }
 }
