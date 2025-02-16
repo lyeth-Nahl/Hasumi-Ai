@@ -16,7 +16,7 @@ const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
 
 // Konfigurasi Firebase Realtime Database
-const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/users.json";
+const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
 const FIREBASE_AUTH_KEY = "API_KEY_KAMU"; // Ganti dengan API key Firebase kamu
 
 process.on('unhandledRejection', error => console.log(logo.error + error));
