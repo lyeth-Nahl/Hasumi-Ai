@@ -334,7 +334,7 @@ login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
     if (event.isGroup) {
       const isRegistered = await isThreadRegistered(event.threadID);
       if (!isRegistered) {
-        return api.sendMessage("❌ Thread ini belum diregistrasi. Gunakan perintah `!regist` untuk mendaftarkan thread.", event.threadID);
+        return console.log("❌ Thread ini belum diregistrasi. Gunakan perintah `!regist` untuk mendaftarkan thread.");
       }
     }
 
@@ -397,7 +397,7 @@ login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
         }
       } catch (error) {
         notiferr(`Perintah error: ${error.message}`);
-        api.send(logo.error + 'Perintah error: ' + error.message, event.ThreadID);
+        api.sendMessage(logo.error + 'Perintah error: ' + error.message, event.ThreadID);
       }
     }
 
@@ -411,4 +411,26 @@ app.get('/', (req, res) => {
  res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#ayanokoji.html'));
 });
 app.get('/laporan', (req, res) => { 
- res
+ res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyopon.html'));
+});
+app.get('/ayanokoji', async (req, res) => {
+  const text = req.query.pesan || 'hai';
+
+  try {
+    const data = {
+      contents: [{ parts: [{ text: text }] }]
+    };
+    const response = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${aikey}`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const ayanokoji = response.data.candidates[0].content.parts[0].text;
+    res.json({ pembuat: "Hady Zen", ayanokoji });
+  } catch (error) {
+    res.json({ error: 'Maaf ada kesalahan: ' + error.message });
+  }
+});
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyotaka.html'));
+});
