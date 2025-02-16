@@ -360,13 +360,35 @@ const hady_cmd = async (cmd, api, event) => {
     const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
     const args = pipi?.split(' ');
     
-    // ...
-    
-    // Panggil hady_cmd
-    hady_cmd(cmd, api, event);
+    const files = fs.readdirSync(path.join(__dirname, '/perintah'));
+    for (const file of files) {
+      if (file.endsWith('.js')) {
+        const anime = path.join(path.join(__dirname, '/perintah'), file);
+        const { hady, Ayanokoji, bahasa } = require(anime);
+        if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
+          console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
+          const bhs = function(veng) { return bahasa[nakano][veng]; };
+          if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
+            if (hady.peran == 0 || !hady.peran) {
+              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              return;
+            }
+            if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
+              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              return;
+            } else {
+              api.setMessageReaction("", event.messageID);
+            }
+          } else {
+            api.setMessageReaction('⌛', event.messageID);
+          }
+        }
+      }
+    }
   } catch (error) {
-    notiferr(`Perintah error: ${error.message}`);
-    api.sendMessage(logo.error + 'Perintah error: ' + error.message, event.ThreadID);
+    console.log(logo.error + 'Error dalam fungsi hady_cmd: ' + error.message);
+    notiferr(`Error dalam fungsi hady_cmd: ${error.message}`);
+    api.sendMessage(logo.error + 'Error dalam fungsi hady_cmd: ' + error.message, event.ThreadID);
   }
 };
 
