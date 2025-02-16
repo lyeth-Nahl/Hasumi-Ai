@@ -31,7 +31,7 @@ global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey
 // Fungsi notiferr untuk mengirim notifikasi error
 async function notiferr(notif) {
   try {
-    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗋: ${notif}`;
+    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗋𝗈𝗋: ${notif}`;
     const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
     console.log(logo.info + 'Notifikasi error berhasil dikirim.');
   } catch (futaro) {
@@ -74,10 +74,9 @@ async function addData(id) {
       exp: 0,
       level: 1,
       daily: null,
-      id: Object.keys(db).length + 1, // ID Custom
-      banned: false // Default: user tidak diban
+      id: Object.keys(db).length + 1 // ID Custom
     };
-    await updateDatabase(`users/${id}`, newUser); // Simpan data baru ke Firebase
+    await updateDatabase(`users/${id}`, newUser); // Simpan data baru ke path spesifik
     console.log(ayanokoji('database') + `Pengguna baru ditambahkan: ${id}`);
   } else {
     console.log(ayanokoji('database') + `Pengguna ${id} sudah terdaftar.`);
@@ -93,8 +92,7 @@ async function getData(id) {
     exp: 0,
     level: 1,
     daily: null,
-    id: Object.keys(db).length + 1, // ID Custom
-    banned: false // Default: user tidak diban
+    id: Object.keys(db).length + 1 // ID Custom
   };
 
   // Validasi data
@@ -106,99 +104,53 @@ async function getData(id) {
   return userData;
 }
 
+// Fungsi untuk mengupdate data pengguna
+async function setUser(id, item, baru) {
+  const db = await fetchDatabase('users');
+  if (!db[id]) {
+    console.log(ayanokoji('database') + `User ${id} tidak ditemukan.`);
+    return;
+  }
+
+  // Validasi item yang diupdate
+  if (item === "nama" || item === "daily") {
+    db[id][item] = baru;
+  } else if (item === "yen" || item === "exp" || item === "level") {
+    if (typeof baru === 'number') {
+      db[id][item] = baru;
+    } else {
+      console.log(ayanokoji('database') + 'Nilai untuk ' + item + ' harus berupa angka.');
+      return;
+    }
+  } else {
+    console.log(ayanokoji('database') + 'Item tidak valid: ' + item);
+    return;
+  }
+
+  await updateDatabase(`users/${id}`, db[id]); // Simpan perubahan ke path spesifik
+  console.log(ayanokoji('database') + `Data pengguna ${id} berhasil diperbarui.`);
+}
+
 // Fungsi untuk menambahkan data thread/grup
 async function addThread(threadID, adminID) {
-  try {
-    const db = await fetchDatabase('threads');
-
-    // Jika thread belum terdaftar, buat data baru
-    if (!db[threadID]) {
-      const newThread = {
-        id: Object.keys(db).length + 1, // ID Custom
-        admin: adminID,
-        registered: true
-      };
-      await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke Firebase
-      console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
-    } else {
-      console.log(ayanokoji('database') + `Thread ${threadID} sudah terdaftar.`);
-    }
-  } catch (error) {
-    console.error("Gagal menambahkan thread:", error);
-  }
-}
-
-// Fungsi untuk unregist thread
-async function unregistThread(threadID) {
-  try {
-    const db = await fetchDatabase('threads');
-    
-    // Jika thread terdaftar, hapus dari database
-    if (db[threadID]) {
-      await updateDatabase(`threads/${threadID}`, null); // Hapus data thread
-      console.log(ayanokoji('database') + `Thread ${threadID} berhasil di-unregist.`);
-      return true;
-    } else {
-      console.log(ayanokoji('database') + `Thread ${threadID} tidak terdaftar.`);
-      return false;
-    }
-  } catch (error) {
-    console.error("Gagal unregist thread:", error);
-    return false;
-  }
-}
-
-// Fungsi untuk mem-ban user
-async function banUser(userID) {
-  try {
-    const db = await fetchDatabase('users');
-
-    // Jika user ditemukan, tandai sebagai banned
-    if (db[userID]) {
-      db[userID].banned = true;
-      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
-      console.log(ayanokoji('database') + `User ${userID} telah diban.`);
-      return true;
-    } else {
-      console.log(ayanokoji('database') + `User ${userID} tidak ditemukan.`);
-      return false;
-    }
-  } catch (error) {
-    console.error("Gagal mem-ban user:", error);
-    return false;
-  }
-}
-
-// Fungsi untuk unban user
-async function unbanUser(userID) {
-  try {
-    const db = await fetchDatabase('users');
-
-    // Jika user ditemukan, hapus status banned
-    if (db[userID]) {
-      db[userID].banned = false;
-      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
-      console.log(ayanokoji('database') + `User ${userID} berhasil di-unban.`);
-      return true;
-    } else {
-      console.log(ayanokoji('database') + `User ${userID} tidak ditemukan.`);
-      return false;
-    }
-  } catch (error) {
-    console.error("Gagal unban user:", error);
-    return false;
+  const db = await fetchDatabase('threads');
+  if (!db[threadID]) {
+    const newThread = {
+      id: Object.keys(db).length + 1, // ID Custom
+      admin: adminID,
+      registered: true
+    };
+    await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke path spesifik
+    console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
+  } else {
+    console.log(ayanokoji('database') + `Thread ${threadID} sudah terdaftar.`);
   }
 }
 
 // Fungsi untuk mengecek apakah thread/grup sudah terdaftar
 async function isThreadRegistered(threadID) {
-  try {
-    const db = await fetchDatabase('threads');
-    return db[threadID] && db[threadID].registered;
-  } catch (error) {
-    console.error("Gagal mengecek status thread:", error);
-    return false;
-  }
+  const db = await fetchDatabase('threads');
+  return db[threadID] && db[threadID].registered;
 }
 
 // Fungsi untuk menambahkan yen dan exp
@@ -254,6 +206,25 @@ function checkSpam(senderID) {
   return false;
 }
 
+// Fungsi untuk ban user atau thread
+async function banUser(userID) {
+  const db = await fetchDatabase('users');
+  if (db[userID]) {
+    db[userID].banned = true;
+    await updateDatabase(`users/${userID}`, db[userID]);
+    console.log(ayanokoji('database') + `User ${userID} telah diban.`);
+  }
+}
+
+async function banThread(threadID) {
+  const db = await fetchDatabase('threads');
+  if (db[threadID]) {
+    db[threadID].banned = true;
+    await updateDatabase(`threads/${threadID}`, db[threadID]);
+    console.log(ayanokoji('database') + `Thread ${threadID} telah diban.`);
+  }
+}
+
 // Fungsi getStream
 async function getStream(url, filename) {
   try {
@@ -270,98 +241,90 @@ async function getStream(url, filename) {
   }
 }
 
-// (Login, command handling, dan Express server tetap sama seperti sebelumnya)
-async function loadC() {
-  fs.readFileSync('kiyotaka.json')
-};
+// Fungsi hady_cmd untuk menangani perintah
+async function hady_cmd(cmd, api, event, body) {
+  const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
+  const args = pipi?.split(' ');
 
-console.log(kiyopon);
-setInterval(function() { loadC(); }, 1000);
-cron.schedule('0 */4 * * *', () => {
-  console.clear();
-  process.exit();
-  const child = spawn("refresh", {
-        cwd: __dirname,
-        stdio: "inherit",
-        shell: true
-});
-    child.on('error', (err) => {
-    console.log(logo.error + 'Ada error pada autorest: ', err);
-});
-    child.on('exit', (code) => {
-      if (code === 0) {
-    console.log(ayanokoji('restar') + nama + ' berhasil dimulai ulang.');
-       } else {
-    console.log(logo.error + nama + ' gagal dimulai ulang: ', code);
-  }
- });
-});
-console.log(ayanokoji('versi') + `${version}.`);
-console.log(ayanokoji('awalan') + `${awalan}`);
-console.log(ayanokoji('bahasa') + `${nakano}.`);
-console.log(ayanokoji('admin') + `${admin}.`);
-console.log(ayanokoji('webview') + `${web}.`);
-fs.readdir('./perintah', (err, files) => { 
- const shadow = files.map(file => path.parse(file).name);
-console.log(ayanokoji('perintah') + `${shadow}.`);
-});
+  try {
+    const skibidi = await new Promise((resolve, reject) => {
+      api.getThreadInfo(event.threadID, (err, info) => {
+        if (err) reject(err);
+        else resolve(info);
+      });
+    });
 
-if (!akun || akun.length < 0 || !JSON.parse(akun)) {
- console.log(logo.error + 'Kamu belum memasukkan cookie.');
- process.exit();
-}
+    const fitri = skibidi.adminIDs.map(admin => admin.id);
+    const files = fs.readdirSync(path.join(__dirname, '/perintah'));
 
-login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
-if (err) { 
-  notiferr(`Terjadi kesalahan saat login: ${err.message || err.error}`);
-  console.log(logo.error + `Terjadi kesalahan saat login: ${err.message || err.error}`);
-  process.exit();
- }
-      
-   api.listenMqtt(async (err, event) => {
-if (err) {
-  notiferr(`${err.message || err.error}`);
-  console.log(logo.error + `${err.message || err.error}`);
-  process.exit();
-}
-const body = event.body;
+    for (const file of files) {
+      if (file.endsWith('.js')) {
+        const anime = path.join(path.join(__dirname, '/perintah'), file);
+        const { hady, Ayanokoji, bahasa } = require(anime);
 
-// Jika pesan tidak valid atau bot dalam mode maintain, abaikan
-if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
+        if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
+          console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
+          const bhs = function(veng) { return bahasa[nakano][veng]; };
 
-// Cek apakah thread sudah terdaftar
-if (event.isGroup) {
-  const isRegistered = await isThreadRegistered(event.threadID);
-  if (!isRegistered) {
-    return api.sendMessage("", event.threadID);
+          if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
+            if (hady.peran == 0 || !hady.peran) {
+              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              return;
+            }
+            if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
+              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              return;
+            } else {
+              api.setMessageReaction("❗", event.messageID);
+            }
+          } else {
+            api.setMessageReaction('⌛', event.messageID);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    notiferr(`Perintah error: ${error.message}`);
+    console.log(logo.error + 'Perintah error: ' + error.message);
   }
 }
 
-// Cek apakah user diban
-const userData = await getData(event.senderID);
-if (userData?.banned) {
-  return api.sendMessage("❌ Anda telah diban dari menggunakan bot ini.", event.threadID);
-}
+// Login dan mulai bot
+login({ appState: JSON.parse(akun, zen) }, setting, (err, api) => {
+  if (err) {
+    notiferr(`Terjadi kesalahan saat login: ${err.message || err.error}`);
+    console.log(logo.error + `Terjadi kesalahan saat login: ${err.message || err.error}`);
+    process.exit();
+  }
 
-// Lanjutkan ke penanganan perintah lainnya
-addData(event.senderID);
-await addYenExp(event.senderID, body);
+  api.listenMqtt(async (err, event) => {
+    if (err) {
+      notiferr(`${err.message || err.error}`);
+      console.log(logo.error + `${err.message || err.error}`);
+      process.exit();
+    }
 
-if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
-if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
+    const body = event.body;
+    if (!body || (global.Ayanokoji.maintain === true && !admin.includes(event.senderID)) || (chatdm === false && event.isGroup == false && !admin.includes(event.senderID))) return;
 
-const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
+    addData(event.senderID);
+    await addYenExp(event.senderID, body);
 
-hady_cmd(cmd, api, event);
- });
+    if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
+    if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
+
+    const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
+    hady_cmd(cmd, api, event, body); // Panggil hady_cmd di sini
+  });
 });
 
+// Server Express
 app.listen(port, () => { });
-app.get('/', (req, res) => { 
- res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#ayanokoji.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#ayanokoji.html'));
 });
-app.get('/laporan', (req, res) => { 
- res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyopon.html'));
+app.get('/laporan', (req, res) => {
+  res.sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyopon.html'));
 });
 app.get('/ayanokoji', async (req, res) => {
   const text = req.query.pesan || 'hai';
