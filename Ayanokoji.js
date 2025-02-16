@@ -14,6 +14,7 @@ const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, noti
 const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
+module.exports = { getStream')
 
 // Konfigurasi Firebase Realtime Database
 const FIREBASE_DB_URL = "https://hasune-69d6d-default-rtdb.firebaseio.com/";
@@ -254,49 +255,51 @@ if (body.toLowerCase() == "prefix") return api.sendMessage(`⚡ Awalan ${nama}: 
 if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
    const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
 	   
- async function hady_cmd(cmd, api, event) {
-    const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
-    const args = pipi?.split(' ');
+async function hady_cmd(cmd, api, event) {
+  const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
+  const args = pipi?.split(' ');
 
-	 try {
-    const skibidi = await new Promise((resolve, reject) => { api.getThreadInfo(event.threadID, (err, info) => { if (err) reject(err); else resolve(info); }); });
+  try {
+    const skibidi = await new Promise((resolve, reject) => {
+      api.getThreadInfo(event.threadID, (err, info) => {
+        if (err) reject(err);
+        else resolve(info);
+      });
+    });
+
     const fitri = skibidi.adminIDs.map(admin => admin.id);
     const files = fs.readdirSync(path.join(__dirname, '/perintah'));
-       for (const file of files) {
-   if (file.endsWith('.js')) {
-    const anime = path.join(path.join(__dirname, '/perintah'), file);
-    const { hady, Ayanokoji, bahasa } = require(anime);
 
-   if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
-  console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
- const bhs = function(veng) { return bahasa[nakano][veng]; };	
-   
-   if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') { 
-	   
-if (hady.peran == 0 || !hady.peran) {
-    await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
-    return;
-}
-if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
-    await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
-    return;
-} else if (hady.peran == 1 && fitri.join(', ').includes(event.senderID) || hady.peran == 0) {
-    await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
-    return;
-} else { 
-    api.setMessageReaction("❗", event.messageID);
-}
+    for (const file of files) {
+      if (file.endsWith('.js')) {
+        const anime = path.join(path.join(__dirname, '/perintah'), file);
+        const { hady, Ayanokoji, bahasa } = require(anime);
 
-  } else {
-   api.setMessageReaction('⌛', event.messageID);
-   }
-  } 
- }
-}
- } catch (error) {
-   notiferr(`Perintah error: ${error.message}`);
-   console.log(logo.error + 'Perintah error: ' + error.message);
- }
+        if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
+          console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
+          const bhs = function(veng) { return bahasa[nakano][veng]; };
+
+          if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
+            if (hady.peran == 0 || !hady.peran) {
+              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              return;
+            }
+            if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
+              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              return;
+            } else {
+              api.setMessageReaction("❗", event.messageID);
+            }
+          } else {
+            api.setMessageReaction('⌛', event.messageID);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    notiferr(`Perintah error: ${error.message}`);
+    console.log(logo.error + 'Perintah error: ' + error.message);
+  }
 }
  hady_cmd(cmd, api, event);
  });
