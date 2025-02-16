@@ -278,7 +278,7 @@ if (err) {
   process.exit();
  }
       
-   api.listenMqtt((err, event) => {
+   api.listenMqtt(async (err, event) => {
 if (err) {
   notiferr(`${err.message || err.error}`);
   console.log(logo.error + `${err.message || err.error}`);
