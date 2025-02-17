@@ -362,13 +362,6 @@ const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
 // Fungsi hady_cmd dipindahkan ke sini
 const hady_cmd = async (cmd, api, event) => {
   try {
-        if (event.isGroup) {
-      try {
-        await addThread(event.threadID, event.senderID);
-      } catch (error) {
-        console.log(logo.error + 'Error saat memanggil addThread: ' + error.message);
-      }
-    }
     const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
     const args = pipi?.split(' ');
     
