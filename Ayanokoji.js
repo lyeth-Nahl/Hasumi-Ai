@@ -133,6 +133,16 @@ async function addThread(threadID, adminID) {
   }
 }
 
+async function isThreadRegistered(threadID) {
+  try {
+    const db = await fetchDatabase('threads');
+    return db[threadID] !== undefined;
+  } catch (error) {
+    console.error("Gagal memeriksa thread terdaftar:", error);
+    return false;
+  }
+}
+
 // Tambahkan pengecekan dan pendaftaran thread jika belum terdaftar
 async function checkThreadRegistration(event) {
   if (event.isGroup) {
@@ -294,6 +304,7 @@ login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
       console.log(logo.error + `${err.message || err.error}`);
       process.exit();
     }
+    });
 
     const body = event.body;
 
@@ -302,6 +313,7 @@ if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderI
 
 // Cek apakah thread sudah terdaftar
 if (event.isGroup) {
+  (async () => {
   const isRegistered = await isThreadRegistered(event.threadID);
   if (!isRegistered) {
     return console.log(" Thread ini belum diregistrasi. Gunakan perintah `!regist` untuk mendaftarkan thread.");
