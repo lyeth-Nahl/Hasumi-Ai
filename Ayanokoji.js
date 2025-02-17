@@ -84,6 +84,11 @@ async function addData(id) {
   }
 }
 
+async function setUser(id, data) {
+
+  await updateDatabase(`users/${id}`, data);
+
+}
 // Fungsi untuk mendapatkan data pengguna
 async function getData(id) {
   const db = await fetchDatabase('users');
