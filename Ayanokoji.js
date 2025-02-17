@@ -133,78 +133,43 @@ async function addThread(threadID, adminID) {
   }
 }
 
-// Fungsi untuk unregist thread
-async function unregistThread(threadID) {
-  try {
-    const db = await fetchDatabase('threads');
-    
-    // Jika thread terdaftar, hapus dari database
-    if (db[threadID]) {
-      await updateDatabase(`threads/${threadID}`, null); // Hapus data thread
-      console.log(ayanokoji('database') + `Thread ${threadID} berhasil di-unregist.`);
-      return true;
-    } else {
-      console.log(ayanokoji('database') + `Thread ${threadID} tidak terdaftar.`);
-      return false;
+// Tambahkan pengecekan dan pendaftaran thread jika belum terdaftar
+async function checkThreadRegistration(event) {
+  if (event.isGroup) {
+    const isRegistered = await isThreadRegistered(event.threadID);
+    if (!isRegistered) {
+      if (admin.includes(event.senderID)) {
+        await addThread(event.threadID, event.senderID);
+      } else {
+        return console.log("Thread ini belum diregistrasi. Hanya admin bot yang dapat mendaftarkannya.");
+      }
     }
-  } catch (error) {
-    console.error("Gagal unregist thread:", error);
-    return false;
   }
 }
 
-// Fungsi untuk mem-ban user
-async function banUser(userID) {
-  try {
-    const db = await fetchDatabase('users');
-
-    // Jika user ditemukan, tandai sebagai banned
-    if (db[userID]) {
-      db[userID].banned = true;
-      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
-      console.log(ayanokoji('database') + `User ${userID} telah diban.`);
-      return true;
-    } else {
-      console.log(ayanokoji('database') + `User ${userID} tidak ditemukan.`);
-      return false;
-    }
-  } catch (error) {
-    console.error("Gagal mem-ban user:", error);
-    return false;
+// Panggil fungsi checkThreadRegistration di dalam event listener
+api.listenMqtt(async (err, event) => {
+  if (err) {
+    notiferr(`${err.message || err.error}`);
+    console.log(logo.error + `${err.message || err.error}`);
+    process.exit();
   }
-}
 
-// Fungsi untuk unban user
-async function unbanUser(userID) {
-  try {
-    const db = await fetchDatabase('users');
+  const body = event.body;
 
-    // Jika user ditemukan, hapus status banned
-    if (db[userID]) {
-      db[userID].banned = false;
-      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
-      console.log(ayanokoji('database') + `User ${userID} berhasil di-unban.`);
-      return true;
-    } else {
-      console.log(ayanokoji('database') + `User ${userID} tidak ditemukan.`);
-      return false;
-    }
-  } catch (error) {
-    console.error("Gagal unban user:", error);
-    return false;
+  // Jika pesan tidak valid atau bot dalam mode maintain, abaikan
+  if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
+
+  await checkThreadRegistration(event);
+
+  // Cek apakah user diban
+  const userData = await getData(event.senderID);
+  if (userData?.banned) {
+    return api.sendMessage(" Anda telah diban dari menggunakan bot ini.", event.threadID);
   }
-}
 
-// Fungsi untuk mengecek apakah thread/grup sudah terdaftar
-async function isThreadRegistered(threadID) {
-  try {
-    const db = await fetchDatabase('threads');
-    return db[threadID] && db[threadID].registered;
-  } catch (error) {
-    console.error("Gagal mengecek status thread:", error);
-    return false;
-  }
-}
+  // Lanjutkan ke penanganan perintah lainnya
+  addData(event.senderID);
 
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
