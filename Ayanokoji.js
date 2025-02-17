@@ -170,7 +170,7 @@ api.listenMqtt(async (err, event) => {
 
   // Lanjutkan ke penanganan perintah lainnya
   addData(event.senderID);
-
+  
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
   try {
