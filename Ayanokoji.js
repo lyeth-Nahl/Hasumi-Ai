@@ -31,7 +31,7 @@ global.Ayanokoji = { awalan: awalan, nama: nama, admin: admin, logo: logo, aikey
 // Fungsi notiferr untuk mengirim notifikasi error
 async function notiferr(notif) {
   try {
-    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗼𝗋: ${notif}`;
+    const oreki = `⚡ 𝗔𝗱𝗮 𝗘𝗿𝗿𝗼𝗿\n\n𝖯𝗋𝗈𝗃𝖾𝗄: ${nama}\n𝖤𝗋𝗿𝗈𝗋: ${notif}`;
     const { data } = await axios.get(`https://api.callmebot.com/facebook/send.php?apikey=${notifkey}&text=${encodeURIComponent(oreki)}`);
     console.log(logo.info + 'Notifikasi error berhasil dikirim.');
   } catch (futaro) {
@@ -85,10 +85,9 @@ async function addData(id) {
 }
 
 async function setUser(id, data) {
-
   await updateDatabase(`users/${id}`, data);
-
 }
+
 // Fungsi untuk mendapatkan data pengguna
 async function getData(id) {
   const db = await fetchDatabase('users');
@@ -375,11 +374,39 @@ const hady_cmd = async (cmd, api, event) => {
           const bhs = function(veng) { return bahasa[nakano][veng]; };
           if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
             if (hady.peran == 0 || !hady.peran) {
-              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              await Ayanokoji({
+                api,
+                event,
+                args,
+                bhs,
+                getStream,
+                loadC,
+                setUser,
+                getData,
+                addThread, // Pastikan fungsi ini diteruskan
+                unregistThread, // Pastikan fungsi ini diteruskan
+                banUser, // Pastikan fungsi ini diteruskan
+                unbanUser, // Pastikan fungsi ini diteruskan
+                isThreadRegistered // Pastikan fungsi ini diteruskan
+              });
               return;
             }
             if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
-              await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData });
+              await Ayanokoji({
+                api,
+                event,
+                args,
+                bhs,
+                getStream,
+                loadC,
+                setUser,
+                getData,
+                addThread, // Pastikan fungsi ini diteruskan
+                unregistThread, // Pastikan fungsi ini diteruskan
+                banUser, // Pastikan fungsi ini diteruskan
+                unbanUser, // Pastikan fungsi ini diteruskan
+                isThreadRegistered // Pastikan fungsi ini diteruskan
+              });
               return;
             } else {
               api.setMessageReaction("", event.messageID);
@@ -426,7 +453,7 @@ app.get('/ayanokoji', async (req, res) => {
   } catch (error) {
     res.json({ error: 'Maaf ada kesalahan: ' + error.message });
   }
-});
+} );
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, 'hady-zen', 'kiyotaka', '#kiyotaka.html'));
 });
