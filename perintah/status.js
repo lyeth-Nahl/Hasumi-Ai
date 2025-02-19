@@ -14,13 +14,13 @@ module.exports = {
       }
       // Format pesan
       const message = `
-╭━━━[ STATUS ]
-╰╮Nama: ${userData.nama}
-╭╯ ID: ${userData.id}
-╰╮ Yen: ${userData.yen.toFixed(2)} ¥
-╭╯ Exp: ${userData.exp}
-╰╮ Level: ${userData.level}
-╰━━━[ ${global.Ayanokoji.nama} ]
+[ # 𝗦𝗧𝗔𝗧𝗨𝗦 ]
+Nama: ${userData.nama}
+ ID: ${userData.id}
+ Yen: ${userData.yen.toFixed(2)} ¥
+ Exp: ${userData.exp}
+ Level: ${userData.level}
+ ${global.Ayanokoji.nama} ]
 `;
       api.sendMessage(message, event.threadID);
     } catch (error) {
