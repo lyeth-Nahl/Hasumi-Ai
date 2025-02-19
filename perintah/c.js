@@ -3,16 +3,26 @@ module.exports = {
     nama: "c",
     penulis: "Horikita",
     kuldown: 0,
-    peran: 2, // Hanya admin yang bisa menggunakan perintah ini
+    peran: 2,
     tutor: "cmd <sub-cmd> [args]\nContoh: cmd ban 123456789"
   },
-  Ayanokoji: async function({ api, args, event, addThread, unregistThread, banUser, unbanUser, isThreadRegistered, fetchDatabase }) {
-    const subCmd = args[0]; // Sub-command (ban, unban, regist, unregist, threadlist, userlist)
-    const targetId = args[1]; // ID target (user atau thread)
-    const threadId = event.threadID; // ID thread tempat command dikirim
-    const adminId = event.senderID; // ID admin yang menjalankan command
+  Ayanokoji: async function({
+    api,
+    args,
+    event,
+    addThread,
+    unregistThread,
+    banUser,
+    unbanUser,
+    isThreadRegistered,
+    fetchDatabase,
+    getData
+  }) {
+    const subCmd = args[0];
+    const targetId = args[1];
+    const threadId = event.threadID;
+    const adminId = event.senderID;
 
-    // Validasi sub-command
     if (!subCmd) {
       return api.sendMessage(
         "Sub-cmd tidak valid! Gunakan salah satu dari: ban, unban, regist, unregist, threadlist, userlist\nContoh: cmd ban 123456789",
@@ -22,7 +32,6 @@ module.exports = {
 
     switch (subCmd) {
       case "ban": {
-        // Command: ban <userID>
         if (!targetId) {
           return api.sendMessage("Masukkan ID user yang ingin diban!", threadId);
         }
@@ -35,7 +44,6 @@ module.exports = {
       }
 
       case "unban": {
-        // Command: unban <userID>
         if (!targetId) {
           return api.sendMessage("Masukkan ID user yang ingin di-unban!", threadId);
         }
@@ -48,7 +56,6 @@ module.exports = {
       }
 
       case "regist": {
-        // Command: regist
         const isRegistered = await isThreadRegistered(threadId);
         if (isRegistered) {
           return api.sendMessage("Thread ini sudah terdaftar.", threadId);
@@ -62,7 +69,6 @@ module.exports = {
       }
 
       case "unregist": {
-        // Command: unregist
         const isRegistered = await isThreadRegistered(threadId);
         if (!isRegistered) {
           return api.sendMessage("Thread ini belum terdaftar.", threadId);
@@ -76,13 +82,11 @@ module.exports = {
       }
 
       case "threadlist": {
-        // Command: threadlist
         try {
-          const db = await fetchDatabase('threads');
+          const db = await fetchDatabase("threads");
           if (!db || Object.keys(db).length === 0) {
             return api.sendMessage("Tidak ada thread yang terdaftar.", threadId);
           }
-
           let message = "📋 Daftar Thread Terdaftar:\n";
           for (const threadID in db) {
             if (db[threadID].registered) {
@@ -97,16 +101,17 @@ module.exports = {
       }
 
       case "userlist": {
-        // Command: userlist
         try {
-          const db = await fetchDatabase('users');
+          const db = await fetchDatabase("users");
           if (!db || Object.keys(db).length === 0) {
             return api.sendMessage("Tidak ada user yang terdaftar.", threadId);
           }
-
           let message = "📋 Daftar User Terdaftar:\n";
           for (const userID in db) {
-            message += `- User ID: ${userID} | Nama: ${db[userID].nama || "Unknown"} | Yen: ${db[userID].yen} | Level: ${db[userID].level}\n`;
+            const userData = await getData(userID);
+            if (userData) {
+              message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
+            }
           }
           return api.sendMessage(message, threadId);
         } catch (error) {

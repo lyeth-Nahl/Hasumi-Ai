@@ -187,6 +187,15 @@ async function unbanUser(userID) {
 }
 
 // Fungsi untuk mengecek apakah thread/grup sudah terdaftar
+async function isThreadRegistered(threadID) {
+  try {
+    const db = await fetchDatabase('threads');
+    return db[threadID] && db[threadID].registered === true;
+  } catch (error) {
+    console.error("Gagal mengecek status thread:", error);
+    return false;
+  }
+}
 
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
