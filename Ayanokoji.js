@@ -205,6 +205,7 @@ async function isThreadRegistered(threadID) {
     return false;
   }
 }
+
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
   try {
@@ -322,111 +323,71 @@ login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
     process.exit();
   }
       
-  api.listenMqtt(async (err, event) => {
-    if (err) {
-      notiferr(`${err.message || err.error}`);
-      console.log(logo.error + `${err.message || err.error}`);
-      process.exit();
-    }
-
-    const body = event.body;
-
-// Jika pesan tidak valid atau bot dalam mode maintain, abaikan
-if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
-
-// Cek apakah thread sudah terdaftar
-if (event.isGroup) {
-  const isRegistered = await isThreadRegistered(event.threadID);
-  if (!isRegistered) {
-    return console.log(" Thread ini belum diregistrasi. Gunakan perintah `!regist` untuk mendaftarkan thread.");
+ api.listenMqtt(async (err, event) => {
+  if (err) {
+    notiferr(`${err.message || err.error}`);
+    console.log(logo.error + `${err.message || err.error}`);
+    process.exit();
   }
-}
-
-// Cek apakah user diban
-const userData = await getData(event.senderID);
-if (userData?.banned) {
-  return api.sendMessage(" Anda telah diban dari menggunakan bot ini.", event.threadID);
-}
-
-// Lanjutkan ke penanganan perintah lainnya
-addData(event.senderID);
-await addYenExp(event.senderID, body);
-
-if (body.toLowerCase() == "prefix") return api.sendMessage(` Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
-
-if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
-
-const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
-
-// Fungsi hady_cmd dipindahkan ke sini
-const hady_cmd = async (cmd, api, event) => {
-  try {
-    const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
-    const args = pipi?.split(' ');
-    
-    const files = fs.readdirSync(path.join(__dirname, '/perintah'));
-    for (const file of files) {
-      if (file.endsWith('.js')) {
-        const anime = path.join(path.join(__dirname, '/perintah'), file);
-        const { hady, Ayanokoji, bahasa } = require(anime);
-        if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
-          console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
-          const bhs = function(veng) { return bahasa[nakano][veng]; };
-          if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
-            if (hady.peran == 0 || !hady.peran) {
-              await Ayanokoji({
-                api,
-                event,
-                args,
-                bhs,
-                getStream,
-                loadC,
-                setUser,
-                getData,
-                addThread, // Pastikan fungsi ini diteruskan
-                unregistThread, // Pastikan fungsi ini diteruskan
-                banUser, // Pastikan fungsi ini diteruskan
-                unbanUser, // Pastikan fungsi ini diteruskan
-                isThreadRegistered // Pastikan fungsi ini diteruskan
-              });
-              return;
-            }
-            if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
-              await Ayanokoji({
-                api,
-                event,
-                args,
-                bhs,
-                getStream,
-                loadC,
-                setUser,
-                getData,
-                addThread, // Pastikan fungsi ini diteruskan
-                unregistThread, // Pastikan fungsi ini diteruskan
-                banUser, // Pastikan fungsi ini diteruskan
-                unbanUser, // Pastikan fungsi ini diteruskan
-                isThreadRegistered // Pastikan fungsi ini diteruskan
-              });
-              return;
+  const body = event.body;
+  // Jika pesan tidak valid atau bot dalam mode maintain, abaikan
+  if (!body || global.Ayanokoji.maintain === true && !admin.includes(event.senderID) || chatdm === false && event.isGroup == false && !admin.includes(event.senderID)) return;
+  // Cek apakah thread sudah terdaftar
+  if (event.isGroup) {
+    const isRegistered = await isThreadRegistered(event.threadID);
+    if (!isRegistered) {
+      if (!admin.includes(event.senderID)) {
+        return;
+      }
+    }
+  }
+  // Lanjutkan ke penanganan perintah lainnya
+  addData(event.senderID);
+  await addYenExp(event.senderID, body);
+  if (body.toLowerCase() == "prefix") return api.sendMessage(` Awalan ${nama}: ${awalan}`, event.threadID, event.messageID);
+  if (!body.startsWith(awalan)) return console.log(logo.pesan + `${event.senderID} > ${body}`);
+  const cmd = body.slice(awalan.length).trim().split(/ +/g).shift().toLowerCase();
+  // Fungsi hady_cmd dipindahkan ke sini
+  const hady_cmd = async (cmd, api, event) => {
+    try {
+      const pipi = body?.replace(`${awalan}${cmd}`, "")?.trim();
+      const args = pipi?.split(' ');
+      const files = fs.readdirSync(path.join(__dirname, '/perintah'));
+      for (const file of files) {
+        if (file.endsWith('.js')) {
+          const anime = path.join(path.join(__dirname, '/perintah'), file);
+          const { hady, Ayanokoji, bahasa } = require(anime);
+          if (hady && hady.nama === cmd && typeof Ayanokoji === 'function') {
+            console.log(logo.cmds + `Menjalankan perintah ${hady.nama}.`);
+            const bhs = function(veng) {
+              return bahasa[nakano][veng];
+            };
+            if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
+              if (hady.peran == 0 || !hady.peran) {
+                await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData, addThread, unregistThread, banUser, unbanUser, isThreadRegistered });
+                return;
+              }
+              if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
+                await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData, addThread, unregistThread, banUser, unbanUser, isThreadRegistered });
+                return;
+              } else {
+                api.setMessageReaction("", event.messageID);
+              }
             } else {
-              api.setMessageReaction("", event.messageID);
+              api.setMessageReaction('⌛', event.messageID);
             }
-          } else {
-            api.setMessageReaction('⌛', event.messageID);
           }
         }
       }
+    } catch (error) {
+      console.log(logo.error + 'Error dalam fungsi hady_cmd: ' + error.message);
+      notiferr(`Error dalam fungsi hady_cmd: ${error.message}`);
+      api.sendMessage(logo.error + 'Error dalam fungsi hady_cmd: ' + error.message, event.ThreadID);
     }
-  } catch (error) {
-    console.log(logo.error + 'Error dalam fungsi hady_cmd: ' + error.message);
-    notiferr(`Error dalam fungsi hady_cmd: ${error.message}`);
-    api.sendMessage(logo.error + 'Error dalam fungsi hady_cmd: ' + error.message, event.ThreadID);
-  }
-};
-
-// Panggil hady_cmd
-hady_cmd(cmd, api, event);
-  });
+  };
+  // Panggil hady_cmd
+  hady_cmd(cmd, api, event);
+ });
 });
 
 app.listen(port, () => { });
