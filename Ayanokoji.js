@@ -68,16 +68,16 @@ async function updateDatabase(path, data) {
 async function addData(id) {
   const db = await fetchDatabase('users');
   if (!db[id]) {
-    const newUser = {
-      nama: "Unknown",
-      yen: 0,
-      exp: 0,
-      level: 1,
-      daily: null,
-      id: Object.keys(db).length + 1, // ID Custom
-      banned: false // Default: user tidak diban
+    const newUser = { 
+      nama: "Unknown", 
+      yen: 0, 
+      exp: 0, 
+      level: 1, 
+      daily: null, 
+      id: Object.keys(db).length + 1, 
+      banned: false 
     };
-    await updateDatabase(`users/${id}`, newUser); // Simpan data baru ke Firebase
+    await updateDatabase(`users/${id}`, newUser);
     console.log(ayanokoji('database') + `Pengguna baru ditambahkan: ${id}`);
   } else {
     console.log(ayanokoji('database') + `Pengguna ${id} sudah terdaftar.`);
@@ -91,22 +91,19 @@ async function setUser(id, data) {
 // Fungsi untuk mendapatkan data pengguna
 async function getData(id) {
   const db = await fetchDatabase('users');
-  const userData = db[id] || {
-    nama: "Unknown",
-    yen: 0,
-    exp: 0,
-    level: 1,
-    daily: null,
-    id: Object.keys(db).length + 1, // ID Custom
-    banned: false // Default: user tidak diban
+  const userData = db[id] || { 
+    nama: "Unknown", 
+    yen: 0, 
+    exp: 0, 
+    level: 1, 
+    daily: null, 
+    id: Object.keys(db).length + 1, 
+    banned: false 
   };
-
-  // Validasi data
   if (typeof userData.yen !== 'number' || typeof userData.exp !== 'number' || typeof userData.level !== 'number') {
     console.error("Data pengguna tidak valid:", userData);
     return null;
   }
-
   return userData;
 }
 
@@ -114,15 +111,13 @@ async function getData(id) {
 async function addThread(threadID, adminID) {
   try {
     const db = await fetchDatabase('threads');
-
-    // Jika thread belum terdaftar, buat data baru
     if (!db[threadID]) {
-      const newThread = {
-        id: Object.keys(db).length + 1, // ID Custom
-        admin: adminID,
-        registered: true
+      const newThread = { 
+        id: Object.keys(db).length + 1, 
+        admin: adminID, 
+        registered: true 
       };
-      await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke Firebase
+      await updateDatabase(`threads/${threadID}`, newThread);
       console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
       return true;
     } else {
@@ -134,14 +129,13 @@ async function addThread(threadID, adminID) {
     return false;
   }
 }
+
 // Fungsi untuk unregist thread
 async function unregistThread(threadID) {
   try {
     const db = await fetchDatabase('threads');
-    
-    // Jika thread terdaftar, hapus dari database
     if (db[threadID]) {
-      await updateDatabase(`threads/${threadID}`, null); // Hapus data thread
+      await updateDatabase(`threads/${threadID}`, null);
       console.log(ayanokoji('database') + `Thread ${threadID} berhasil di-unregist.`);
       return true;
     } else {
@@ -153,15 +147,14 @@ async function unregistThread(threadID) {
     return false;
   }
 }
+
 // Fungsi untuk mem-ban user
 async function banUser(userID) {
   try {
     const db = await fetchDatabase('users');
-
-    // Jika user ditemukan, tandai sebagai banned
     if (db[userID]) {
       db[userID].banned = true;
-      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
+      await updateDatabase(`users/${userID}`, db[userID]);
       console.log(ayanokoji('database') + `User ${userID} telah diban.`);
       return true;
     } else {
@@ -178,11 +171,9 @@ async function banUser(userID) {
 async function unbanUser(userID) {
   try {
     const db = await fetchDatabase('users');
-
-    // Jika user ditemukan, hapus status banned
     if (db[userID]) {
       db[userID].banned = false;
-      await updateDatabase(`users/${userID}`, db[userID]); // Update data user
+      await updateDatabase(`users/${userID}`, db[userID]);
       console.log(ayanokoji('database') + `User ${userID} berhasil di-unban.`);
       return true;
     } else {
@@ -196,15 +187,6 @@ async function unbanUser(userID) {
 }
 
 // Fungsi untuk mengecek apakah thread/grup sudah terdaftar
-async function isThreadRegistered(threadID) {
-  try {
-    const db = await fetchDatabase('threads');
-    return db[threadID] && db[threadID].registered === true;
-  } catch (error) {
-    console.error("Gagal mengecek status thread:", error);
-    return false;
-  }
-}
 
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
