@@ -1,6 +1,5 @@
 const moment = require('moment');
-const path = require('path');
-const packageJson = require(path.join(__dirname, '../../package.json'));
+const packageJson = require('../package.json');
 
 module.exports = {
   hady: {
