@@ -124,14 +124,16 @@ async function addThread(threadID, adminID) {
       };
       await updateDatabase(`threads/${threadID}`, newThread); // Simpan data baru ke Firebase
       console.log(ayanokoji('database') + `Thread ${threadID} berhasil diregistrasi.`);
+      return true;
     } else {
       console.log(ayanokoji('database') + `Thread ${threadID} sudah terdaftar.`);
+      return false;
     }
   } catch (error) {
     console.error("Gagal menambahkan thread:", error);
+    return false;
   }
 }
-
 // Fungsi untuk unregist thread
 async function unregistThread(threadID) {
   try {
@@ -151,7 +153,6 @@ async function unregistThread(threadID) {
     return false;
   }
 }
-
 // Fungsi untuk mem-ban user
 async function banUser(userID) {
   try {
@@ -198,13 +199,12 @@ async function unbanUser(userID) {
 async function isThreadRegistered(threadID) {
   try {
     const db = await fetchDatabase('threads');
-    return db[threadID] && db[threadID].registered;
+    return db[threadID] && db[threadID].registered === true;
   } catch (error) {
     console.error("Gagal mengecek status thread:", error);
     return false;
   }
 }
-
 // Fungsi untuk menambahkan yen dan exp
 async function addYenExp(senderID, message) {
   try {
