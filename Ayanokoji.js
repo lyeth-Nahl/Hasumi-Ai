@@ -64,6 +64,33 @@ async function updateDatabase(path, data) {
   }
 }
 
+// Fungsi untuk mengakses database Firebase
+
+async function fetchDatabase(path = '') {
+
+  try {
+
+    const response = await axios.get(`${FIREBASE_DB_URL}${path}.json?auth=${FIREBASE_AUTH_KEY}`);
+
+    if (!response.data) {
+
+      console.log(logo.error + 'Data tidak ditemukan di path: ' + path);
+
+      return {};
+
+    }
+
+    return response.data;
+
+  } catch (error) {
+
+    console.log(logo.error + 'Gagal mengambil data dari database: ' + error.message);
+
+    return {};
+
+  }
+
+}
 // Fungsi untuk menambahkan data pengguna
 async function addData(id) {
   const db = await fetchDatabase('users');
@@ -355,11 +382,11 @@ login({appState: JSON.parse(akun, zen)}, setting, (err, api) => {
             };
             if (kuldown(event.senderID, hady.nama, hady.kuldown) == 'hadi') {
               if (hady.peran == 0 || !hady.peran) {
-                await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData, addThread, unregistThread, banUser, unbanUser, isThreadRegistered });
+                await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData, addThread, unregistThread, banUser, unbanUser, isThreadRegistered, fetchDatabase });
                 return;
               }
               if ((hady.peran == 2 || hady.peran == 1) && admin.includes(event.senderID) || hady.peran == 0) {
-                await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData, addThread, unregistThread, banUser, unbanUser, isThreadRegistered });
+                await Ayanokoji({ api, event, args, bhs, getStream, loadC, setUser, getData, addThread, unregistThread, banUser, unbanUser, isThreadRegistered, fetchDatabase });
                 return;
               } else {
                 api.setMessageReaction("", event.messageID);
