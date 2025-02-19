@@ -101,24 +101,24 @@ module.exports = {
       }
 
       case "userlist": {
-        try {
-          const db = await fetchDatabase("users");
-          if (!db || Object.keys(db).length === 0) {
-            return api.sendMessage("Tidak ada user yang terdaftar.", threadId);
-          }
-          let message = "📋 Daftar User Terdaftar:\n";
-          for (const userID in db) {
-            const userData = await getData(userID);
-            if (userData) {
-              message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
-            }
-          }
-          return api.sendMessage(message, threadId);
-        } catch (error) {
-          console.error("Gagal mengambil user list:", error);
-          return api.sendMessage("Gagal mengambil daftar user.", threadId);
-        }
+  try {
+    const db = await fetchDatabase('users');
+    if (!db || Object.keys(db).length === 0) {
+      return api.sendMessage("Tidak ada user yang terdaftar.", threadId);
+    }
+    let message = "📋 Daftar User Terdaftar:\n";
+    for (const userID in db) {
+      const userData = await getData(userID);
+      if (userData) {
+        message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | ID Kostum: ${userID} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
       }
+    }
+    return api.sendMessage(message, threadId);
+  } catch (error) {
+    console.error("Gagal mengambil user list:", error);
+    return api.sendMessage("Gagal mengambil daftar user.", threadId);
+  }
+}
 
       default: {
         // Jika sub-cmd tidak valid
