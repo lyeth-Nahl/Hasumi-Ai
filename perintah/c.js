@@ -100,7 +100,7 @@ module.exports = {
         }
       }
 
-      case "userlist": {
+ case "userlist": {
   try {
     const db = await fetchDatabase('users');
     if (!db || Object.keys(db).length === 0) {
@@ -108,9 +108,9 @@ module.exports = {
     }
     let message = "📋 Daftar User Terdaftar:\n";
     for (const userID in db) {
-      const userData = await getData(userID);
+      const userData = db[userID];
       if (userData) {
-        message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | ID Kostum: ${userID} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
+        message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | ID Kostum: ${userData.id} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
       }
     }
     return api.sendMessage(message, threadId);
