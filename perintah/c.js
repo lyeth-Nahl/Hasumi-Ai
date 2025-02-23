@@ -62,6 +62,10 @@ module.exports = {
         }
         const registResult = await addThread(threadId, adminId);
         if (registResult) {
+          await fetchDatabase("threads").then(db => {
+            db[threadId].registered = true;
+            return db;
+          });
           return api.sendMessage(`Thread ${threadId} berhasil diregistrasi!`, threadId);
         } else {
           return api.sendMessage(`Gagal meregistrasi thread ${threadId}!`, threadId);
@@ -75,6 +79,10 @@ module.exports = {
         }
         const unregistResult = await unregistThread(threadId);
         if (unregistResult) {
+          await fetchDatabase("threads").then(db => {
+            db[threadId].registered = false;
+            return db;
+          });
           return api.sendMessage(`Thread ${threadId} berhasil di-unregist!`, threadId);
         } else {
           return api.sendMessage(`Gagal meng-unregist thread ${threadId}!`, threadId);
@@ -87,7 +95,7 @@ module.exports = {
           if (!db || Object.keys(db).length === 0) {
             return api.sendMessage("Tidak ada thread yang terdaftar.", threadId);
           }
-          let message = "📋 Daftar Thread Terdaftar:\n";
+          let message = " Daftar Thread Terdaftar:\n";
           for (const threadID in db) {
             if (db[threadID].registered) {
               message += `- Thread ID: ${threadID}\n`;
@@ -100,17 +108,17 @@ module.exports = {
         }
       }
 
- case "userlist": {
-  try {
-    const db = await fetchDatabase('users');
-    if (!db || Object.keys(db).length === 0) {
-      return api.sendMessage("Tidak ada user yang terdaftar.", threadId);
-    }
-    let message = "📋 Daftar User Terdaftar:\n";
-    for (const userID in db) {
-      const userData = db[userID];
-      if (userData) {
-        message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | ID Kostum: ${userData.id} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
+      case "userlist": {
+        try {
+          const db = await fetchDatabase('users');
+          if (!db || Object.keys(db).length === 0) {
+            return api.sendMessage("Tidak ada user yang terdaftar.", threadId);
+          }
+          let message = " Daftar User Terdaftar:\n";
+          for (const userID in db) {
+            const userData = db[userID];
+            if (userData) {
+              message += `- User ID: ${userID} | Nama: ${userData.nama || "Unknown"} | ID Kostum: ${userData.id} | Yen: ${userData.yen} | Level: ${userData.level}\n`;
       }
     }
     return api.sendMessage(message, threadId);
