@@ -14,9 +14,9 @@ const { awalan, nama, admin, proxy, port, bahasa: nakano, maintain, chatdm, noti
 const { kuldown } = require('./hady-zen/kuldown');
 const moment = require('moment-timezone');
 const now = moment.tz(zonawaktu);
-const database = require('./hasumi-db');
-const thread = require('./hasumi-db/thread');
-const user = require('./hasumi-db/user');
+const { getData, createUser, setData, banUser, unbanUser } = require('./hasumi-db/user.js');
+const { addThread, unregistThread, isThreadRegistered } = require('./hasumi-db/thread.js');
+
 
 process.on('unhandledRejection', error => console.log(logo.error + error));
 process.on('uncaughtException', error => console.log(logo.error + error));
