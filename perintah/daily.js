@@ -6,20 +6,20 @@ module.exports = {
     peran: 0,
     tutor: ""
   },
-  Ayanokoji: async function ({ api, event, getData }) {
+  Ayanokoji: async function ({ api, event, getData, setUser }) {
     // Mendapatkan data user
     const userData = await getData(event.senderID);
 
     // Membuat pendapatan harian
-    const pendapatanYen = Math.floor(Math.random() * 1000) + 500; // 500-1500 yen
+    const pendapatanYen = Math.floor(Math.random() * 50) + 1; // 50-150 yen
     const pendapatanExp = Math.floor(Math.random() * 50) + 10; // 10-60 exp
 
     // Menambahkan pendapatan ke data user
-    userData.yen += pendapatanYen;
-    userData.exp += pendapatanExp;
+    userData.yen = (userData.yen || 0) + pendapatanYen;
+    userData.exp = (userData.exp || 0) + pendapatanExp;
 
     // Menyimpan perubahan data user
-    await api.setData(event.senderID, userData);
+    await setUser(event.senderID, userData);
 
     // Mengirimkan pesan konfirmasi
     return `Selamat! Anda mendapatkan ${pendapatanYen} yen dan ${pendapatanExp} exp sebagai hadiah harian!`;
