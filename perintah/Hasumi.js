@@ -1,6 +1,8 @@
 const fs = require('fs').promises;
 const axios = require('axios');
 
+const ingatanPath = './ingatan.json';
+
 module.exports = {
   hady: {
     nama: "hasumi",
@@ -20,7 +22,6 @@ module.exports = {
     }
   },
   Ayanokoji: async function ({ api, event, args, bhs, getData }) {
-    const ingatanPath = './hane.json';
     let ingatan = {};
 
     try {
@@ -33,9 +34,8 @@ module.exports = {
 
     if (!ingatan[event.senderID]) {
       ingatan[event.senderID] = {
-        nama: userData.nama,
-        id: userData.id,
-        percakapan: []
+        nama: '',
+        konteks: []
       };
     }
 
@@ -51,18 +51,27 @@ module.exports = {
       return api.sendMessage(bhs('hadi'), event.threadID, event.messageID);
     } else {
       const userPesan = args.join(' ');
-      ingatan[event.senderID].percakapan.push({
+
+      if (userPesan.startsWith('aku')) {
+        const nama = userPesan.replace('aku ', '');
+        ingatan[event.senderID].nama = nama;
+      }
+
+      ingatan[event.senderID].konteks.push({
         waktu: new Date(),
         jenis: 'user',
         pesan: userPesan
       });
 
-      const aya = await axios.get(`https://green-unique-eustoma.glitch.me/ayanokoji?pesan=${encodeURIComponent(userPesan)}`);
-      ingatan[event.senderID].percakapan.push({
+      const konteks = ingatan[event.senderID].konteks.map((pesan) => `${pesan.waktu} - ${pesan.jenis} - ${pesan.pesan}`).join('\n');
+      const aya = await axios.get(`https://green-unique-eustoma.glitch.me/ayanokoji?pesan=${encodeURIComponent(userPesan)}&konteks=${encodeURIComponent(konteks)}`);
+
+      ingatan[event.senderID].konteks.push({
         waktu: new Date(),
         jenis: 'hasumi',
         pesan: aya.data.ayanokoji
       });
+
       await fs.writeFile(ingatanPath, JSON.stringify(ingatan, null, 2));
 
       api.sendMessage(aya.data.ayanokoji, event.threadID, event.messageID);
