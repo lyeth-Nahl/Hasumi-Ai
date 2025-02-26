@@ -1,3 +1,5 @@
+const dailyReward = {};
+
 module.exports = {
   hady: {
     nama: "daily",
@@ -7,21 +9,24 @@ module.exports = {
     tutor: ""
   },
   Ayanokoji: async function ({ api, event, getData, setUser }) {
-    // Mendapatkan data user
     const userData = await getData(event.senderID);
+    const now = new Date();
+    const today = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
 
-    // Membuat pendapatan harian
-    const pendapatanYen = Math.floor(Math.random() * 50) + 1; // 50-150 yen
-    const pendapatanExp = Math.floor(Math.random() * 50) + 10; // 10-60 exp
+    if (dailyReward[event.senderID] && dailyReward[event.senderID] === today) {
+      return api.sendMessage("Anda sudah mengambil daily reward hari ini. Silakan coba lagi besok!", event.threadID, event.messageID);
+    }
 
-    // Menambahkan pendapatan ke data user
+    const pendapatanYen = Math.floor(Math.random() * 50) + 1;
+    const pendapatanExp = Math.floor(Math.random() * 50) + 10;
+
     userData.yen = (userData.yen || 0) + pendapatanYen;
     userData.exp = (userData.exp || 0) + pendapatanExp;
 
-    // Menyimpan perubahan data user
     await setUser(event.senderID, userData);
 
-    // Mengirimkan pesan konfirmasi
-    return `Selamat! Anda mendapatkan ${pendapatanYen} yen dan ${pendapatanExp} exp sebagai hadiah harian!`;
+    dailyReward[event.senderID] = today;
+
+    return api.sendMessage(`Selamat! Anda mendapatkan ${pendapatanYen} yen dan ${pendapatanExp} exp sebagai hadiah harian!`, event.threadID, event.messageID);
   }
 };
