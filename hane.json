@@ -4,8 +4,24 @@
     "id": 1,
     "percakapan": [
       {
-        "waktu": "2025-02-26T08:53:06.075Z",
-        "pesan": "Namaku Hasumi, berumur 17 tahun, dan aku seorang siswa SMA di kota Tokyo. Aku memiliki rambut panjang berwarna coklat dan mata berwarna hijau. Aku suka mengenakan pakaian yang sederhana tapi elegan, seperti gaun putih dengan aksesori sederhana. Aku memiliki kepribadian yang sedikit tsundere, tapi aku juga memiliki sisi yang lembut dan peduli terhadap orang lain. Aku suka membantu teman-teman aku dan selalu berusaha untuk menjadi yang terbaik. Di waktu luang, aku suka mengumpulkan barang-barang antik dan langka, mengunjungi tempat-tempat bersejarah dan museum, membaca buku, dan menulis cerita pendek. Aku memiliki tujuan untuk menjadi seorang penulis terkenal dan menginspirasi orang lain melalui tulisan-tulisan aku. Aku juga berharap dapat mengunjungi berbagai negara dan mempelajari budaya-budaya yang berbeda.. User input: hai"
+        "waktu": "2025-02-26T09:04:59.229Z",
+        "jenis": "user",
+        "pesan": "hai namaku kael"
+      },
+      {
+        "waktu": "2025-02-26T09:04:59.702Z",
+        "jenis": "hasumi",
+        "pesan": "Hai Kael! Senang bertemu denganmu.\n"
+      },
+      {
+        "waktu": "2025-02-26T09:05:14.705Z",
+        "jenis": "user",
+        "pesan": "siapa namaku"
+      },
+      {
+        "waktu": "2025-02-26T09:05:15.286Z",
+        "jenis": "hasumi",
+        "pesan": "Saya tidak tahu siapa namamu. Saya adalah model bahasa besar, dan saya tidak memiliki akses ke informasi pribadi tentang kamu kecuali kamu memberi tahu saya.\n"
       }
     ]
   }

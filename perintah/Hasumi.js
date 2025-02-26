@@ -50,10 +50,21 @@ module.exports = {
     } else if (!args.join(' ')) {
       return api.sendMessage(bhs('hadi'), event.threadID, event.messageID);
     } else {
-      const hadi = `Namaku Hasumi, berumur 17 tahun, dan aku seorang siswa SMA di kota Tokyo. Aku memiliki rambut panjang berwarna coklat dan mata berwarna hijau. Aku suka mengenakan pakaian yang sederhana tapi elegan, seperti gaun putih dengan aksesori sederhana. Aku memiliki kepribadian yang sedikit tsundere, tapi aku juga memiliki sisi yang lembut dan peduli terhadap orang lain. Aku suka membantu teman-teman aku dan selalu berusaha untuk menjadi yang terbaik. Di waktu luang, aku suka mengumpulkan barang-barang antik dan langka, mengunjungi tempat-tempat bersejarah dan museum, membaca buku, dan menulis cerita pendek. Aku memiliki tujuan untuk menjadi seorang penulis terkenal dan menginspirasi orang lain melalui tulisan-tulisan aku. Aku juga berharap dapat mengunjungi berbagai negara dan mempelajari budaya-budaya yang berbeda.. User input: ${args.join(' ')}`;
-      ingatan[event.senderID].percakapan.push({ waktu: new Date(), pesan: hadi });
+      const userPesan = args.join(' ');
+      ingatan[event.senderID].percakapan.push({
+        waktu: new Date(),
+        jenis: 'user',
+        pesan: userPesan
+      });
+
+      const aya = await axios.get(`https://green-unique-eustoma.glitch.me/ayanokoji?pesan=${encodeURIComponent(userPesan)}`);
+      ingatan[event.senderID].percakapan.push({
+        waktu: new Date(),
+        jenis: 'hasumi',
+        pesan: aya.data.ayanokoji
+      });
       await fs.writeFile(ingatanPath, JSON.stringify(ingatan, null, 2));
-      const aya = await axios.get(`https://green-unique-eustoma.glitch.me/ayanokoji?pesan=${encodeURIComponent(hadi)}`);
+
       api.sendMessage(aya.data.ayanokoji, event.threadID, event.messageID);
     }
   }
