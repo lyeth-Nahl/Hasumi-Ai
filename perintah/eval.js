@@ -1,6 +1,5 @@
 module.exports = {
-  Hady: { 
-    nama: "eval", 
+  hady: {   nama: "eval", 
     penulis: "Range", 
     kuldown: 10,   
     peran: 2,      
