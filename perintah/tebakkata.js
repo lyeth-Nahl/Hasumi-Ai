@@ -37,7 +37,7 @@ _Skip: ${skip}_
 
 Masukkan jawabanmu!`, user);
 
-    api.on('message', (message) => {
+    api.listen('message', (message) => {
       if (message.senderID === user) {
         const tebakan = message.body.toLowerCase();
 
